@@ -48,3 +48,5 @@ agent-workflows/
 agentops/
 agent-workspaces/
 **/SOUL.md
+.cursor/
+.claude/
