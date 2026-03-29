@@ -50,6 +50,24 @@ chmod +x install.sh && ./install.sh
 
 - Bash
 - `rsync` (preferred) — falls back to `cp` if unavailable
+- `uv` for Python virtual environment management
+
+### Setup
+
+```bash
+cd wlm
+uv sync  # Create and activate virtual environment
+```
+
+## Virtual Environments
+
+This project uses `uv` for Python virtual environments in the `wlm/` directory:
+
+```bash
+cd wlm
+source .venv/bin/activate
+uv sync
+```
 
 ## Help
 

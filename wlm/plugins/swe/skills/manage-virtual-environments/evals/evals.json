@@ -1,0 +1,35 @@
+{
+  "skill_name": "manage-virtual-environments",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Set up a virtual environment for my Python project that has a requirements.txt file",
+      "expected_output": "Should detect Python, create .venv using uv (or pip venv as fallback), activate it, and install dependencies from requirements.txt",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "I need to set up my Node.js project with nvm 24. Create the .nvmrc file and install dependencies",
+      "expected_output": "Should detect Node.js, create .nvmrc with version 24, load nvm, install node version 24, use it, and run npm install",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "Start work on a new Python project. Set up the virtual environment using uv and create a pyproject.toml",
+      "expected_output": "Should create .venv with uv, set up pyproject.toml, and use uv sync to install dependencies",
+      "files": []
+    },
+    {
+      "id": 4,
+      "prompt": "Set up a Go project with go.mod. Download dependencies and verify the build works",
+      "expected_output": "Should detect Go from go.mod, run go mod download, and verify with go build",
+      "files": []
+    },
+    {
+      "id": 5,
+      "prompt": "Start a new Rust project with Cargo.toml. Build the project and run cargo test",
+      "expected_output": "Should detect Rust from Cargo.toml, run cargo build, and cargo test to verify",
+      "files": []
+    }
+  ]
+}

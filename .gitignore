@@ -50,3 +50,7 @@ agent-workspaces/
 **/SOUL.md
 .cursor/
 .claude/
+
+# Skill evaluation workspaces
+*-workspace/
+*-evals/
