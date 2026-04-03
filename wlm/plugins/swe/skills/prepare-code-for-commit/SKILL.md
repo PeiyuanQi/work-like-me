@@ -22,10 +22,9 @@ Also check for team-specific configuration files in the repository:
 
 **Common team norm files to check for:**
 - `.pre-commit-config.yaml` - Pre-commit hook configurations
-- `pyproject.toml` - Python project config (may contain black, isort, ruff config)
+- `pyproject.toml` - Python project config (may contain ruff config)
+- `ruff.toml` - Ruff linter/formatter configuration
 - `setup.cfg` - Python setup configuration
-- `ruff.toml` - Ruff linter configuration
-- `.flake8` - Flake8 configuration
 - `.eslintrc`, `eslint.config.js` - JavaScript/TypeScript linting
 - `.pylintrc` - Pylint configuration
 - `Makefile` - May contain lint/format commands
@@ -40,9 +39,9 @@ Also check for team-specific configuration files in the repository:
 If no team-specific configuration exists, use these defaults:
 
 ### Python
-- **Formatter:** black
-- **Import sorter:** isort
-- **Linter:** flake8 (or ruff as faster alternative)
+- **Formatter & Linter:** ruff (replaces black, isort, and flake8 in a single tool)
+  - `ruff format` for formatting (replaces black)
+  - `ruff check --fix` for linting and import sorting (replaces flake8 and isort)
 - **Style guide:** Google Python Style Guide
 - **Conflict resolution:** If rules conflict, follow Google Python Style Guide
 
