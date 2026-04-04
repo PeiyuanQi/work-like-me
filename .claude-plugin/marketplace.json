@@ -12,29 +12,13 @@
       "name": "swe",
       "description": "Software Engineer skills for git workflows, code review, and merge requests",
       "source": "./wlm/plugins/swe",
-      "strict": false,
-      "skills": [
-        "./wlm/plugins/swe/skills/git-start-work",
-        "./wlm/plugins/swe/skills/git-commit-push",
-        "./wlm/plugins/swe/skills/prepare-code-for-commit",
-        "./wlm/plugins/swe/skills/create-merge-request",
-        "./wlm/plugins/swe/skills/find-code-reviewer"
-      ]
+      "strict": true
     },
     {
       "name": "worker",
       "description": "Daily worker skills for general productivity, memory, and team collaboration",
       "source": "./wlm/plugins/worker",
-      "strict": false,
-      "skills": [
-        "./wlm/plugins/worker/skills/onboard-as-new-hire",
-        "./wlm/plugins/worker/skills/update-memory",
-        "./wlm/plugins/worker/skills/search-memory",
-        "./wlm/plugins/worker/skills/consolidate-memory",
-        "./wlm/plugins/worker/skills/contact-new-teammate",
-        "./wlm/plugins/worker/skills/notify-reviewer",
-        "./wlm/plugins/worker/skills/find-poc"
-      ]
+      "strict": true
     }
   ]
 }
