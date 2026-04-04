@@ -10,7 +10,7 @@ Shared Cursor rules, Claude skills, and Claude plugins that encode how you work 
 
 2. **In Claude Code, use:**
    ```
-   /marketplace add https://github.com/PeiyuanQi/work-like-me
+   /plugin marketplace add https://github.com/PeiyuanQi/work-like-me.git
    ```
 
 Or manually install via installer:
@@ -52,21 +52,12 @@ chmod +x install.sh && ./install.sh
 - `rsync` (preferred) — falls back to `cp` if unavailable
 - `uv` for Python virtual environment management
 
-### Setup
-
-```bash
-cd wlm
-uv sync  # Create and activate virtual environment
-```
-
 ## Virtual Environments
 
-This project uses `uv` for Python virtual environments in the `wlm/` directory:
-
 ```bash
 cd wlm
-source .venv/bin/activate
-uv sync
+uv sync        # Install dependencies
+source .venv/bin/activate  # Activate environment
 ```
 
 ## Help

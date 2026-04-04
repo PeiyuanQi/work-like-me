@@ -1,0 +1,6 @@
+[project]
+name = "wlm"
+version = "0.1.0"
+description = "Work-like-me: shared Cursor rules, Claude skills, and plugins"
+requires-python = ">=3.12"
+dependencies = []
