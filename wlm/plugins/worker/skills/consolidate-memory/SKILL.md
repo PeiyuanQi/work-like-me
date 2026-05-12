@@ -1,4 +1,11 @@
+---
+name: consolidate-memory
+description: Find, consolidate, and track the canonical memory location. Use when starting a new work session, memory feels fragmented, or the agent needs to determine where memory should be read from and written to.
+---
+
 # consolidate-memory
+
+Version: 1.0.0
 
 Find, consolidate, and track the canonical memory location.
 

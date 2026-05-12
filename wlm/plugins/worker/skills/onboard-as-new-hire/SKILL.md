@@ -5,6 +5,8 @@ description: Onboard the agent itself by discovering communication tools, office
 
 # Onboard as New Hire
 
+Version: 1.0.0
+
 This skill helps an agent onboard itself by discovering and documenting the team's communication tools, office suites, and organizational structure — the same context a new human hire would need.
 
 ## Memory Structure

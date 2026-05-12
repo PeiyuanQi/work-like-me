@@ -5,6 +5,8 @@ description: Use when contacting a new co-worker or teammate for the first time,
 
 # Contact New Teammate
 
+Version: 1.0.0
+
 First-time contact with a colleague in a large organization where they may not know who you are.
 
 ## When to Use

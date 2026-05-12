@@ -1,13 +1,15 @@
 ---
 name: git-start-work
-description: Use when user wants to start new code work, create a new feature branch, begin coding on a fresh branch, or switch to latest main before starting work. Supports both regular branches and isolated worktrees.
+description: Use when user wants to start new code work, create a new feature branch, begin coding on a fresh branch, or switch to latest main before starting work. Prefer git worktrees as the default workflow, and also support regular branches. Also useful when the user says "git wt".
 ---
 
 # Git Start Work
 
+Version: 1.0.0
+
 Start new code work from the latest main branch. Supports two modes:
-- **Regular branch** — Standard git checkout (default)
-- **Worktree** — Isolated workspace in separate directory
+- **Worktree** — Isolated workspace in separate directory (default)
+- **Regular branch** — Standard git checkout
 
 ## When to Use
 
@@ -21,11 +23,11 @@ Ask the user:
 ```
 How would you like to work?
 
-1. Regular branch (default) — Simple git checkout
-2. Worktree — Isolated workspace (recommended for multi-task or experimental work)
+1. Worktree (recommended, default) — Isolated workspace
+2. Regular branch — Simple git checkout
 ```
 
-If no preference expressed, default to regular branch.
+If no preference expressed, default to worktree.
 
 ## Branch Naming Convention
 

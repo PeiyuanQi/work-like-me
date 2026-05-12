@@ -3,6 +3,8 @@ name: update-memory
 description: Save important information to memory after tasks, milestones, or discoveries. Use when user asks to remember something, save context, store a decision, or document a finding. Also proactively save when making decisions, meeting people, or discovering information useful for future work.
 ---
 
+Version: 1.0.0
+
 This skill saves important information to memory files for future reference. Memory is organized in `memory/` directory with subdirectories for corps, projects, and teams.
 
 **Finding Memory:** The `memory/` directory is relative to the current working directory. Check:

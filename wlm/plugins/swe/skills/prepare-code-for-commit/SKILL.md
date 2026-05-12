@@ -5,6 +5,8 @@ description: Format and lint code before committing. Use as the last step after 
 
 This skill formats and lints code to prepare it for commit. Always prioritize the team's established norms over defaults.
 
+Version: 1.0.0
+
 ## Step 1: Detect Team Norms
 
 Before running any linters, check for team-specific configuration in TWO places:

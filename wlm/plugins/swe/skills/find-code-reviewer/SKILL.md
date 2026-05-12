@@ -1,9 +1,11 @@
 ---
 name: find-code-reviewer
-description: Use when user asks who reviews code, finds a reviewer, needs a code review contact, or asks who should review their merge request. This is specifically for CODE REVIEW only - use worker:find-poc for all other POC requests.
+description: Use when user asks who reviews code, finds a reviewer, needs a code review contact, or asks who should review their merge request. This is specifically for CODE REVIEW only - use worker:find-poc for all other POC requests. Works with branch-based and worktree-based development.
 ---
 
 # Find Code Reviewer
+
+Version: 1.0.0
 
 Find the appropriate person to contact for code review based on team structure, code ownership, and project context.
 

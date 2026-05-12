@@ -1,9 +1,11 @@
 ---
 name: create-merge-request
-description: Use when user wants to create a merge request, pull request, submit code for review, or merge their branch to main.
+description: Use when user wants to create a merge request, pull request, submit code for review, or merge their branch to main. Works with branch-based and worktree-based development.
 ---
 
 # Create Merge Request
+
+Version: 1.0.0
 
 Create a merge request (MR) or pull request (PR) and notify the appropriate reviewer.
 

@@ -5,6 +5,8 @@ description: Use when user wants to set up, create, or manage virtual environmen
 
 # Manage Virtual Environments
 
+Version: 1.0.0
+
 Set up and manage isolated virtual environments for programming projects. This skill detects project languages and creates appropriate environments using the best available tools.
 
 ## Why This Matters

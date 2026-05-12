@@ -21,6 +21,12 @@ uv sync                    # Install dependencies
 - Do not switch branches, rewrite history, or clean up another active worktree without explicit instruction.
 - Keep changes scoped to the current worktree and say which worktree you used when it matters.
 
+## Git Conflict Resolution
+
+- If branches diverge or conflicts appear, prefer rebase-based resolution that preserves the original intent of the work.
+- Avoid merge commits for conflict resolution unless the repo explicitly requires them.
+- Keep history clean and minimal while preserving the shape of the original change.
+
 ## Code Review Bar
 
 - Review frontend work for UX, visual polish, accessibility, and i18n.

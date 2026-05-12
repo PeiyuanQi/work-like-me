@@ -1,9 +1,11 @@
 ---
 name: git-commit-push
-description: Use when user wants to commit changes, push code to remote, save work, or stage files for commit.
+description: Use when user wants to commit changes, push code to remote, save work, or stage files for commit. Works from either a regular branch or a git worktree.
 ---
 
 # Git Commit Push
+
+Version: 1.0.0
 
 Commit changes and push to the remote repository using conventional commits format.
 

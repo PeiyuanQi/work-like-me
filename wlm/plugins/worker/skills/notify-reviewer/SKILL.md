@@ -5,6 +5,8 @@ description: Use when user wants to notify someone about a merge request, send M
 
 # Notify Reviewer
 
+Version: 1.0.0
+
 Send a merge request link to the appropriate communication channel to notify the reviewer.
 
 ## When to Use

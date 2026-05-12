@@ -3,6 +3,8 @@ name: search-memory
 description: Search and retrieve information from memory files. Use when user asks to find stored information, recall previous context, search memory, look up documented knowledge, or find team/project details. Also proactively search memory when context about teams, tools, or projects would help complete tasks. Triggers for phrases like "search memory", "what did we store", "find in memory", "look up", "do we have", "recall", etc.
 ---
 
+Version: 1.0.0
+
 This skill searches through memory files to find stored information. Memory is organized in `memory/` directory with subdirectories for corps, projects, and teams. The agent should also proactively search memory when working on tasks that involve team context, tools, or project history.
 
 **Finding Memory:** The `memory/` directory is relative to the current working directory. Check:

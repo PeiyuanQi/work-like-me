@@ -5,6 +5,8 @@ description: Use when user needs to find a person of contact for any type of req
 
 # Find Person of Contact (Generalized)
 
+Version: 1.0.0
+
 Find the appropriate person to contact for any type of request across the organization.
 
 ## When to Use
