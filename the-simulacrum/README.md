@@ -6,7 +6,7 @@ A long-running agent that replicates the user, powered by Claude Agent SDK.
 
 The Simulacrum is an autonomous agent that acts as a digital twin of the user. It:
 
-- Loads skills from `wlm:worker` and `wlm:swe` plugins
+- Loads skills from every skill group under `wlm/plugins/`
 - Uses `~/.wlm/memory/` for persistent memory
 - Runs continuously, processing tasks interactively or in batch mode
 
@@ -50,6 +50,10 @@ uv run python src/agent.py "task 1" "task 2" "task 3"
 - **git-start-work** - Start new work
 - **find-code-reviewer** - Find code reviewer
 - **git-commit-push** - Commit and push
+
+### CPA Skills (wlm:cpa)
+
+- **tax-intake-and-research** - Gather tax facts and organize source-backed tax research
 
 ## Configuration
 

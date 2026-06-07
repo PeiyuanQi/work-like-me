@@ -3,7 +3,7 @@
 The Simulacrum - A long-running agent that replicates the user.
 
 This agent:
-- Loads skills from wlm:worker and wlm:swe plugins
+- Loads skills from every group under wlm/plugins
 - Uses ~/.wlm/memory/ for persistent memory
 - Runs continuously, processing tasks from a queue or stdin
 - Supports headless mode with file-based message queue
@@ -105,17 +105,14 @@ def load_skill_directories() -> list[Path]:
     """Load skill directories from wlm plugins."""
     skills = []
 
-    # Load worker skills
-    worker_skills = WLMSKILLS_DIR / "worker" / "skills"
-    if worker_skills.exists():
-        for skill_dir in worker_skills.iterdir():
-            if skill_dir.is_dir() and (skill_dir / "SKILL.md").exists():
-                skills.append(skill_dir)
+    if not WLMSKILLS_DIR.exists():
+        return skills
 
-    # Load swe skills
-    swe_skills = WLMSKILLS_DIR / "swe" / "skills"
-    if swe_skills.exists():
-        for skill_dir in swe_skills.iterdir():
+    for plugin_dir in sorted(WLMSKILLS_DIR.iterdir()):
+        plugin_skills = plugin_dir / "skills"
+        if not plugin_skills.exists():
+            continue
+        for skill_dir in sorted(plugin_skills.iterdir()):
             if skill_dir.is_dir() and (skill_dir / "SKILL.md").exists():
                 skills.append(skill_dir)
 
