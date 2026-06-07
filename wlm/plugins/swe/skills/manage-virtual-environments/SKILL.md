@@ -5,7 +5,7 @@ description: Use when user wants to set up, create, or manage virtual environmen
 
 # Manage Virtual Environments
 
-Version: 1.0.0
+Version: 1.1.0
 
 Set up and manage isolated virtual environments for programming projects. This skill detects project languages and creates appropriate environments using the best available tools.
 
@@ -32,7 +32,7 @@ test -f "package.json" && echo "nodejs"
 test -f "Cargo.toml" && echo "rust"
 test -f "go.mod" && echo "go"
 test -f "pom.xml" && echo "java"
-test -f "*.csproj" && echo "csharp"
+find . -maxdepth 2 -name "*.csproj" -print -quit | grep -q . && echo "csharp"
 ```
 
 If no language detected, ask the user what language they're working with.
@@ -95,7 +95,7 @@ pip install -e .
 
 ---
 
-## Step 3: Node.js Virtual Environment (Using nvm 24)
+## Step 3: Node.js Virtual Environment
 
 ### Check nvm Availability
 
@@ -109,7 +109,10 @@ export NVM_DIR="$HOME/.nvm"
 nvm --version
 ```
 
-### Using nvm 24 for Node.js Projects
+### Using nvm for Node.js Projects
+
+Set `REQUESTED_NODE_VERSION` when the user explicitly asks for a version such as
+`24`. Leave it empty when the version should come from repo docs or `.nvmrc`.
 
 ```bash
 # Ensure nvm is loaded
@@ -120,13 +123,16 @@ export NVM_DIR="$HOME/.nvm"
 if [ -f ".nvmrc" ]; then
   nvm install  # Installs version from .nvmrc
   nvm use
+elif [ -n "$REQUESTED_NODE_VERSION" ]; then
+  nvm install "$REQUESTED_NODE_VERSION"
+  nvm use "$REQUESTED_NODE_VERSION"
 else
-  # Use nvm 24 (latest stable LTS)
-  nvm install 24
-  nvm use 24
+  # Prefer the repo's documented Node version. If none exists, ask before
+  # choosing a default such as the active LTS version.
+  nvm ls-remote --lts
 fi
 
-# Install dependencies
+# Install dependencies after the Node version is selected
 npm install
 
 # Verify installation
@@ -137,10 +143,11 @@ npm --version
 ### Create .nvmrc for Project
 
 ```bash
-# Create .nvmrc with version 24
-echo "24" > .nvmrc
+# Create .nvmrc with the selected project version, for example an explicit
+# version the user requested
+node --version | sed 's/^v//' > .nvmrc
 
-# Add to git (optional but recommended)
+# Add to git only if this is intended as a project convention
 git add .nvmrc
 ```
 
@@ -214,7 +221,9 @@ npm --version
 
 ## Step 6: Document Environment Setup
 
-Create or update a `SETUP.md` or `ENVIRONMENT.md` file:
+Update existing setup documentation when the repo has one. Create a new
+`SETUP.md` or `ENVIRONMENT.md` only when the user asks or the repo convention
+already expects one:
 
 ```markdown
 # Environment Setup
@@ -240,7 +249,7 @@ npm install
 ## Best Practices Checklist
 
 - [ ] Use `uv` for Python (fast, reliable) — fallback to `pip venv`
-- [ ] Use `nvm 24` for Node.js projects
+- [ ] Use the repo's documented Node.js version, preferably through `.nvmrc`
 - [ ] Activate environment before installing dependencies
 - [ ] Keep `.venv/` and `node_modules/` in `.gitignore`
 - [ ] Create `.nvmrc` files for Node.js projects

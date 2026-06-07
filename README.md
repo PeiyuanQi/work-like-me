@@ -54,7 +54,9 @@ To install to a custom Codex skills directory:
 
 ### Claude Code Plugins And Codex Skills (`wlm/plugins/`)
 
-**SWE Plugin** — Software Engineer skills for git workflows, code review, and merge requests
+**SWE Plugin** — Software Engineer skills for git workflows, code review, merge requests, and third-party skill references
+
+**PPT Plugin** — Presentation style adapters, starting with the Guizang PPT style wrapper
 
 **Worker Plugin** — Daily worker skills for general productivity, memory, and team collaboration
 

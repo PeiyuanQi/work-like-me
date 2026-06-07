@@ -5,7 +5,7 @@ description: Use when user wants to commit changes, push code to remote, save wo
 
 # Git Commit Push
 
-Version: 1.0.0
+Version: 1.1.1
 
 Commit changes and push to the remote repository using conventional commits format.
 
@@ -89,6 +89,27 @@ git commit -m "docs: update API documentation"
 ```
 
 ## Step 6: Push to Remote
+
+Before pushing, check whether the branch has an upstream and whether it is
+behind. If the branch needs to be refreshed, prefer rebasing while preserving
+the original intent of the local work:
+
+```bash
+git fetch origin
+git branch -vv
+UPSTREAM=$(git rev-parse --abbrev-ref --symbolic-full-name '@{upstream}' 2>/dev/null || true)
+test -n "$UPSTREAM" && git rebase "$UPSTREAM"
+```
+
+If a push is rejected because the remote moved, fetch and rebase instead of
+creating a merge commit. During conflicts, keep the behavior the branch was
+trying to introduce unless the user explicitly changes direction.
+
+```bash
+git push
+```
+
+If the branch does not have an upstream yet:
 
 ```bash
 git push -u origin <branch-name>

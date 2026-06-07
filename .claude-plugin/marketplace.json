@@ -15,6 +15,12 @@
       "strict": true
     },
     {
+      "name": "ppt",
+      "description": "Presentation style adapters and third-party PPT skill references",
+      "source": "./wlm/plugins/ppt",
+      "strict": true
+    },
+    {
       "name": "worker",
       "description": "Daily worker skills for general productivity, memory, and team collaboration",
       "source": "./wlm/plugins/worker",

@@ -5,7 +5,7 @@ description: Format and lint code before committing. Use as the last step after 
 
 This skill formats and lints code to prepare it for commit. Always prioritize the team's established norms over defaults.
 
-Version: 1.0.0
+Version: 1.1.1
 
 ## Step 1: Detect Team Norms
 
@@ -45,11 +45,14 @@ If no team-specific configuration exists, use these defaults:
   - `ruff format` for formatting (replaces black)
   - `ruff check --fix` for linting and import sorting (replaces flake8 and isort)
 - **Style guide:** Google Python Style Guide
-- **Conflict resolution:** If rules conflict, follow Google Python Style Guide
+- **Conflict resolution:** Follow the repo's configured Ruff/tooling rules first,
+  then Google Python Style Guide where the repo is silent
 
 ### JavaScript/TypeScript
 - **Formatter:** prettier
 - **Linter:** eslint
+- **Style guide:** Google TypeScript Style Guide for TypeScript code
+- **Conflict resolution:** If tool output and style guide guidance conflict, follow the repo's configured tooling first, then the style guide where the tooling is silent
 
 ### Go
 - **Formatter:** gofmt

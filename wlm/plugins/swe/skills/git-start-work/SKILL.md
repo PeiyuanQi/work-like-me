@@ -1,14 +1,14 @@
 ---
 name: git-start-work
-description: Use when user wants to start new code work, create a new feature branch, begin coding on a fresh branch, or switch to latest main before starting work. Prefer git worktrees as the default workflow, and also support regular branches. Also useful when the user says "git wt".
+description: Use when user wants to start new code work, create a new feature branch, begin coding on a fresh branch, switch to latest main before starting work, or coordinate parallel/multi-agent development. Ask to use git worktrees so multiple agents can work at the same time without colliding, and support regular branches when explicitly requested. Also useful when the user says "git wt".
 ---
 
 # Git Start Work
 
-Version: 1.0.0
+Version: 1.1.1
 
 Start new code work from the latest main branch. Supports two modes:
-- **Worktree** — Isolated workspace in separate directory (default)
+- **Worktree** — Isolated workspace in separate directory (default and recommended for multi-agent work)
 - **Regular branch** — Standard git checkout
 
 ## When to Use
@@ -19,15 +19,31 @@ Start new code work from the latest main branch. Supports two modes:
 
 ## Step 0: Ask Worktree Preference
 
-Ask the user:
+Ask the user unless they already chose a mode:
 ```
 How would you like to work?
 
-1. Worktree (recommended, default) — Isolated workspace
+1. Worktree (recommended, default) — Isolated workspace for parallel or multi-agent work
 2. Regular branch — Simple git checkout
 ```
 
-If no preference expressed, default to worktree.
+If no preference is expressed after asking, default to worktree. Strongly prefer
+worktrees when multiple agents may be active, when the current checkout has
+unrelated changes, or when the user asks to start independent work.
+
+## Integration Rule
+
+When refreshing from upstream or resolving conflicts, prefer a rebase-based
+workflow that preserves the original intent of the work:
+
+```bash
+git fetch origin
+git rebase origin/<main-branch>
+```
+
+During conflicts, keep the behavior the branch was trying to introduce unless
+the user explicitly changes direction. Avoid merge commits unless the repository
+requires them or the user asks for one.
 
 ## Branch Naming Convention
 
@@ -64,7 +80,8 @@ git fetch origin
 ### Step 3: Determine Main Branch
 
 ```bash
-git remote show origin | grep "HEAD branch"
+MAIN_BRANCH=$(git symbolic-ref --short refs/remotes/origin/HEAD 2>/dev/null | sed 's#^origin/##')
+test -n "$MAIN_BRANCH" || MAIN_BRANCH=$(git remote show origin | sed -n 's/.*HEAD branch: //p')
 ```
 
 Common names: `main`, `master`, `develop`
@@ -72,14 +89,22 @@ Common names: `main`, `master`, `develop`
 ### Step 4: Checkout Latest Main
 
 ```bash
-git checkout origin/<main-branch> -b <main-branch>
+git switch --track -c "$MAIN_BRANCH" "origin/$MAIN_BRANCH"
+```
+
+If the local main branch already exists, update it by rebasing onto the remote
+default branch rather than creating a merge commit:
+
+```bash
+git switch "$MAIN_BRANCH"
+git rebase "origin/$MAIN_BRANCH"
 ```
 
 ### Step 5: Create New Branch
 
 If user specified a branch name:
 ```bash
-git checkout -b <prefix>/<description>
+git switch -c <prefix>/<description>
 ```
 
 If user didn't specify, ask them:
@@ -88,7 +113,7 @@ If user didn't specify, ask them:
 
 Example:
 ```bash
-git checkout -b feat/user-login
+git switch -c feat/user-login
 ```
 
 ### Step 6: Confirm
@@ -153,10 +178,10 @@ git check-ignore -q worktrees 2>/dev/null && echo "IGNORED" || echo "NOT_IGNORED
 
 **If NOT ignored:**
 
-Per the "Fix broken things immediately" rule:
-1. Add appropriate line to `.gitignore`
-2. Commit the change
-3. Proceed with worktree creation
+1. Add the appropriate line to `.gitignore`.
+2. Include that `.gitignore` update in the current change or ask before making a
+   separate setup commit.
+3. Proceed with worktree creation after Git confirms the directory is ignored.
 
 **Why critical:** Prevents accidentally committing worktree contents to repository.
 
@@ -166,11 +191,15 @@ No .gitignore verification needed — outside project entirely.
 
 ### Creation Steps
 
-#### Step 1: Detect Project Name
+#### Step 1: Detect Project Name and Main Branch
 
 ```bash
 project=$(basename "$(git rev-parse --show-toplevel)")
+MAIN_BRANCH=$(git symbolic-ref --short refs/remotes/origin/HEAD 2>/dev/null | sed 's#^origin/##')
+test -n "$MAIN_BRANCH" || MAIN_BRANCH=$(git remote show origin | sed -n 's/.*HEAD branch: //p')
 ```
+
+Common fallback values for `MAIN_BRANCH` are `main`, `master`, and `develop`.
 
 #### Step 2: Create Worktree
 
@@ -185,8 +214,9 @@ case $LOCATION in
     ;;
 esac
 
-# Create worktree with new branch
-git worktree add "$path" -b "$BRANCH_NAME"
+# Create worktree with new branch from the latest remote default branch
+git fetch origin
+git worktree add "$path" -b "$BRANCH_NAME" "origin/$MAIN_BRANCH"
 cd "$path"
 ```
 
