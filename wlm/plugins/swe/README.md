@@ -1,12 +1,16 @@
 # Software Engineering Plugin
 
 SWE workflow skills for repository setup, parallel git work, commit prep,
-merge-request review, reviewer discovery, and virtual environment management.
+merge-request review, reviewer discovery, virtual environment management, and
+agentic project onboarding.
 
 ## Skills
 
 - `project-dev-setup`: read repo guidance, identify setup conventions, and keep
   docs and code aligned.
+- `onboard-agentic-dev-flow`: add minimal `AGENTS.md`/`CLAUDE.md` project
+  guidance, human development flow notes, worktree-first git workflow, and
+  distilled coding rules.
 - `git-start-work`: start feature or fix work, preferring git worktrees for
   parallel and multi-agent development.
 - `prepare-code-for-commit`: format and lint according to repo tooling first,
