@@ -2,5 +2,6 @@
 name = "wlm"
 version = "0.1.0"
 description = "Work-like-me: shared Cursor rules, Claude skills, and plugins"
+license = "GPL-3.0-or-later"
 requires-python = ">=3.12"
 dependencies = []

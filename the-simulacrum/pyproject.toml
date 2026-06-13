@@ -2,6 +2,7 @@
 name = "the-simulacrum"
 version = "1.0.0"
 description = "A replica agent that works on behalf of the user"
+license = "GPL-3.0-or-later"
 requires-python = ">=3.12"
 dependencies = [
     "anthropic>=0.27.0",
