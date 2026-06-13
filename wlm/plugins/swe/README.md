@@ -44,6 +44,9 @@ Use these directly when the user asks for a specific narrow operation:
   repo-defined tools and versions.
 - `third-party-skill-reference`: reference or wrap borrowed skills instead of
   reimplementing them in work-like-me.
+- `rank-software-decisions`: rank engineering, architecture, tooling,
+  dependency, migration, and AI/agent workflow options with an anonymized
+  blog-derived value pattern.
 
 ## Workflow Preferences
 
@@ -59,3 +62,5 @@ Use these directly when the user asks for a specific narrow operation:
   merge request.
 - Prefer referencing or wrapping a good third-party skill over copying it or
   rebuilding it locally.
+- Prefer decisions that preserve options, expose hidden cost, and survive
+  ordinary maintenance over choices that only look elegant in the short term.

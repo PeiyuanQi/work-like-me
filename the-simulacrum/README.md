@@ -42,6 +42,9 @@ uv run python src/agent.py "task 1" "task 2" "task 3"
 - **contact-new-teammate** - Contact new teammate
 - **onboard-as-new-hire** - Onboard as new hire
 - **search-memory** - Search memory
+- **rank-office-decisions** - Rank office and daily work choices
+- **ppt-style-selector** - Choose a PPT style before generating a deck
+- **ppt-guizang-style** - Use the Guizang PPT style wrapper
 
 ### SWE Skills (wlm:swe)
 
@@ -50,10 +53,16 @@ uv run python src/agent.py "task 1" "task 2" "task 3"
 - **git-start-work** - Start new work
 - **find-code-reviewer** - Find code reviewer
 - **git-commit-push** - Commit and push
+- **rank-software-decisions** - Rank software engineering choices
 
 ### CPA Skills (wlm:cpa)
 
 - **tax-intake-and-research** - Gather tax facts and organize source-backed tax research
+- **rank-finance-decisions** - Rank tax and personal finance choices
+
+### Mechanical Skills (wlm:mechanical)
+
+- **rank-mechanical-decisions** - Rank physical build, repair, tool, material, and regulated-device choices
 
 ## Configuration
 

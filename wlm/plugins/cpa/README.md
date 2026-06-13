@@ -12,6 +12,9 @@ entity compliance, and advisory checklists.
 - `tax-intake-and-research`: gather tax facts, identify jurisdictions and tax
   year, organize source-backed research, and separate general information from
   professional advice.
+- `rank-finance-decisions`: rank tax, personal finance, accounting, liquidity,
+  filing, entity, insurance, and household money choices with an anonymized
+  blog-derived value pattern.
 
 ## Workflow Preferences
 
@@ -21,3 +24,6 @@ entity compliance, and advisory checklists.
 - Keep tax answers practical, source-backed, and explicit about uncertainty.
 - Escalate to a licensed CPA, EA, or tax attorney for filing positions,
   high-dollar decisions, audits, penalties, amended returns, and legal disputes.
+- Prefer compliant, documented, downside-aware choices that preserve liquidity
+  and future freedom over clever optimizations that add hidden maintenance or
+  penalty risk.

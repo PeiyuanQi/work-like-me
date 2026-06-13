@@ -56,13 +56,13 @@ To install to a custom Codex skills directory:
 
 **SWE Plugin** — Software Engineer workflow skills for starting, finishing,
 submitting, and onboarding code work, plus primitive skills for git, review,
-environment setup, and third-party skill references
+environment setup, third-party skill references, and software decision ranking
 
-**CPA Plugin** — Tax intake, tax research, filing preparation, and future CPA workflow skills
+**CPA Plugin** — Tax intake, tax research, filing preparation, personal finance decision ranking, and future CPA workflow skills
 
-**PPT Plugin** — Presentation style adapters, starting with the Guizang PPT style wrapper
+**Worker Plugin** — Daily office worker skills for productivity, memory, team collaboration, office decision ranking, and presentation workflows, including PPT style selection and the Guizang PPT style wrapper
 
-**Worker Plugin** — Daily worker skills for general productivity, memory, and team collaboration
+**Mechanical Plugin** — Hands-on mechanical, physical build, repair, regulated-device, tooling, material, and maker decision ranking
 
 ---
 
