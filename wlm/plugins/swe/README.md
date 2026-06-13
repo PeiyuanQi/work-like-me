@@ -1,10 +1,30 @@
 # Software Engineering Plugin
 
-SWE workflow skills for repository setup, parallel git work, commit prep,
-merge-request review, reviewer discovery, virtual environment management, and
-agentic project onboarding.
+SWE workflow skills for repository setup, parallel git work, quality checks,
+commit and push, merge-request review, reviewer discovery, virtual environment
+management, and agentic project onboarding.
 
-## Skills
+## Workflow Skills
+
+Use these as the primary entry points for normal software engineering work:
+
+- `start-work`: begin a feature, fix, refactor, docs task, or investigation from
+  a current baseline. Orchestrates `project-dev-setup`, `git-start-work`, and
+  `manage-virtual-environments`.
+- `finish-work`: wrap up a change with formatting, linting, verification, diff
+  review, commit, and optional push. Orchestrates `prepare-code-for-commit` and
+  `git-commit-push`.
+- `submit-work`: prepare a branch for review, create a PR/MR, run independent
+  review, find a reviewer, and notify them when tooling is available.
+  Orchestrates `finish-work`, `create-merge-request`, and
+  `find-code-reviewer`.
+- `onboard-repo`: prepare an existing repo for human and agent collaboration.
+  Orchestrates `project-dev-setup`, `onboard-agentic-dev-flow`, and
+  `third-party-skill-reference` when borrowed skill behavior is involved.
+
+## Primitive Skills
+
+Use these directly when the user asks for a specific narrow operation:
 
 - `project-dev-setup`: read repo guidance, identify setup conventions, and keep
   docs and code aligned.
@@ -27,10 +47,14 @@ agentic project onboarding.
 
 ## Workflow Preferences
 
+- Prefer workflow skills for end-to-end requests and primitive skills for
+  focused operations.
 - Prefer git worktrees for new work so multiple agents can work safely at the
   same time.
 - Prefer rebase-based branch refresh and conflict resolution that preserves the
   original intent of the change.
+- Prefer repo-defined format, lint, test, build, and setup commands over generic
+  language defaults.
 - Prefer independent high-effort review before requesting human review on a
   merge request.
 - Prefer referencing or wrapping a good third-party skill over copying it or

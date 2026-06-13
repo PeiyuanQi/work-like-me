@@ -1,0 +1,4 @@
+interface:
+  display_name: "Submit Work"
+  short_description: "Open review requests and route code reviewers"
+  default_prompt: "Submit this code work for review with PR/MR creation and reviewer routing."

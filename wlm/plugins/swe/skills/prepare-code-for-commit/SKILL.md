@@ -1,11 +1,15 @@
 ---
 name: prepare-code-for-commit
-description: Format and lint code before committing. Use as the last step after large modifications or when user requests code cleanup. Checks for team-specific linting norms first (in repo config files and memory), falls back to default tools if none exist.
+description: Format and lint code before committing. Use as the low-level quality pass after modifications, when user requests code cleanup, or when swe:finish-work needs commit preparation. Checks for team-specific linting norms first in repo config files and memory, then falls back to language defaults.
 ---
 
-This skill formats and lints code to prepare it for commit. Always prioritize the team's established norms over defaults.
+# Prepare Code For Commit
 
 Version: 1.1.1
+
+Format and lint code to prepare it for commit. Always prioritize the team's
+established norms over defaults. For an end-to-end wrap-up that also reviews,
+commits, and pushes, prefer `swe:finish-work`.
 
 ## Step 1: Detect Team Norms
 
@@ -78,3 +82,4 @@ After running, summarize:
 - Which tools ran
 - What changes were made
 - Any errors or warnings that need attention
+- Any checks skipped because the repo did not define them

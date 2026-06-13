@@ -1,6 +1,6 @@
 ---
 name: create-merge-request
-description: Use when user wants to create a merge request, pull request, submit code for review, or merge their branch to main. Works with branch-based and worktree-based development.
+description: Use when user wants the specific low-level operation to create a merge request or pull request for an already prepared branch. Works with branch-based and worktree-based development. For end-to-end submission with finish checks and reviewer routing, prefer swe:submit-work.
 ---
 
 # Create Merge Request
@@ -8,13 +8,22 @@ description: Use when user wants to create a merge request, pull request, submit
 Version: 1.1.1
 
 Create a merge request (MR) or pull request (PR), run an independent review,
-and notify the appropriate reviewer.
+and notify the appropriate reviewer. For a full branch submission flow, prefer
+`swe:submit-work`.
 
 ## When to Use
 
 - User says: "create merge request", "create PR", "submit for review", "open MR"
 - User wants to merge their branch to main
 - Code is ready for review
+- The branch is already committed or the user specifically asks only for PR/MR
+  creation
+
+## Step 0: Confirm Branch Readiness
+
+If there are uncommitted changes or required checks have not run, use
+`swe:finish-work` before creating the PR/MR unless the user explicitly says to
+open a draft or skip that preparation.
 
 ## Step 1: Ensure Branch is Current and Pushed
 
@@ -109,7 +118,10 @@ The reviewer skill will search memory and the repo for:
 
 ## Step 7: Notify Reviewer
 
-**REQUIRED SUB-SKILL:** Use worker:notify-reviewer to send the MR link to the appropriate communication channel.
+**REQUIRED SUB-SKILL WHEN AVAILABLE:** Use `worker:notify-reviewer` to send the
+MR link to the appropriate communication channel. If the worker plugin or
+notification tooling is unavailable, return the reviewer and a concise message
+draft instead of claiming notification happened.
 
 ## Step 8: Confirm
 

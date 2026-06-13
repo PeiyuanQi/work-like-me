@@ -1,6 +1,6 @@
 ---
 name: project-dev-setup
-description: Set up any repository for local development and docs-first feature work. Use when onboarding to a project, starting a local dev session, checking repo-specific workflow conventions, or preparing to work through a feature queue.
+description: Set up any repository for local development and docs-first feature work. Use when onboarding to a project, starting a local dev session, checking repo-specific workflow conventions, or preparing to work through a feature queue. For end-to-end new work, prefer swe:start-work; for agentic repo onboarding, prefer swe:onboard-repo.
 ---
 
 # Project Dev Setup

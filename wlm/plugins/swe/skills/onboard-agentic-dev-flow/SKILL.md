@@ -1,6 +1,6 @@
 ---
 name: onboard-agentic-dev-flow
-description: Use when onboarding an existing project or repo to agentic development flow, including creating or aligning AGENTS.md and CLAUDE.md, adding or aligning minimal human development-flow documentation, preferring git worktrees for concurrent agents, and distilling existing coding rules, 规则, 习惯, style, and workflow conventions into agent instructions.
+description: Use when performing the specific documentation update for an existing project or repo's agentic development flow, including creating or aligning AGENTS.md and CLAUDE.md, adding or aligning minimal human development-flow documentation, preferring git worktrees for concurrent agents, and distilling existing coding rules, 规则, 习惯, style, and workflow conventions into agent instructions. For the end-to-end onboarding workflow, prefer swe:onboard-repo.
 ---
 
 # Onboard Agentic Dev Flow
@@ -10,6 +10,9 @@ Version: 1.0.0
 Prepare a project so humans and agents share a small, explicit development
 workflow. Preserve the repo's existing habits first; only add generic defaults
 where the project is silent.
+
+For a full repo onboarding workflow that starts with repository setup discovery,
+prefer `swe:onboard-repo`.
 
 ## Workflow
 

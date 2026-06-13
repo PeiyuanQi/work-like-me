@@ -10,7 +10,7 @@
   "plugins": [
     {
       "name": "swe",
-      "description": "Software Engineer skills for git workflows, code review, and merge requests",
+      "description": "Software Engineer workflow skills for starting, finishing, submitting, and onboarding code work",
       "source": "./wlm/plugins/swe",
       "strict": true
     },

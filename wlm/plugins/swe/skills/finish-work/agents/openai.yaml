@@ -1,0 +1,4 @@
+interface:
+  display_name: "Finish Work"
+  short_description: "Check, commit, and push completed code work"
+  default_prompt: "Finish this code work by checking quality, committing, and pushing if requested."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Start Work"
+  short_description: "Start code work with setup and worktree guidance"
+  default_prompt: "Start new code work in this repository using the SWE start-work flow."

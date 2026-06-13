@@ -1,6 +1,6 @@
 ---
 name: git-start-work
-description: Use when user wants to start new code work, create a new feature branch, begin coding on a fresh branch, switch to latest main before starting work, or coordinate parallel/multi-agent development. Ask to use git worktrees so multiple agents can work at the same time without colliding, and support regular branches when explicitly requested. Also useful when the user says "git wt".
+description: Use when user wants the specific low-level git operation to create a new feature branch or worktree, begin coding on a fresh branch, switch to latest main before starting work, or coordinate parallel/multi-agent development. For end-to-end start setup with repo onboarding and dependencies, prefer swe:start-work. Also useful when the user says "git wt".
 ---
 
 # Git Start Work
@@ -10,6 +10,9 @@ Version: 1.1.1
 Start new code work from the latest main branch. Supports two modes:
 - **Worktree** — Isolated workspace in separate directory (default and recommended for multi-agent work)
 - **Regular branch** — Standard git checkout
+
+For a full start workflow that also reads repo setup and configures
+dependencies, prefer `swe:start-work`.
 
 ## When to Use
 
