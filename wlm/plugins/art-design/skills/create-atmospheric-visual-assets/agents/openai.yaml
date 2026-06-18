@@ -1,0 +1,4 @@
+interface:
+  display_name: "Atmospheric Visual Assets"
+  short_description: "Create cinematic web and game visual assets"
+  default_prompt: "Use $create-atmospheric-visual-assets to design a cinematic website or game visual asset."
