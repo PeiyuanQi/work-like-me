@@ -1,0 +1,4 @@
+interface:
+  display_name: "Publish and Verify Website"
+  short_description: "Deploy a website and prove the live result"
+  default_prompt: "Use $publish-and-verify-website to publish this site and verify the production page, content, and generated assets."

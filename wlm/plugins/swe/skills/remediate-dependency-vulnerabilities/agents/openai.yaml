@@ -1,0 +1,4 @@
+interface:
+  display_name: "Remediate Dependency Vulnerabilities"
+  short_description: "Fix dependency vulnerabilities with verified upgrades"
+  default_prompt: "Use $remediate-dependency-vulnerabilities to fix the reported dependency vulnerabilities and verify the repository still works."

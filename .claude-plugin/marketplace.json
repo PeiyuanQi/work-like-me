@@ -11,7 +11,7 @@
   "plugins": [
     {
       "name": "swe",
-      "description": "Software Engineer workflow skills for starting, finishing, submitting, and onboarding code work",
+      "description": "Software Engineer workflows for delivery, security audits, dependency remediation, and verified releases",
       "source": "./wlm/plugins/swe",
       "strict": true
     },

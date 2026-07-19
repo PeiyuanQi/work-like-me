@@ -55,7 +55,8 @@ To install to a custom Codex skills directory:
 ### Claude Code Plugins And Codex Skills (`wlm/plugins/`)
 
 **SWE Plugin** — Software Engineer workflow skills for starting, finishing,
-submitting, and onboarding code work, plus primitive skills for git, review,
+submitting, and onboarding code work, plus security/privacy audits, dependency
+vulnerability remediation, verified website publishing, git, review,
 environment setup, third-party skill references, and software decision ranking
 
 **CPA Plugin** — Tax intake, tax research, filing preparation, personal finance decision ranking, and future CPA workflow skills

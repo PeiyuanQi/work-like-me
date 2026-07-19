@@ -2,7 +2,8 @@
 
 SWE workflow skills for repository setup, parallel git work, quality checks,
 commit and push, merge-request review, reviewer discovery, virtual environment
-management, and agentic project onboarding.
+management, agentic project onboarding, security/privacy audits, dependency
+remediation, and verified website publishing.
 
 ## Workflow Skills
 
@@ -21,6 +22,9 @@ Use these as the primary entry points for normal software engineering work:
 - `onboard-repo`: prepare an existing repo for human and agent collaboration.
   Orchestrates `project-dev-setup`, `onboard-agentic-dev-flow`, and
   `third-party-skill-reference` when borrowed skill behavior is involved.
+- `publish-and-verify-website`: build through the repository's real hosting
+  path, publish when authorized, and prove the production page, content, and
+  generated assets are live.
 
 ## Primitive Skills
 
@@ -47,6 +51,15 @@ Use these directly when the user asks for a specific narrow operation:
 - `rank-software-decisions`: rank engineering, architecture, tooling,
   dependency, migration, and AI/agent workflow options with an anonymized
   blog-derived value pattern.
+
+## Security And Maintenance Skills
+
+- `audit-repository-security-privacy`: perform source-backed security and
+  privacy reviews across code, manifests, dependencies, permissions, network,
+  storage, updates, and trust boundaries.
+- `remediate-dependency-vulnerabilities`: trace current advisories through the
+  locked dependency graph, apply the smallest compatible fix, and verify with a
+  clean install, scanner rerun, tests, and build.
 
 ## Workflow Preferences
 
