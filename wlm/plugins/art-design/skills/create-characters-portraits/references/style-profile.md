@@ -21,6 +21,13 @@
 - Use costume seams, layers, fasteners, wear, and material changes to reveal role and history.
 - Choose a quiet background unless environment is essential to the character beat.
 
+## Liked-corpus calibration
+
+- Unless the user requests a 3D model render, default to stylized 2D character-concept or painterly illustration language rather than photoreal studio rendering.
+- Preserve designed shape rhythm in hair, costume, anatomy, and negative space; do not let realistic fabric simulation and surface weathering become the main source of identity.
+- Keep the face readable and slightly idealized or authored, with clear color grouping and selective edges that distinguish the work from a scanned actor or game-ready asset render.
+- For full-body designs, use a quiet light ground or restrained painted backdrop and let costume silhouette, gesture, and one motif carry the image.
+
 ## Technique workflow
 
 - Write role, temperament, physical rhythm, and costume function.
@@ -31,7 +38,7 @@
 ## Prompt pattern
 
 ```text
-Original [portrait/full-body character] of [role and temperament], distinctive proportion and posture, readable silhouette, expressive but coherent face and hands, layered costume designed for [function and culture], clear material separation, [camera and crop], controlled background, focal lighting that supports identity rather than glamour alone.
+Original [portrait/full-body character] of [role and temperament], stylized 2D character-concept or painterly illustration finish unless 3D is requested, distinctive proportion and posture, readable designed silhouette and negative space, expressive coherent face and hands, layered costume for [function and culture], simplified material/color groups, [camera and crop], quiet light or restrained painted background, selective focal edges that support identity.
 ```
 
 ## Avoidance pattern

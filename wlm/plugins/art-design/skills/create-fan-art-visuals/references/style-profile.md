@@ -21,6 +21,13 @@
 - Balance polished faces/costumes against simplified or atmospheric backgrounds.
 - Treat franchise language as shape, mood, costume logic, and genre—not copied marks, logos, or compositions.
 
+## Liked-corpus calibration
+
+- Default to character-first tribute language: let the primary figure occupy roughly 45–70% of the frame, with the face, hair silhouette, costume rhythm, and one signature prop reading before the environment.
+- Favor stylized 2D key art, anime-influenced portraiture, or graphic splash treatment over a realistic environment painting with a small action figure.
+- When the subject is an original analogue rather than an existing character, preserve the clarity and heightened costume/emotion grammar of fan art without inventing logos or protected identifiers.
+- Reduce background detail to large atmospheric or graphic masses so the image cannot be mistaken for a general narrative illustration.
+
 ## Technique workflow
 
 - Block the pose and silhouette before rendering costume detail.
@@ -31,7 +38,7 @@
 ## Prompt pattern
 
 ```text
-Original [tribute/splash/key-art] image of [subject and emotional beat], [pose and silhouette], [costume/material language], [setting reduced to essential story cues], [camera and crop], cinematic color script with [key hue] against [supporting palette], polished digital painting, expressive face and hands, crisp focal detail fading into atmospheric secondary shapes.
+Original [tribute/splash/key-art] image of [subject and emotional beat], character occupying [45–70%] of the frame, unmistakable face/hair/costume silhouette and one signature prop, [setting reduced to two or three essential story cues], [camera and crop], stylized 2D key-art finish with cinematic color script, expressive face and hands, crisp focal detail fading into broad atmospheric or graphic secondary shapes.
 ```
 
 ## Avoidance pattern

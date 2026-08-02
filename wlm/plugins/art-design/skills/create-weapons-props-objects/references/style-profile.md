@@ -21,6 +21,13 @@
 - Let scratches, residue, polish, repairs, and patina describe use.
 - For fantasy objects, tie ornament to fabrication and ownership rather than generic motifs.
 
+## Liked-corpus calibration
+
+- Visual evidence for this category is sparse: one liked project has no eligible image or GIF, so use the broader same-theme local archive as a fallback and do not imitate title cards or promotional thumbnails.
+- Default to an authored prop-concept presentation rather than a uniformly photoreal product render: one hero view plus one controlled functional state or detail inset when the mechanism is not self-explanatory.
+- Make the operation path traceable through openings, channels, hinges, transparent windows, exploded spacing, or a partially serviced state.
+- Ensure every named material family separates at thumbnail size through value, hue, roughness, edge behavior, or wear response.
+
 ## Technique workflow
 
 - Define use, user, scale, and manufacturing process first.
@@ -31,7 +38,7 @@
 ## Prompt pattern
 
 ```text
-Production-ready [weapon/prop/object] used by [user] for [function], readable silhouette with clear [grip/interface/mechanism], layered construction showing [manufacturing logic], [two or three materials] with use-specific wear, isolated three-quarter presentation plus optional detail callouts, studio-neutral background, crisp edges at functional zones.
+Production-ready [weapon/prop/object] used by [user] for [function], readable silhouette with clear [grip/interface/mechanism], visibly traceable operation or service path, layered construction showing [manufacturing logic], [two or three strongly differentiated materials] with use-specific wear, authored three-quarter concept presentation plus one controlled functional state or detail inset, quiet neutral ground, crisp edges concentrated at functional zones.
 ```
 
 ## Avoidance pattern

@@ -21,6 +21,13 @@
 - Use neutral paper, white canvas, or a single toned ground unless color is the subject.
 - Prefer rhythm, weight, and value grouping over decorative finish.
 
+## Liked-corpus calibration
+
+- The liked subset favors authored light, color, portrait, and environment practice as well as drawing studies; preserve painterly grouping and visible brush decisions instead of defaulting to a clean anatomy diagram.
+- In multi-attempt gesture sheets, keep at least half the attempts at line-of-action, simple-volume, or single-shadow-mass stages. Vary scale, cropping, corrections, and finish level.
+- Make phase or question diversity visible in silhouette and value, not through infographic arrows or evenly polished repetitions.
+- Treat a tidy character-design sheet as a failure mode unless the user explicitly asks for production model-sheet polish.
+
 ## Technique workflow
 
 - State one study question before prompting.
@@ -31,7 +38,7 @@
 ## Prompt pattern
 
 ```text
-Focused [gesture/anatomy/value/color/material] study of [subject], exploring [single learning goal], visible construction and confident economical marks, [paper/toned ground], large shadow masses, selective edges and accents, intentionally incomplete outside the focal problem, studio practice sheet rather than finished promotional art.
+Focused [gesture/anatomy/value/color/material] study of [subject], exploring [single learning goal], visible construction and confident economical marks, [paper/toned ground], large shadow or color masses, varied attempt scale and finish, at least half the page remaining at exploratory block-in stages, selective edges and natural correction marks, intentionally incomplete studio practice rather than a polished character sheet.
 ```
 
 ## Avoidance pattern

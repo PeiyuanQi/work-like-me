@@ -21,6 +21,13 @@
 - Use materials with distinct roughness, edge behavior, thickness, and wear.
 - Present beauty, neutral, wireframe/clay, texture, and close-up views when useful.
 
+## Liked-corpus calibration
+
+- For a portfolio image, default to one strong beauty or three-quarter render plus one restrained neutral/clay, rear, or wireframe companion view; avoid a four-tile catalog collage unless explicitly requested.
+- Use a charcoal, cool gray, or softly graded neutral presentation with stronger value and material separation than a flat beige product backdrop.
+- Make the work unmistakably 3D through turntable-consistent form, physically based roughness contrast, grounded contact, and a small production-evidence view without burying the hero render.
+- Prefer a single coherent model with a decisive silhouette over several equally weighted views that dilute the focal read.
+
 ## Technique workflow
 
 - Define target platform, camera distance, topology budget, and deliverables.
@@ -31,7 +38,7 @@
 ## Prompt pattern
 
 ```text
-Production reference for a [3D character/prop/vehicle/sculpt], clearly separated primary-secondary-tertiary forms, multi-view consistency, material zones defined by roughness and construction, neutral clay/turntable readability plus one polished beauty render, realistic contact, thickness, seams, and wear, no camera-dependent cheats.
+Portfolio presentation for a [3D character/prop/vehicle/sculpt], one dominant three-quarter beauty render plus one restrained [neutral clay/rear/wireframe] companion view, clearly separated primary-secondary-tertiary forms, turntable-consistent silhouette, physically based material zones with strong roughness and value separation, charcoal or cool-gray neutral ground, realistic contact, thickness, seams, and localized wear, no camera-dependent cheats.
 ```
 
 ## Avoidance pattern

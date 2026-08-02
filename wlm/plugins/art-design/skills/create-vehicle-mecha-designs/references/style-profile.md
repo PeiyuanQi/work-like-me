@@ -21,6 +21,13 @@
 - Use a human, hatch, wheel, railing, or cockpit as a scale anchor.
 - Reserve emissive accents and decals for hierarchy, not surface noise.
 
+## Liked-corpus calibration
+
+- Default to an authored concept-design presentation—selective painterly edges, simplified secondary surfaces, and one or two operational context cues—rather than a uniformly photoreal catalog render.
+- Make one role-driven massing decision obvious before panel detail: an offset payload bay, articulated chassis, deployable module, or unusual propulsion ratio.
+- When mobility is a defining feature, show it under load through steering, compression, extension, terrain contact, or a small obstacle.
+- Expose at least one role-specific workflow or payload so the design is not merely a plausible generic truck, spacecraft, or robot.
+
 ## Technique workflow
 
 - Thumbnail silhouettes before panel lines.
@@ -31,7 +38,7 @@
 ## Prompt pattern
 
 ```text
-Production-minded [vehicle/mecha/robot] for [role and environment], distinctive silhouette built from [primary mass] plus [secondary mechanism], clearly visible [mobility/propulsion/access] systems, believable joints and maintenance panels, human-scale cues, restrained [material palette], three-quarter industrial design presentation, crisp focal rendering with simplified secondary surfaces.
+Production-minded [vehicle/mecha/robot] for [role and environment], distinctive asymmetrical silhouette built from [primary mass] plus [role-specific payload or secondary mechanism], clearly visible [mobility/propulsion/access] systems shown under load, believable joints and maintenance panels, human-scale cues, restrained [material palette], authored concept-paint presentation with selective crisp edges, simplified secondary surfaces, and one operational context cue.
 ```
 
 ## Avoidance pattern
