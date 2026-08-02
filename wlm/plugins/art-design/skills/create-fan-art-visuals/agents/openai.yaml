@@ -1,0 +1,4 @@
+interface:
+  display_name: "Fan Art Visuals"
+  short_description: "Create original pop-culture-inspired fan art"
+  default_prompt: "Use $create-fan-art-visuals to art-direct an original fan-art image."

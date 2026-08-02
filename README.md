@@ -66,8 +66,9 @@ environment setup, third-party skill references, and software decision ranking
 **Mechanical Plugin** — Hands-on mechanical, physical build, repair, regulated-device, tooling, material, and maker decision ranking
 
 **Art Design Plugin** — Art direction and visual design skills for generated
-images, website assets, game assets, hero art, reusable visual styles, and
-polished creative assets
+images, website assets, game assets, hero art, and theme-specific workflows for
+fan art, studies, vehicles, architecture, props, creatures, sci-fi, fantasy,
+environments, characters, worldbuilding, 3D, UI, illustration, and mixed media
 
 ---
 

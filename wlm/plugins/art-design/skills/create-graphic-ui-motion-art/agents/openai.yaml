@@ -1,0 +1,4 @@
+interface:
+  display_name: "Graphic, UI, and Motion Art"
+  short_description: "Create graphic systems, icons, UI, and motion frames"
+  default_prompt: "Use $create-graphic-ui-motion-art to design a coherent graphic or UI system."

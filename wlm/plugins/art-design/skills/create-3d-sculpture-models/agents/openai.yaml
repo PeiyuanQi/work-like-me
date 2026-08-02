@@ -1,0 +1,4 @@
+interface:
+  display_name: "3D Sculpture and Models"
+  short_description: "Plan polished 3D sculpture and model workflows"
+  default_prompt: "Use $create-3d-sculpture-models to design a production-ready 3D model."

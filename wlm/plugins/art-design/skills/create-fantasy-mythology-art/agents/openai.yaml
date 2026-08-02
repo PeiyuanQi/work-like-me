@@ -1,0 +1,4 @@
+interface:
+  display_name: "Fantasy and Mythology Art"
+  short_description: "Create grounded fantasy and mythic imagery"
+  default_prompt: "Use $create-fantasy-mythology-art to develop a mythic fantasy image."

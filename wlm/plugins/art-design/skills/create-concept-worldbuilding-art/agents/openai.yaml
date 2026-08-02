@@ -1,0 +1,4 @@
+interface:
+  display_name: "Concept Art and Worldbuilding"
+  short_description: "Develop coherent worlds and production concepts"
+  default_prompt: "Use $create-concept-worldbuilding-art to develop a worldbuilding concept."

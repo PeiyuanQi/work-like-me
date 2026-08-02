@@ -1,0 +1,4 @@
+interface:
+  display_name: "Sketch and Study Art"
+  short_description: "Create expressive sketches and focused studies"
+  default_prompt: "Use $create-sketch-study-art to design an expressive art study."

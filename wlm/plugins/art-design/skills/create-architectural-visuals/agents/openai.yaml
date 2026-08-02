@@ -1,0 +1,4 @@
+interface:
+  display_name: "Architectural Visuals"
+  short_description: "Create atmospheric architecture and interiors"
+  default_prompt: "Use $create-architectural-visuals to art-direct an architectural scene."

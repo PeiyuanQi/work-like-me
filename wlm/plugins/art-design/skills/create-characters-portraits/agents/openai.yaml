@@ -1,0 +1,4 @@
+interface:
+  display_name: "Characters and Portraits"
+  short_description: "Create expressive character and portrait art"
+  default_prompt: "Use $create-characters-portraits to art-direct a character or portrait."
