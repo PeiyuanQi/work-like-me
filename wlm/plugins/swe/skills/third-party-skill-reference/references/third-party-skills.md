@@ -29,7 +29,7 @@ owning directly. Keep entries short and factual.
 - If copied material requires attribution or notices, update the repo's relevant
   notice file before committing.
 
-## ADHD-Friendly Wording
+## ADHD-Friendly Technical Writing
 
 - External skill: `i-have-adhd`
 - External plugin/package: `ayghri/i-have-adhd`
@@ -40,9 +40,10 @@ owning directly. Keep entries short and factual.
   content is copied in the future
 - Use mode: `wrapper`
 - Why borrowed: the active upstream already defines the specialized response
-  shape and supports Codex, so work-like-me only needs routing and local policy
-- Local overrides: explicit activation, no diagnosis inference, no persistence
-  of health-related preferences without a direct request, and no reduction in
-  safety or verification rigor
-- Fallback when missing: use the adapter's concise action-first approximation
+  shape and supports Codex, so work-like-me only needs technical-domain routing
+  and local policy
+- Local overrides: require explicit activation and engineering or technical
+  text; exclude office and non-technical prose; do not infer a diagnosis or
+  persist health-related preferences; preserve safety and verification rigor
+- Fallback when missing: use the adapter's technical action-first approximation
   and disclose that the exact upstream rules were not loaded

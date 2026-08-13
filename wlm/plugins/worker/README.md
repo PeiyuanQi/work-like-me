@@ -15,9 +15,6 @@ presentation workflows.
 - `rank-office-decisions`: rank normal office, productivity, career,
   communication, and prioritization choices with an anonymized blog-derived
   value pattern.
-- `adhd-friendly-wording`: wrapper for `ayghri/i-have-adhd`; shape requested
-  answers into action-first, bounded, low-tangent wording without inferring a
-  diagnosis or persisting health-related preferences.
 - `ppt-style-selector`: choose among registered PPT styles before generating a
   deck.
 - `ppt-guizang-style`: wrapper for `op7418/guizang-ppt-skill`; use only when
@@ -32,14 +29,6 @@ presentation workflows.
   them into work-like-me.
 - Do not vendor third-party skill content unless the license is verified and
   required notices are recorded.
-
-## Wording Policy
-
-- Activate ADHD-friendly wording only when the user asks for it or explicitly
-  invokes the upstream skill.
-- Change response structure, not the correctness, safety, or verification bar.
-- Do not infer a diagnosis or persist health-related preferences without an
-  explicit request.
 
 ## Decision Policy
 
