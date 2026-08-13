@@ -61,7 +61,7 @@ environment setup, third-party skill references, and software decision ranking
 
 **CPA Plugin** — Tax intake, tax research, filing preparation, personal finance decision ranking, and future CPA workflow skills
 
-**Worker Plugin** — Daily office worker skills for productivity, memory, team collaboration, office decision ranking, and presentation workflows, including PPT style selection and the Guizang PPT style wrapper
+**Worker Plugin** — Daily office worker skills for productivity, memory, team collaboration, office decision ranking, ADHD-friendly wording on request, and presentation workflows, including PPT style selection and the Guizang PPT style wrapper
 
 **Mechanical Plugin** — Hands-on mechanical, physical build, repair, regulated-device, tooling, material, and maker decision ranking
 
