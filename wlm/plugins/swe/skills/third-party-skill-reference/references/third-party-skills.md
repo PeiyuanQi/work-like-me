@@ -34,16 +34,13 @@ owning directly. Keep entries short and factual.
 - External skill: `i-have-adhd`
 - External plugin/package: `ayghri/i-have-adhd`
 - Source: `https://github.com/ayghri/i-have-adhd`
-- Version: plugin `0.1.0`, commit
-  `2ed064090711586e0c97a2fbbf15465fe8f1808b` (2026-08-10)
-- License: MIT, copyright 2026 Ayoub Ghriss; preserve the notice if upstream
-  content is copied in the future
-- Use mode: `wrapper`
-- Why borrowed: the active upstream already defines the specialized response
-  shape and supports Codex, so work-like-me only needs technical-domain routing
-  and local policy
+- Version: not pinned; work-like-me owns its adapted copy
+- License: MIT, copyright 2026 Ayoub Ghriss; attribution and license text are in
+  `THIRD_PARTY_NOTICES.md`
+- Use mode: `fork`
+- Why borrowed: the upstream response-shaping principles are useful, while the
+  local skill needs an independently maintained technical-domain policy
 - Local overrides: require explicit activation and engineering or technical
   text; exclude office and non-technical prose; do not infer a diagnosis or
   persist health-related preferences; preserve safety and verification rigor
-- Fallback when missing: use the adapter's technical action-first approximation
-  and disclose that the exact upstream rules were not loaded
+- Fallback when missing: not applicable; the local skill is self-contained

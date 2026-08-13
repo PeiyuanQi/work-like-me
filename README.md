@@ -97,4 +97,5 @@ source .venv/bin/activate  # Activate environment
 
 This project is licensed under the GNU General Public License v3.0 or later
 (`GPL-3.0-or-later`) to preserve copyleft/open-source terms for redistributed
-versions and derivative works. See `LICENSE`.
+versions and derivative works. See `LICENSE`. Third-party attributions and
+license terms are recorded in `THIRD_PARTY_NOTICES.md`.
