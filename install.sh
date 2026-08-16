@@ -36,6 +36,19 @@ confirm_create_dir() {
 
 sync_dir() {
   local src="$1" dst="$2"
+  local src_real dst_real
+
+  # User skill directories may be symlinks or Windows junctions back to this
+  # repository. In that case the source is already live at the destination,
+  # and copying would fail because both paths resolve to the same directory.
+  if [[ -d "$dst" ]]; then
+    src_real="$(cd "$src" && pwd -P)"
+    dst_real="$(cd "$dst" && pwd -P)"
+    if [[ "$src_real" == "$dst_real" ]]; then
+      return 0
+    fi
+  fi
+
   rsync -a "${src}/" "${dst}/" 2>/dev/null || {
     cp -R "${src}/." "${dst}/"
   }
