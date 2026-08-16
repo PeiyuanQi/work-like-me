@@ -26,10 +26,12 @@ Read [references/style-profile.md](references/style-profile.md) before composing
 
 ## Response Format
 
-Return:
+For prompt, brief, or concept deliverables, return:
 
 1. **Direction** — one sentence naming the production mode and visual objective.
 2. **Specifications** — aspect ratio/size, composition, camera, lighting, palette, materials, and required variants.
 3. **Generation prompt** — ready to use, concrete, and free of artist-name imitation.
 4. **Avoidance prompt** — concise failure modes and protected elements to omit.
 5. **Iteration notes** — 2-4 specific changes to try after the first result.
+
+For a finished-image request, generate or edit the image directly and return the generated result according to the image tool's response contract. Do not add this text template unless the user also asks for the prompt or art-direction rationale.

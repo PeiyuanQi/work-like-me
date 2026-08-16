@@ -9,7 +9,8 @@ presentation workflows.
 - `contact-new-teammate`: draft a polite first contact to a coworker.
 - `find-poc`: find a person of contact for non-code-review requests.
 - `notify-reviewer`: notify the selected reviewer about an MR or PR.
-- `onboard-as-new-hire`: discover and record team tools and org context.
+- `onboard-as-new-hire`: learn and record company, organization, workplace-tool,
+  policy, and team context as a new hire; it does not onboard a project or repository.
 - `search-memory`: search stored memory for team or project context.
 - `update-memory`: save useful team or project context to memory.
 - `rank-office-decisions`: rank normal office, productivity, career,

@@ -27,6 +27,9 @@ boundaries. Separate proven findings from plausible risks and missing evidence.
      update/download flows, authentication, and endpoint construction.
    - Trace identifiers, telemetry, logs, local storage, credentials, backups,
      archives, synchronization, clipboard, camera, microphone, and file access.
+   - When public release or secret exposure is in scope, inspect reachable Git
+     history, tags, submodules, and LFS objects; a clean current tree does not
+     prove the repository history is safe.
    - Inspect code execution, deserialization, archive extraction, shelling out,
      and downloaded-content verification where present.
 

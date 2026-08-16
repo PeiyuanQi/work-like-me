@@ -9,8 +9,8 @@ Read [references/style-profile.md](references/style-profile.md) before composing
 
 ## Workflow
 
-1. Clarify the deliverable: finished image, prompt, art-direction brief, variation sheet, production concept, or edit of an attached image.
-2. Set output constraints: aspect ratio, pixel size, crop, transparency, text-safe space, target viewing distance, and whether multiple views or states are required.
+1. Determine the deliverable from the request: finished image, prompt, art-direction brief, variation sheet, production concept, or edit of an attached image. For finished-image and edit requests, infer unspecified creative defaults and proceed without reconfirmation; ask only when a required reference image is unavailable.
+2. Set or infer output constraints: aspect ratio, pixel size, crop, transparency, text-safe space, target viewing distance, and whether multiple views or states are required.
 3. Select one production mode from the style profile and state the image's subject, action, function, environment, and emotional beat.
 4. Build the prompt in this order: intent, composition, form/structure, materials, lighting, palette, technique, production constraints, then avoidance instructions.
 5. When an image-generation or image-editing tool is available and the user requests a finished visual, use it directly; do not stop after writing a prompt.
@@ -26,7 +26,10 @@ Read [references/style-profile.md](references/style-profile.md) before composing
 
 ## Response Format
 
-Return:
+Match the response to the requested deliverable:
+
+- For a finished image or edit, use the image tool and return the visual directly. Add only a brief note when it helps the user choose or request another iteration; do not dump an unused prompt package unless requested.
+- For a prompt, art-direction brief, variation sheet, or production concept, return:
 
 1. **Direction** — one sentence naming the production mode and visual objective.
 2. **Specifications** — aspect ratio/size, composition, camera, lighting, palette, materials, and required variants.

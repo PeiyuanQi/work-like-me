@@ -1,290 +1,177 @@
 ---
 name: git-start-work
-description: Use when user wants the specific low-level git operation to create a new feature branch or worktree, begin coding on a fresh branch, switch to latest main before starting work, or coordinate parallel/multi-agent development. For end-to-end start setup with repo onboarding and dependencies, prefer swe:start-work. Also useful when the user says "git wt".
+description: Use for the specific low-level Git operation of creating a feature branch or worktree, starting from the latest remote default branch, refreshing an existing branch from upstream, or isolating parallel/multi-agent work. Trigger on requests such as "new branch", "create a worktree", "start from latest main", or "git wt". For repository onboarding, dependency setup, and baseline tests, use swe:start-work.
 ---
 
 # Git Start Work
 
-Version: 1.1.1
+Version: 1.2.0
 
-Start new code work from the latest main branch. Supports two modes:
-- **Worktree** — Isolated workspace in separate directory (default and recommended for multi-agent work)
-- **Regular branch** — Standard git checkout
+Create or refresh a Git workspace without overwriting user-owned changes. Keep
+this skill limited to Git workspace operations; let `swe:start-work` coordinate
+repository setup, environments, and baseline verification.
 
-For a full start workflow that also reads repo setup and configures
-dependencies, prefer `swe:start-work`.
+The command blocks below use POSIX shell syntax. Detect the active shell first.
+On PowerShell, keep the Git operations but translate shell and filesystem logic
+to platform-native equivalents such as `Test-Path`, `Split-Path`, and
+`Join-Path`; do not assume Bash, WSL, or Git Bash is installed.
 
-## When to Use
+## 1. Inspect Before Mutating
 
-- User says: "start new work", "start new feature", "begin coding", "new branch"
-- User wants to work on a bug fix or new feature
-- User needs to refresh their branch from latest main
+Resolve the repository root and inspect all linked worktrees:
 
-## Step 0: Ask Worktree Preference
-
-Ask the user unless they already chose a mode:
+```bash
+REPO_ROOT=$(git rev-parse --show-toplevel) || exit 1
+git -C "$REPO_ROOT" status --short --branch
+git -C "$REPO_ROOT" worktree list --porcelain
 ```
+
+Treat every existing change as user-owned.
+
+- Never reset, clean, discard, or auto-stash changes.
+- Do not switch branches or rebase a dirty checkout without explicit approval.
+- Prefer a new worktree when changes are unrelated to the new task.
+- If the dirty changes are the intended foundation, explain that a worktree
+  based on the remote default branch will omit them. Stay in the checkout or
+  ask how the user wants to carry the foundation forward.
+- Run relative-path checks from `REPO_ROOT`, not from an arbitrary subdirectory.
+
+## 2. Choose the Workspace Mode
+
+Honor an explicit request for a worktree or regular branch. Otherwise ask once:
+
+```text
 How would you like to work?
 
-1. Worktree (recommended, default) — Isolated workspace for parallel or multi-agent work
-2. Regular branch — Simple git checkout
+1. Worktree (recommended) - isolated workspace for parallel work
+2. Regular branch - switch this clean checkout to a new branch
 ```
 
-If no preference is expressed after asking, default to worktree. Strongly prefer
-worktrees when multiple agents may be active, when the current checkout has
-unrelated changes, or when the user asks to start independent work.
+Default to a worktree after asking when the user has no preference. Strongly
+prefer worktrees for parallel/multi-agent work or when the current checkout has
+unrelated changes.
 
-## Integration Rule
+Use the repository's branch convention when documented. Otherwise use a short
+descriptive name with an appropriate prefix such as `feat/`, `fix/`, `docs/`,
+`refactor/`, `test/`, or `chore/`. In Codex repositories, honor any configured
+`codex/` prefix.
 
-When refreshing from upstream or resolving conflicts, prefer a rebase-based
-workflow that preserves the original intent of the work:
+## 3. Resolve the Remote Baseline
+
+Fetch first, then determine and verify the remote default branch:
 
 ```bash
-git fetch origin
-git rebase origin/<main-branch>
+git -C "$REPO_ROOT" fetch origin --prune
+MAIN_BRANCH=$(git -C "$REPO_ROOT" symbolic-ref --short refs/remotes/origin/HEAD 2>/dev/null | sed 's#^origin/##')
+
+if [ -z "$MAIN_BRANCH" ]; then
+  MAIN_BRANCH=$(git -C "$REPO_ROOT" remote show origin | sed -n 's/.*HEAD branch: //p')
+fi
+
+test -n "$MAIN_BRANCH" || {
+  echo "Unable to determine origin's default branch"
+  exit 1
+}
+git -C "$REPO_ROOT" show-ref --verify "refs/remotes/origin/$MAIN_BRANCH"
 ```
 
-During conflicts, keep the behavior the branch was trying to introduce unless
-the user explicitly changes direction. Avoid merge commits unless the repository
-requires them or the user asks for one.
+If `origin` is absent, authentication fails, or the default branch remains
+ambiguous, stop and report the exact condition instead of guessing.
 
-## Branch Naming Convention
-
-Use these prefixes based on the type of work:
-- `feat/` - New features (e.g., `feat/user-authentication`)
-- `fix/` - Bug fixes (e.g., `fix/login-validation`)
-- `docs/` - Documentation changes
-- `refactor/` - Code restructuring
-- `test/` - Adding or updating tests
-- `chore/` - Maintenance tasks
-
----
-
-## Mode 1: Regular Branch
-
-### Step 1: Check Repository Exists
+Before creating a branch, check for collisions:
 
 ```bash
-ls -la /path/to/repo/.git
+git -C "$REPO_ROOT" show-ref --verify --quiet "refs/heads/$BRANCH_NAME"
+git -C "$REPO_ROOT" worktree list --porcelain
 ```
 
-If not exists, clone from remote:
-```bash
-git clone <remote-url>
-cd repo-name
-```
+If the branch already exists or is checked out elsewhere, reuse it only when
+the user intended that; otherwise choose or ask for a different name.
 
-### Step 2: Fetch Latest Changes
+## 4. Create a Regular Branch
 
-```bash
-git fetch origin
-```
-
-### Step 3: Determine Main Branch
+Require a clean checkout, then create the feature branch directly from the
+verified remote baseline. Do not switch to or rewrite local `main` merely to
+start new work.
 
 ```bash
-MAIN_BRANCH=$(git symbolic-ref --short refs/remotes/origin/HEAD 2>/dev/null | sed 's#^origin/##')
-test -n "$MAIN_BRANCH" || MAIN_BRANCH=$(git remote show origin | sed -n 's/.*HEAD branch: //p')
+git -C "$REPO_ROOT" switch -c "$BRANCH_NAME" "origin/$MAIN_BRANCH"
 ```
 
-Common names: `main`, `master`, `develop`
-
-### Step 4: Checkout Latest Main
+When the user explicitly asks to refresh an existing feature branch, fetch and
+rebase that branch onto the verified remote baseline only from a clean checkout:
 
 ```bash
-git switch --track -c "$MAIN_BRANCH" "origin/$MAIN_BRANCH"
+git -C "$REPO_ROOT" switch "$BRANCH_NAME"
+git -C "$REPO_ROOT" rebase "origin/$MAIN_BRANCH"
 ```
 
-If the local main branch already exists, update it by rebasing onto the remote
-default branch rather than creating a merge commit:
+Preserve the branch's intended behavior during conflicts. Avoid merge commits
+unless repository policy or the user requires them. If the user asks to update
+the local default branch and it has diverged from upstream, report the
+divergence before rewriting it.
+
+## 5. Create a Worktree
+
+### Select a Location
+
+Check project-local locations from the repository root, then inspect loaded
+repo guidance such as root `AGENTS.md` or `CLAUDE.md` for a convention:
 
 ```bash
-git switch "$MAIN_BRANCH"
-git rebase "origin/$MAIN_BRANCH"
+LOCATION=
+test -d "$REPO_ROOT/.worktrees" && LOCATION="$REPO_ROOT/.worktrees"
+test -z "$LOCATION" && test -d "$REPO_ROOT/worktrees" && LOCATION="$REPO_ROOT/worktrees"
 ```
 
-### Step 5: Create New Branch
+If no convention exists, ask the user to choose:
 
-If user specified a branch name:
-```bash
-git switch -c <prefix>/<description>
-```
+1. `<repo>/.worktrees/` - project-local, hidden
+2. `<repo>/worktrees/` - project-local
+3. `~/.config/worktrees/` - outside the repository
 
-If user didn't specify, ask them:
-- What type of work? (feature/fix/docs/refactor)
-- What is the short description?
-
-Example:
-```bash
-git switch -c feat/user-login
-```
-
-### Step 6: Confirm
-
-Report:
-- Branch name created
-- Current branch
-- Any relevant next steps
-
----
-
-## Mode 2: Worktree (Isolated Workspace)
-
-**Core principle:** Systematic directory selection + safety verification = reliable isolation.
-
-### Directory Selection Process
-
-Follow this priority order:
-
-#### 1. Check Existing Directories
+For a project-local location, verify the prospective worktree path is ignored:
 
 ```bash
-# Check in priority order
-ls -d .worktrees 2>/dev/null     # Preferred (hidden)
-ls -d worktrees 2>/dev/null      # Alternative
+git -C "$REPO_ROOT" check-ignore -q "$LOCATION/$BRANCH_NAME"
 ```
 
-**If found:** Use that directory.
+If it is not ignored, do not create the worktree there yet. Ask before editing
+`.gitignore`, then re-run `git check-ignore`. A location outside the repository
+does not need this check.
 
-#### 2. Check CLAUDE.md
+### Create from the Remote Baseline
+
+Build an explicit absolute path and create the new branch from the verified
+remote default branch:
 
 ```bash
-grep -i "worktree.*director" CLAUDE.md 2>/dev/null
-```
+project=$(basename "$REPO_ROOT")
 
-**If preference specified:** Use it without asking.
-
-#### 3. Ask User
-
-If no directory exists and no CLAUDE.md preference:
-```
-No worktree directory found. Where should I create worktrees?
-
-1. .worktrees/ (project-local, hidden)
-2. worktrees/ (project-local)
-3. ~/.config/worktrees/<project>/ (global)
-
-Which would you prefer?
-```
-
-### Safety Verification
-
-**CRITICAL: Must verify directory is ignored before creating worktree.**
-
-#### For Project-Local Directories (.worktrees or worktrees)
-
-```bash
-# Check if directory is ignored (respects local, global, and system gitignore)
-git check-ignore -q .worktrees 2>/dev/null && echo "IGNORED" || echo "NOT_IGNORED"
-git check-ignore -q worktrees 2>/dev/null && echo "IGNORED" || echo "NOT_IGNORED"
-```
-
-**If NOT ignored:**
-
-1. Add the appropriate line to `.gitignore`.
-2. Include that `.gitignore` update in the current change or ask before making a
-   separate setup commit.
-3. Proceed with worktree creation after Git confirms the directory is ignored.
-
-**Why critical:** Prevents accidentally committing worktree contents to repository.
-
-#### For Global Directory (~/.config/worktrees)
-
-No .gitignore verification needed — outside project entirely.
-
-### Creation Steps
-
-#### Step 1: Detect Project Name and Main Branch
-
-```bash
-project=$(basename "$(git rev-parse --show-toplevel)")
-MAIN_BRANCH=$(git symbolic-ref --short refs/remotes/origin/HEAD 2>/dev/null | sed 's#^origin/##')
-test -n "$MAIN_BRANCH" || MAIN_BRANCH=$(git remote show origin | sed -n 's/.*HEAD branch: //p')
-```
-
-Common fallback values for `MAIN_BRANCH` are `main`, `master`, and `develop`.
-
-#### Step 2: Create Worktree
-
-```bash
-# Determine full path
-case $LOCATION in
-  .worktrees|worktrees)
-    path="$LOCATION/$BRANCH_NAME"
+case "$LOCATION" in
+  "$REPO_ROOT/.worktrees"|"$REPO_ROOT/worktrees")
+    WORKTREE_PATH="$LOCATION/$BRANCH_NAME"
     ;;
-  ~/.config/worktrees/*)
-    path="$LOCATION/$project/$BRANCH_NAME"
+  *)
+    WORKTREE_PATH="$LOCATION/$project/$BRANCH_NAME"
     ;;
 esac
 
-# Create worktree with new branch from the latest remote default branch
-git fetch origin
-git worktree add "$path" -b "$BRANCH_NAME" "origin/$MAIN_BRANCH"
-cd "$path"
+git -C "$REPO_ROOT" worktree add "$WORKTREE_PATH" -b "$BRANCH_NAME" "origin/$MAIN_BRANCH"
+git -C "$WORKTREE_PATH" status --short --branch
 ```
 
-#### Step 3: Run Project Setup
+Do not assume uncommitted files from the original checkout appear in the new
+worktree. Do not copy, stash, or move them without explicit user direction.
 
-Auto-detect and run appropriate setup:
+## 6. Report the Result
 
-```bash
-# Node.js
-if [ -f package.json ]; then npm install; fi
+Report:
 
-# Python
-if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-if [ -f pyproject.toml ]; then uv sync; fi
+- workspace mode, absolute path, and branch name
+- verified remote baseline (`origin/<default-branch>` and commit)
+- whether existing changes were preserved in another checkout
+- any branch/path collision, missing remote, or unresolved default branch
 
-# Rust
-if [ -f Cargo.toml ]; then cargo build; fi
-
-# Go
-if [ -f go.mod ]; then go mod download; fi
-```
-
-#### Step 4: Verify Clean Baseline
-
-Run tests to ensure worktree starts clean:
-```bash
-# Use project-appropriate command
-npm test
-cargo test
-pytest
-go test ./...
-```
-
-**If tests fail:** Report failures, ask whether to proceed or investigate.
-
-**If tests pass:** Continue.
-
-### Step 5: Report Location
-
-```
-Worktree ready at <full-path>
-Tests passing (<N> tests, 0 failures)
-Ready to implement <feature-name>
-```
-
----
-
-## Common Mistakes to Avoid
-
-### Skipping ignore verification
-
-- **Problem:** Worktree contents get tracked, pollute git status
-- **Fix:** Always use `git check-ignore` before creating project-local worktree
-
-### Assuming directory location
-
-- **Problem:** Creates inconsistency, violates project conventions
-- **Fix:** Follow priority: existing > CLAUDE.md > ask
-
-### Proceeding with failing tests
-
-- **Problem:** Can't distinguish new bugs from pre-existing issues
-- **Fix:** Report failures, get explicit permission to proceed
-
-### Hardcoding setup commands
-
-- **Problem:** Breaks on projects using different tools
-- **Fix:** Auto-detect from project files (package.json, etc.)
+For dependency setup and baseline tests, hand off to `swe:start-work` or follow
+the repository's documented workflow when the user explicitly requests it.

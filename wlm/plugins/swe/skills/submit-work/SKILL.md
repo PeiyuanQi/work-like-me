@@ -1,11 +1,11 @@
 ---
 name: submit-work
-description: "Use when submitting software engineering work for review: opening a pull request or merge request, preparing a branch for review, running independent code review, finding a reviewer, notifying the reviewer, or handling \"create PR\", \"open MR\", \"submit this\", or \"ready for review\" requests. Orchestrates finish-work, create-merge-request, and find-code-reviewer."
+description: "Use for end-to-end submission of software work for human review: prepare, check, commit, and push as needed; create a PR/MR; run independent review; and identify a reviewer. Trigger on requests such as \"submit this for review\", \"prepare and route this PR\", or \"ready for review\" when the user wants the full workflow. Do not use for isolated commit/push (swe:finish-work), isolated PR/MR creation (swe:create-merge-request), reviewer lookup (swe:find-code-reviewer), or notification only (worker:notify-reviewer). Reviewer assignment or notification requires explicit user authorization."
 ---
 
 # Submit Work
 
-Version: 1.0.0
+Version: 1.1.0
 
 Submit finished code for human review with the branch current, pushed, reviewed,
 and routed to the right reviewer.
@@ -23,15 +23,22 @@ and routed to the right reviewer.
    - Read `references/review-routing.md` for review and routing expectations.
 
 3. Run independent review.
-   - Follow `create-merge-request` review guidance.
+   - Read `swe:create-merge-request`'s
+     `references/code-review-guidance.md` before reviewing the compare.
    - Prefer a high-effort subagent review when available.
    - If no subagent is available, do the review locally and say so.
+   - Treat unresolved blocking findings as submission blockers; do not present
+     the branch as ready without calling them out.
 
 4. Route to a human reviewer.
-   - Use `swe:find-code-reviewer` for code review ownership.
-   - Use `worker:notify-reviewer` only when the worker plugin is available.
-   - If notification tooling is unavailable, return the reviewer and message
-     draft instead of pretending notification happened.
+   - Use `swe:find-code-reviewer` to identify and rank candidates.
+   - Do not request, assign, or notify a reviewer unless the user explicitly
+     asked for that external state change.
+   - When notification is authorized, use `worker:notify-reviewer` only when
+     the worker plugin is available.
+   - Without authorization or notification tooling, return the reviewer
+     recommendation and a ready-to-send message draft instead of pretending a
+     request or notification happened.
 
 ## Safety Checks
 
@@ -40,6 +47,8 @@ and routed to the right reviewer.
   confirmation that the remote state is expected.
 - Do not use `worker:find-poc` for code review routing.
 - Do not skip independent review unless the user explicitly asks.
+- Do not treat "submit", "ready", or PR creation alone as authorization to
+  contact or assign a human reviewer.
 
 ## Completion Report
 

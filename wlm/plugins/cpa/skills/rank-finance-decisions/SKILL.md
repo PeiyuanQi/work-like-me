@@ -1,6 +1,6 @@
 ---
 name: rank-finance-decisions
-description: Use when ranking tax, personal finance, accounting, filing, bookkeeping, liquidity, investment-adjacent, insurance, debt, entity, or household money decisions according to an anonymized blog-derived decision-making and value pattern. Provides general workflow support, not licensed financial, tax, accounting, or legal advice.
+description: Use when the user wants to compare, rank, prioritize, or choose among tax, personal finance, accounting, filing, bookkeeping, liquidity, investment-adjacent, insurance, debt, entity, or household money options, including "which is better?" and "should I do A or B?" decisions. Apply an anonymized blog-derived decision-making and value pattern. Use tax-intake-and-research instead for standalone tax research or document organization that does not require comparing options. Provides general workflow support, not licensed financial, tax, accounting, investment, insurance, or legal advice.
 ---
 
 # Rank Finance Decisions
@@ -59,12 +59,19 @@ Rank lower the option that:
 
 ## Finance-Specific Guardrails
 
-- For tax rules, browse or otherwise verify current official guidance when the
-  answer depends on current law, threshold amounts, deadlines, forms, or rates.
-- Do not invent exact thresholds, deductions, rates, or filing rules.
+- Verify current first-party or official sources when the ranking depends on
+  tax law, thresholds, deadlines, forms, rates, loan terms, employer-plan
+  rules, account fees, insurance coverage, or product terms. State the
+  relevant effective or as-of date.
+- Do not invent exact thresholds, deductions, rates, fees, coverage terms, or
+  filing rules. Treat the user's contract, plan document, policy, statement,
+  or agency record as the source of truth for user-specific terms.
 - For audits, penalties, amended returns, entity structuring, large transactions,
   or aggressive filing positions, recommend a CPA, EA, tax attorney, or
   appropriate licensed professional.
+- For material securities, insurance, or debt decisions, separate education
+  and arithmetic from personalized advice and recommend an appropriately
+  licensed or fiduciary professional when suitability or liability matters.
 - Keep documentation and source-of-truth files central. A good choice that
   cannot be documented is usually not good enough.
 

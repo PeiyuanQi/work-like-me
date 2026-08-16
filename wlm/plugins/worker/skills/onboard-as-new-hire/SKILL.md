@@ -1,170 +1,130 @@
 ---
 name: onboard-as-new-hire
-description: Onboard the agent itself by discovering communication tools, office suites, and organizational structure. Use when user asks to onboard the agent, set up agent context, agent needs to learn about the team, or discover available tools. Triggers for phrases like "onboard yourself", "introduce yourself to the team", "what tools do we use", "discover communication tools", "set up your context", etc.
+description: Onboard the agent into a company as a new hire by learning the organization's business, structure, people, approved tools, policies, terminology, communication practices, and operating norms, then recording verified workplace context in canonical memory. Use when the user asks the agent to "onboard yourself," learn the company, understand how the organization works, discover workplace tools or key contacts, or prepare to operate as a company teammate. Do not use for project, repository, development-environment, or coding-agent onboarding; use swe:onboard-repo or swe:start-work for those tasks.
 ---
 
 # Onboard as New Hire
 
-Version: 1.0.0
+Version: 1.2.0
 
-This skill helps an agent onboard itself by discovering and documenting the team's communication tools, office suites, and organizational structure — the same context a new human hire would need.
+Build a source-backed company map similar to the context a human new hire needs. Learn
+the organization before narrowing into individual assignments. Minimize questions,
+avoid unsupported claims, and preserve the user's control over external actions.
 
-## Memory Structure
+## Keep Company and Project Onboarding Separate
 
-The memory is organized into three main sections:
+This is company onboarding, not project onboarding.
 
-```
-memory/
-├── corps/           # Company-level information
-│   └── tools/       # Communication and office tools
-├── projects/        # Project-specific information
-│   └── [project]/  # Per-project folders
-└── teams/           # Team and organizational information
-    └── [team]/     # Per-team folders
-```
+- Focus on the company, business, organization, teams, people, workplace systems,
+  policies, terminology, culture, and ways of working.
+- Do not inspect the current repository merely because it is the working directory.
+- Do not set up source code, dependencies, branches, worktrees, development tools, or
+  project documentation.
+- Do not treat a repository README, package manifest, issue tracker, or code ownership
+  file as evidence about the company unless the user or an authoritative workplace
+  source identifies it as company documentation.
+- If the request is really about joining a software project or preparing a repository,
+  stop this workflow and route to `swe:onboard-repo` or `swe:start-work`.
 
-Each folder should have a time-based subfolder label in format `YYYY-MM/` to track when information was added.
+## Establish Scope
 
-## Discovery Process
+Determine the company, business unit, office or region, team, role, and depth of
+onboarding requested. Infer these from available context and ask only when a missing
+detail would materially change the sources searched or information saved.
 
-### Step 1: Ask Discovery Questions
+Treat onboarding as permission to inspect relevant context read-only and document the
+result. It does not authorize messaging people, joining channels, changing permissions,
+installing plugins, or connecting accounts.
 
-Start by asking the user questions to discover the team's tools so the agent can operate effectively. Frame questions conversationally — as if you were a new team member asking about the tools available to you:
+## Reuse Existing Context First
 
-**Communication Tools:**
-- "What chat tool does your team use most? Slack, Microsoft Teams, Google Chat, Discord, or something else?"
-- "Do you use any other communication tools besides [primary tool]?"
-- "Which tool should I use to communicate with the team on your behalf?"
+1. Use `worker:search-memory` for existing company, organization, team, tool, policy,
+   terminology, and contact context before asking the user questions.
+2. If memory roots are ambiguous or fragmented, use `worker:consolidate-memory` to find
+   the canonical store. Do not choose or create an arbitrary relative `memory/` tree.
+3. Inventory the tools, apps, connectors, and local capabilities already available to
+   the agent. Distinguish an available integration from a verified signed-in or
+   authorized account.
+4. Inspect relevant user-provided or connected sources read-only when available, such
+   as the company handbook, official intranet or wiki, org chart, employee directory,
+   shared drive, policy library, communication search, service catalog, or workplace
+   calendar. Prefer authoritative company sources over broad filesystem, repository,
+   or message-history searches.
 
-**Office Suites:**
-- "Does your company use Microsoft Office, Google Workspace (formerly G Suite), or Feishu/Lark?"
-- "What's your primary email platform?"
-- "What tools do I have access to for creating or editing documents?"
+Do not request installation or connection of a missing integration unless the user asks
+to extend access. Otherwise, record the gap and suggest the narrowest useful next step.
 
-**Organization:**
-- "What's the team name and who are the key team members?"
-- "Are there any peer teams or departments we should know about?"
-- "Who should I coordinate with for [specific tasks]?"
+## Build the Workplace Map
 
-### Step 2: Document Findings in Memory
+Gather only durable facts useful for operating inside the company:
 
-After discovering the tools, create or update memory files:
+- **Company:** mission, business model, products or services, customers, major business
+  units, locations, and company-specific terminology when supported by current sources.
+- **Communication:** approved chat and email systems, official team channels, and which
+  medium is used for announcements, routine coordination, or urgent escalation.
+- **Office and knowledge tools:** document, spreadsheet, presentation, file-sharing,
+  wiki, meeting, and calendar systems that are relevant to the user's work.
+- **Organization:** verified team name, roles, reporting or ownership relationships,
+  peer teams, and official routing channels. Use `worker:find-poc` when ownership or a
+  point of contact must be established.
+- **Policies and operating norms:** security and privacy expectations, approval paths,
+  working hours or location norms, recurring company and team meetings, decision
+  records, naming conventions, and other documented working agreements.
+- **Access state:** what the agent can inspect now, what is merely known to exist, and
+  what remains unavailable or unverified.
 
-#### For Corps/Tools (company-wide tools)
+For each material fact, retain the source, source date or observed date, and confidence.
+Do not treat a historical document author, old participant, or visible account as a
+current owner. Flag stale or conflicting evidence rather than silently selecting one.
 
-Create: `memory/corps/tools/YYYY-MM/communication.md`
-```markdown
-# Communication Tools
+## Ask Focused Questions
 
-**Primary Chat Tool:** [tool name]
-**Secondary Tools:** [other tools, if any]
-**Discovery Date:** YYYY-MM-DD
+Ask only for gaps that remain after discovery. Group related questions and prefer
+specific confirmation over a generic interview. Typical gaps include:
 
-## Details
-- [Tool name]: [usage context, channels, etc.]
-```
+- Which company, business unit, location, or team should be primary when several appear
+  relevant?
+- Which documented tool is the official channel when sources conflict?
+- Which work norms are informal and therefore absent from connected sources?
+- Should verified findings be saved to memory when the request was exploratory rather
+  than an instruction to complete onboarding?
 
-Create: `memory/corps/tools/YYYY-MM/office_suite.md`
-```markdown
-# Office Suite
+Never ask the user to repeat information already available in current context or memory.
 
-**Primary Suite:** [Microsoft Office / Google Workspace / Feishu / Lark / Other]
-**Email:** [email platform]
-**Discovery Date:** YYYY-MM-DD
+## Record Verified Context
 
-## Details
-- [Suite name]: [products used, context]
-```
+Use `worker:update-memory` to write confirmed, durable findings to the canonical memory
+store. Organize them under the existing company, organization, or team structure;
+preserve the store's established naming and dating conventions instead of imposing a
+new layout.
 
-#### For Teams
+- Update an existing topic when practical instead of creating duplicate summaries.
+- Preserve provenance and note unresolved conflicts or freshness caveats.
+- Save concise operational facts, not complete messages, documents, or directory dumps.
+- Do not store passwords, tokens, private keys, authentication details, confidential
+  message bodies, or unnecessary personal data.
+- Report the exact memory files created or changed.
 
-Create: `memory/teams/[team-name]/YYYY-MM/info.md`
-```markdown
-# Team: [Team Name]
+## External Introduction
 
-**Discovered:** YYYY-MM-DD
-**Communication Tool:** [tool]
-**Office Suite:** [suite]
-**Key Members:** [names and roles]
+If the user asks the agent to introduce itself, first prepare a short onboarding summary
+or draft. Contact a person or team only when the user explicitly requests the external
+action and the target and channel are unambiguous. Use `worker:contact-new-teammate` for
+a first-contact message when appropriate.
 
-## Notes
-[Any additional context]
-```
+## Verify and Report
 
-#### For Projects (if applicable)
+Before declaring onboarding complete, confirm that:
 
-Create: `memory/projects/[project-name]/YYYY-MM/tools.md`
-```markdown
-# Project: [Project Name]
+- important claims are sourced and current enough for their use;
+- verified access is not confused with an integration merely being available;
+- unresolved gaps and conflicts are explicit;
+- memory writes point to the canonical store and contain no sensitive material;
+- no external message, permission change, installation, or account connection occurred
+  without explicit authorization.
 
-**Discovered:** YYYY-MM-DD
-**Communication:** [tool used for this project]
-**Tools:** [specific tools used]
-
-## Team
-[Associated team members]
-```
-
-## Conflict Resolution
-
-When new information conflicts with existing memory entries:
-
-1. **Compare timestamps**: Check the `YYYY-MM` folder labels
-2. **If new entry is more recent**:
-   - Add the new information with a note about the update
-   - Mark the old entry as "superseded" with a reference to the new file
-3. **If old entry might be outdated**:
-   - Add a comment questioning the old entry
-   - Ask the user to confirm which is correct
-4. **Resolution format**:
-   ```
-   ## Conflict Resolution [YYYY-MM-DD]
-   - Old (from YYYY-MM): [old info]
-   - New (from YYYY-MM): [new info]
-   - Resolution: [explanation]
-   ```
-
-## Memory Queries
-
-The memory should be queriable. When asked about:
-- "What chat tool does the team use?" → Read `memory/corps/tools/*/communication.md`
-- "What office suite?" → Read `memory/corps/tools/*/office_suite.md`
-- "Tell me about [team]" → Read `memory/teams/[team-name]/*/info.md`
-- "What tools for [project]" → Read `memory/projects/[project-name]/*/tools.md`
-
-## Summary Output
-
-After completing onboarding, provide a summary to the user:
-
-```markdown
-# Agent Onboarding Summary
-
-## Communication Tools
-- Primary: [tool]
-- Others: [list]
-- How to reach team: [channels, mentions, etc.]
-
-## Office Suite
-- Suite: [name]
-- Email: [platform]
-- Available tools: [list]
-
-## Team
-- Name: [team name]
-- Members: [list]
-- Key contacts: [who to ask for what]
-
-## Memory Locations
-- Tools: memory/corps/tools/YYYY-MM/
-- Team: memory/teams/[name]/YYYY-MM/
-
-## Next Steps
-- [Suggested first actions with the discovered context]
-```
-
-## Important Notes
-
-- Always use time-based subfolders (YYYY-MM format) for new entries
-- Keep memory files markdown-based for easy reading
-- Ask clarifying questions if tool usage is unclear
-- Update existing files rather than creating duplicates when possible
+Return a concise new-hire briefing with company context, communication and office tools,
+organization and team structure, policies and operating norms, key official contacts or
+channels, verified access, memory files changed, unresolved gaps, and recommended next
+steps. Separate verified facts from user-confirmation needs. Do not include project setup
+or repository orientation in the completion criteria.

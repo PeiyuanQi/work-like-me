@@ -3,7 +3,7 @@
 SWE workflow skills for repository setup, parallel git work, quality checks,
 commit and push, merge-request review, reviewer discovery, virtual environment
 management, agentic project onboarding, security/privacy audits, dependency
-remediation, and verified website publishing.
+remediation, open-source readiness, and verified website publishing.
 
 ## Workflow Skills
 
@@ -57,6 +57,12 @@ Use these directly when the user asks for a specific narrow operation:
 
 ## Security And Maintenance Skills
 
+- `prepare-repository-for-open-source`: audit and prepare a private or internal
+  repository for an OSI-approved open-source release, including public/private
+  boundaries, secrets and Git history, ownership and contributor authority,
+  dependency and asset provenance, community files, CI, package contents, and
+  release governance. Treat restrictive source-available terms as a blocker to
+  calling the project open source.
 - `audit-repository-security-privacy`: perform source-backed security and
   privacy reviews across code, manifests, dependencies, permissions, network,
   storage, updates, and trust boundaries.

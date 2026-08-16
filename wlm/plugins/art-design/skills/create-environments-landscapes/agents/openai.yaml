@@ -1,4 +1,4 @@
 interface:
   display_name: "Environments and Landscapes"
   short_description: "Create atmospheric places with strong depth"
-  default_prompt: "Use $create-environments-landscapes to design an environment or landscape."
+  default_prompt: "Use $art-design:create-environments-landscapes to design an environment or landscape."

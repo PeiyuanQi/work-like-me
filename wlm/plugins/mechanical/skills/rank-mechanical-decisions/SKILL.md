@@ -5,7 +5,7 @@ description: Use when ranking mechanical, hardware, physical build, repair, tool
 
 # Rank Mechanical Decisions
 
-Version: 1.0.0
+Version: 1.0.1
 
 Use this skill for tangible systems where choices touch materials, tools,
 assembly, safety, regulations, repairability, or physical failure. This skill is
@@ -44,11 +44,13 @@ Rank lower the option that:
 1. State the physical decision and the operating context.
 2. List hard gates: safety, legality, licensing, environment, budget, tool
    access, materials, and irreversible damage risk.
-3. Identify the critical function: hold load, seal water, move smoothly, stop
+3. Exclude any option that fails a hard gate. If a safety, legal, or licensing
+   gate is unknown, pause the ranking and verify it instead of treating
+   uncertainty as a score.
+4. Identify the critical function: hold load, seal water, move smoothly, stop
    safely, communicate, power reliably, survive heat, or be maintained.
-4. Rank each option qualitatively on:
-   - Safety margin
-   - Legal/licensing confidence
+5. Rank each remaining option qualitatively on:
+   - Verified operating margin above the safety gate
    - Fit with available tools and skill
    - Failure visibility
    - Repairability
@@ -56,24 +58,29 @@ Rank lower the option that:
    - Parts availability
    - Maintenance burden
    - Reversibility
-5. Recommend the most robust path and the cheapest test that exercises the risky
-   assumption.
+6. Recommend the most robust passing option and the cheapest test that exercises
+   the risky assumption. If no option passes, recommend a no-go or verification
+   step rather than the least-bad option.
 
 ## Mechanical-Specific Heuristics
 
 - When a system fails, find the actual short board before reinforcing the part
   that is easiest to redesign.
-- For regulated devices, verify current rules from official or expert sources
-  before buying parts or operating.
+- For regulated devices, verify current rules from official primary sources
+  before buying parts or operating. Use expert guidance only as a supplement,
+  not a substitute for the controlling rule.
 - For radio, firearms, vehicles, power tools, pressure, heat, batteries, or
-  structural loads, treat safety and licensing as gates, not ranking factors.
+  structural loads, treat minimum safety and licensing as non-negotiable gates.
+  Compare additional operating margin only after every option passes; never let
+  other strengths compensate for a failed or unknown gate.
 - Prefer simple inspection and field repair over sealed cleverness.
 - When documentation is scarce, write down the parts, constraints, mistakes,
   and workaround path as part of the result.
 
 ## Output Shape
 
-- **Recommendation:** the top-ranked option.
+- **Recommendation:** the top-ranked passing option, or a no-go/verification
+  step when no option passes.
 - **Hard Gates:** safety/legal/tool constraints to verify first.
 - **Why This Wins:** the practical value pattern it satisfies.
 - **Hidden Cost:** material, tool, compliance, or maintenance cost.

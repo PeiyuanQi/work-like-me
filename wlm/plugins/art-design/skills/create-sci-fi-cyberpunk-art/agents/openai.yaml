@@ -1,4 +1,4 @@
 interface:
   display_name: "Sci-Fi and Cyberpunk Art"
   short_description: "Create cinematic future-world imagery"
-  default_prompt: "Use $create-sci-fi-cyberpunk-art to art-direct a science-fiction scene."
+  default_prompt: "Use $art-design:create-sci-fi-cyberpunk-art to art-direct a science-fiction scene."

@@ -9,10 +9,12 @@
 
 ## Best-fit modes
 
+- logo, vector mark, or distributable SVG asset
 - icon or emblem family
 - game UI component set
 - fictional interface/FUI
 - motion-design style frame or transition
+- evidence-bound UI or graphic-system critique
 
 ## Visual grammar
 
@@ -46,3 +48,6 @@ Avoid generated readable labels, inconsistent icon perspective, arbitrary glow, 
 - States and variants are distinguishable.
 - Spacing and stroke weight are consistent.
 - Assets remain legible at final size and on required backgrounds.
+- Vector deliverables contain only intended paths, groups, and dependencies, and survive a rendered comparison at target sizes.
+- Audit findings identify visible evidence, a bounded priority, and a verification gate rather than prescribing an unscoped redesign.
+- Motion work defines readable state changes, timing, easing, and continuity instead of presenting disconnected frames.

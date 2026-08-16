@@ -40,7 +40,7 @@ uv run python src/agent.py "task 1" "task 2" "task 3"
 - **update-memory** - Save to memory
 - **notify-reviewer** - Notify MR reviewer
 - **contact-new-teammate** - Contact new teammate
-- **onboard-as-new-hire** - Onboard as new hire
+- **onboard-as-new-hire** - Onboard into a company as a new hire, not into a project
 - **search-memory** - Search memory
 - **rank-office-decisions** - Rank office and daily work choices
 - **ppt-style-selector** - Choose a PPT style before generating a deck

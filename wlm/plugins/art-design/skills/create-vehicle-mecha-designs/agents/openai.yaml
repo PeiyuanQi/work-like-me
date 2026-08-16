@@ -1,4 +1,4 @@
 interface:
   display_name: "Vehicle and Mecha Designs"
   short_description: "Design readable vehicles, mecha, and robots"
-  default_prompt: "Use $create-vehicle-mecha-designs to develop a vehicle or mecha concept."
+  default_prompt: "Use $art-design:create-vehicle-mecha-designs to develop a vehicle or mecha concept."

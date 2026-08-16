@@ -1,4 +1,4 @@
 interface:
   display_name: "Onboard Repo"
   short_description: "Prepare repos for coding agents and humans"
-  default_prompt: "Onboard this repository for agentic software development."
+  default_prompt: "Use $swe:onboard-repo to onboard this repository for agentic software development."

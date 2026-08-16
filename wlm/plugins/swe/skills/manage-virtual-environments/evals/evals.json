@@ -4,31 +4,43 @@
     {
       "id": 1,
       "prompt": "Set up a virtual environment for my Python project that has a requirements.txt file",
-      "expected_output": "Should detect Python, create .venv using uv (or pip venv as fallback), activate it, and install dependencies from requirements.txt",
+      "expected_output": "Should inspect repository guidance and existing environments, detect the host OS, create .venv with uv or standard venv, install through the environment-specific interpreter rather than bare pip, and verify dependency health",
       "files": []
     },
     {
       "id": 2,
       "prompt": "I need to set up my Node.js project with nvm 24. Create the .nvmrc file and install dependencies",
-      "expected_output": "Should detect Node.js, create .nvmrc with version 24, load nvm, install node version 24, use it, and run npm install",
+      "expected_output": "Should distinguish POSIX nvm from nvm-windows, create .nvmrc with version 24, install and select Node 24, use the lockfile-preserving dependency command, and verify Node plus the package manager",
       "files": []
     },
     {
       "id": 3,
       "prompt": "Start work on a new Python project. Set up the virtual environment using uv and create a pyproject.toml",
-      "expected_output": "Should create .venv with uv, set up pyproject.toml, and use uv sync to install dependencies",
+      "expected_output": "Should inspect repository conventions, create .venv with uv, create the requested pyproject.toml without inventing unrelated metadata, sync dependencies, and verify the selected interpreter",
       "files": []
     },
     {
       "id": 4,
       "prompt": "Set up a Go project with go.mod. Download dependencies and verify the build works",
-      "expected_output": "Should detect Go from go.mod, run go mod download, and verify with go build",
+      "expected_output": "Should treat Go as a versioned toolchain rather than a Python-style venv, honor go.mod or go.work, run go mod download, build, and focused tests",
       "files": []
     },
     {
       "id": 5,
       "prompt": "Start a new Rust project with Cargo.toml. Build the project and run cargo test",
-      "expected_output": "Should detect Rust from Cargo.toml, run cargo build, and cargo test to verify",
+      "expected_output": "Should inspect for a pinned Rust toolchain, verify rustup/rustc/cargo, avoid inventing a toolchain pin unless requested, and run cargo build or check plus cargo test",
+      "files": []
+    },
+    {
+      "id": 6,
+      "prompt": "I'm on Windows. The plain python command opens the Microsoft Store, but this repo already has .venv-map-tools\\Scripts\\python.exe. Run the generator with the right environment.",
+      "expected_output": "Should preserve and verify the existing named environment, invoke .venv-map-tools\\Scripts\\python.exe directly, avoid recreating the environment or installing global Python, and verify required imports before running the generator",
+      "files": []
+    },
+    {
+      "id": 7,
+      "prompt": "Rust is missing on this Windows workstation. Install it for this repository and make the setup reproducible.",
+      "expected_output": "Should inspect repository toolchain pins and MSVC prerequisites, prefer Winget installation of Rustup over directly launching a downloaded bootstrap executable, refresh the current-shell Cargo path, select the requested or repository-pinned toolchain, and verify rustc, cargo, and a focused build",
       "files": []
     }
   ]

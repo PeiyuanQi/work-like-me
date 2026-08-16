@@ -7,13 +7,27 @@ description: Create or art-direct atmospheric visual assets for websites, games,
 
 Use this skill to turn a strong reference image or visual direction into reusable image-generation guidance for website and game assets. Preserve the visual grammar, not exact subjects, marks, logos, names, or protected assets. When the reference has Chinese visual cues, abstract them as cultural texture and grand-strategy mood rather than as a project-specific setting.
 
+## Execution and Routing
+
+- When the user requests a finished raster asset, also use the system `imagegen` skill and its current generation, editing, transparency, inspection, and workspace-placement workflow. Do not stop after writing a prompt.
+- When the user requests only art direction, a prompt, or a production brief, return guidance without generating an image.
+- When the primary deliverable is a coherent icon family, exact UI state system, production atlas, or motion-frame system, use `$art-design:create-graphic-ui-motion-art` as the primary structural skill and use this skill for atmosphere, materials, lighting, and cultural register.
+
 ## Workflow
 
 1. Classify the asset before prompting: hero/key art, website section background, editorial illustration, social card, game background, prop/item icon, UI ornament, texture/material reference, sprite concept, or tileable pattern.
 2. Set production constraints: aspect ratio, target pixel size, transparency, text-safe space, crop behavior, animation readiness, tiling, and whether the asset must read at small sizes.
 3. Identify interchangeable slots: topic, cultural register, surface, object vocabulary, material palette, focal clue, lighting, and negative constraints.
-4. Generate or edit 2-4 candidates, then judge the asset in its real use case: page crop, thumbnail, game UI slot, inventory icon, tile repeat, or background behind text.
-5. Iterate with small edits: clear the functional area, simplify silhouettes, strengthen the focal cluster, remove unreadable text, tune lighting, or make the asset more modular.
+4. Generate or edit the requested asset. Use multiple candidates only when the user requests variants or comparison materially reduces risk.
+5. Judge the result in its real use case: page crop, thumbnail, game UI slot, inventory icon, tile repeat, or background behind text.
+6. Iterate with small edits: clear the functional area, simplify silhouettes, strengthen the focal cluster, remove unreadable text, tune lighting, or make the asset more modular.
+
+## Cutouts and Production Atlases
+
+- Generate each distinct icon, ornament, or state as a separate asset. Do not rely on an image model to produce a geometrically exact production atlas or a precise multi-cell inventory.
+- After inspecting and accepting the individual assets, composite them mechanically into a grid with verified cell count, padding, dimensions, and ordering.
+- For transparent output, verify that the saved file has a real alpha channel and inspect corners and empty regions for checkerboards, pale mattes, halos, or baked backgrounds.
+- Downscale cutouts to the intended 64-128 px range and reject silhouettes, internal details, or state differences that do not remain legible.
 
 ## Asset Types
 
@@ -80,4 +94,6 @@ Avoid readable text, logos, protected symbols, UI panels unless requested, gener
 
 ## Response Format
 
-When responding to a user, provide the asset classification, recommended size or aspect ratio, a ready-to-use prompt, an avoidance prompt, and 2-3 concise edit directions for the next generation pass.
+For art-direction-only requests, provide the asset classification, recommended size or aspect ratio, a ready-to-use prompt, an avoidance prompt, and 2-3 concise edit directions.
+
+For completed generation requests, return the selected asset inline or at its saved workspace path, the final specifications and prompt, and brief verification notes for crop, transparency, small-size readability, tiling, or UI fit as applicable.

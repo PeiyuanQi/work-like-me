@@ -1,4 +1,4 @@
 interface:
   display_name: "Illustration and Storytelling"
   short_description: "Create narrative illustrations with clear beats"
-  default_prompt: "Use $create-illustration-storytelling to art-direct a narrative illustration."
+  default_prompt: "Use $art-design:create-illustration-storytelling to art-direct a narrative illustration."

@@ -24,7 +24,9 @@ chmod +x install.sh && ./install.sh
 ./install.sh --codex
 ```
 
-This copies every `SKILL.md` folder from `wlm/plugins/*/skills/` into `${CODEX_HOME:-~/.codex}/skills`.
+This copies every `SKILL.md` folder from `wlm/plugins/*/skills/` into
+`~/.agents/skills`, the user-level Codex skills directory. Existing skill files
+are updated in place; files that exist only in the destination are preserved.
 
 To install to a custom Codex skills directory:
 
@@ -56,9 +58,9 @@ To install to a custom Codex skills directory:
 
 **SWE Plugin** — Software Engineer workflow skills for starting, finishing,
 submitting, and onboarding code work, plus technical writing, security/privacy
-audits, dependency vulnerability remediation, verified website publishing, git,
-review, environment setup, third-party skill references, and software decision
-ranking
+audits, dependency vulnerability remediation, open-source readiness, verified
+website publishing, git, review, environment setup, third-party skill
+references, and software decision ranking
 
 **CPA Plugin** — Tax intake, tax research, filing preparation, personal finance decision ranking, and future CPA workflow skills
 

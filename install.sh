@@ -6,7 +6,7 @@
 #   ./install.sh                              # install Cursor rules to ~/.cursor
 #   ./install.sh --rules-to /path/to/project  # copy rules into a project
 #   ./install.sh --plugin-to /path/to/project # copy wlm plugin into a project
-#   ./install.sh --codex                      # copy skills to ${CODEX_HOME:-~/.codex}/skills
+#   ./install.sh --codex                      # copy skills to ~/.agents/skills
 #
 
 set -e
@@ -36,8 +36,8 @@ confirm_create_dir() {
 
 sync_dir() {
   local src="$1" dst="$2"
-  rsync -a --ignore-existing "${src}/" "${dst}/" 2>/dev/null || {
-    cp -Rn "${src}"/* "${dst}/" 2>/dev/null || true
+  rsync -a "${src}/" "${dst}/" 2>/dev/null || {
+    cp -R "${src}/." "${dst}/"
   }
 }
 
@@ -97,7 +97,7 @@ while [[ $# -gt 0 ]]; do
       ;;
     --codex)
       INSTALL_CODEX=1
-      CODEX_TO="${CODEX_HOME:-${HOME}/.codex}/skills"
+      CODEX_TO="${HOME}/.agents/skills"
       shift
       ;;
     --codex-to)
@@ -117,7 +117,7 @@ Options:
   (no args)              Copy .cursor rules to user profile (~/.cursor).
   --rules-to PATH        Copy .cursor/rules into the project at PATH.
   --plugin-to PATH       Copy wlm/ plugin package into the project at PATH.
-  --codex                Copy all wlm plugin skills to ${CODEX_HOME:-~/.codex}/skills.
+  --codex                Copy all wlm plugin skills to ~/.agents/skills.
   --codex-to PATH        Copy all wlm plugin skills to a specific Codex skills directory.
   -h, --help             Show this help.
 
@@ -128,7 +128,7 @@ Examples:
   ./install.sh --rules-to /Users/me/projects/my-app
   ./install.sh --plugin-to /Users/me/projects/my-app
   ./install.sh --codex
-  ./install.sh --codex-to /Users/me/.codex/skills
+  ./install.sh --codex-to /Users/me/.agents/skills
   ./install.sh --rules-to /Users/me/projects/my-app --plugin-to /Users/me/projects/my-app
 HELP
       exit 0

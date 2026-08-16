@@ -1,40 +1,49 @@
 ---
 name: project-dev-setup
-description: Set up any repository for local development and docs-first feature work. Use when onboarding to a project, starting a local dev session, checking repo-specific workflow conventions, or preparing to work through a feature queue. For end-to-end new work, prefer swe:start-work; for agentic repo onboarding, prefer swe:onboard-repo.
+description: Inspect and prepare an existing repository for local development by discovering repo-local instructions, dependency and environment setup, development commands, and lightweight baseline checks. Use when orienting to a project, checking workflow conventions, preparing dependencies, or establishing the local setup contract without creating or switching branches. For end-to-end new work, prefer swe:start-work; for agentic repo onboarding, prefer swe:onboard-repo.
 ---
 
 # Project Dev Setup
 
-Version: 1.2.0
+Version: 1.3.0
 
-Keep the repository ready for local development and feature delivery.
+Establish the repository's own local-development contract before changing code.
 
 ## Workflow
 
-1. Read the repo's own guidance first. Look for `CLAUDE.md`, `AGENTS.md`, `README.md`, and any docs index or workflow files.
-2. Find the repo's source of truth for pending work if it has one. Follow the local convention already defined by the repo.
-3. Keep docs aligned with code whenever behavior changes.
-4. Identify env files, dev scripts, and dependency setup from the repo's own docs and scripts.
-5. Install Git LFS locally before handling large binaries if the repo uses it.
-6. Ask to use a git worktree for new work so multiple agents can develop in parallel without colliding.
-7. Before creating a new skill or workflow, check whether a third-party skill can be referenced or wrapped. Use `third-party-skill-reference` for that decision.
-8. Start local dev in the foreground and prefer a single-command launcher if the repo provides one.
-9. For frontend work, verify light and dark themes, responsive breakpoints, accessibility, i18n fit, and icon conventions used by the repo.
-10. Before adding third-party code, assets, fonts, icons, tooling, or vendored skill content, check license compatibility with the repo's chosen license and record notices if needed.
-11. When merging or refreshing a branch, use the repo's required merge strategy. If conflicts appear, prefer rebase-based resolution that preserves the original intent, then fetch latest main and clean up.
+1. Locate the relevant repository boundary, including nested repositories, before running setup commands.
+2. Inspect `git status --short --branch` when the target is a Git repository. Treat every existing change as user-owned.
+3. Read the applicable repo guidance completely. Check the nearest `AGENTS.md`, `CLAUDE.md`, `CONTRIBUTING.md`, `README.md`, docs index, and nested instruction files, following the repository's precedence rules.
+4. Derive the setup contract from checked-in evidence: runtime versions, package managers and lockfiles, environment examples, bootstrap commands, required services, development launchers, and lint/test/format commands.
+5. Find the source of truth for pending work only when the task depends on a queue, roadmap, or implementation brief. Follow the repo's existing convention.
+6. Distinguish discovery from mutation. For orientation or convention checks, remain read-only. For an explicit setup request, run the documented setup command and avoid inventing generic install commands when the repo is silent.
+7. If Git LFS is configured, inspect `.gitattributes`, verify whether `git-lfs` is installed or merely missing from `PATH`, and avoid commands that invoke broken clean/smudge filters during read-only inspection. Install or reconfigure LFS only when the task requires it and the user has authorized the needed machine-level change.
+8. Leave branch and worktree creation to `swe:start-work` or `swe:git-start-work`. Do not ask for or create a worktree solely because this setup skill ran; follow repo-local workspace rules when those workflows are invoked.
+9. Before creating a skill or workflow, use `swe:third-party-skill-reference` to decide whether an existing skill should be referenced or wrapped.
+10. Before adding third-party code, assets, fonts, icons, tooling, or vendored skill content, check license compatibility and record required notices.
+11. Run the lightest documented baseline check after setup. Record failures that existed before implementation instead of silently treating them as regressions.
+12. Start a documented development server only when the task needs it. Keep it foregrounded or attached to an interactive session, and report whether it remains running.
 
 ## What To Look For
 
 - Repo-local docs that define process and conventions
+- Repository boundaries and nested instruction scopes
+- Runtime and package-manager version files
 - Dev environment files such as `.env.example`
-- Local dev scripts or package scripts
+- Bootstrap, local dev, lint, test, and format scripts
+- Required local services, ports, and non-secret environment variables
 - Docs-driven feature queues or implementation notes
+- Git LFS attributes, executable availability, and filter health
 - License files and third-party notices
 - Existing third-party skills that could be referenced instead of reimplemented
-- Any frontend-specific design rules already established by the repo
 
-## Notes
+## Safety
 
-- Keep the skill generic and adapt to the repository's own conventions.
-- Do not assume every repo uses the same file names or workflow shape.
-- Treat repo-local docs as the source of truth when they exist.
+- Do not reset, clean, switch branches, or overwrite existing local changes.
+- Do not create real secret files from examples or print secret values.
+- Do not install machine-wide tools, alter global Git configuration, or start background services without task authority.
+- Do not perform merge, rebase, commit, or push operations as part of repository setup.
+
+## Completion Report
+
+Report the repository boundary, guidance files read, setup commands discovered or run, environment requirements, baseline result, and any missing or ambiguous documentation.

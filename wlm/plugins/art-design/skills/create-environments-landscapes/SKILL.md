@@ -9,8 +9,8 @@ Read [references/style-profile.md](references/style-profile.md) before composing
 
 ## Workflow
 
-1. Clarify the deliverable: finished image, prompt, art-direction brief, variation sheet, production concept, or edit of an attached image.
-2. Set output constraints: aspect ratio, pixel size, crop, transparency, text-safe space, target viewing distance, and whether multiple views or states are required.
+1. Infer the deliverable: finished image, prompt, art-direction brief, variation sheet, production concept, or edit of an attached image. Use sensible creative defaults and proceed without reconfirmation when the request is clear; ask only when a required reference image is missing.
+2. Set or infer output constraints: aspect ratio, pixel size, crop, transparency, text-safe space, target viewing distance, and whether multiple views or states are required.
 3. Select one production mode from the style profile and state the image's subject, action, function, environment, and emotional beat.
 4. Build the prompt in this order: intent, composition, form/structure, materials, lighting, palette, technique, production constraints, then avoidance instructions.
 5. When an image-generation or image-editing tool is available and the user requests a finished visual, use it directly; do not stop after writing a prompt.
@@ -26,7 +26,9 @@ Read [references/style-profile.md](references/style-profile.md) before composing
 
 ## Response Format
 
-Return:
+For a finished-image or image-editing request, use the available image tool and return the generated visual directly; do not substitute a prompt package. Add only concise iteration notes when they help the user continue.
+
+For a prompt, brief, variation sheet, or production-concept request, return:
 
 1. **Direction** — one sentence naming the production mode and visual objective.
 2. **Specifications** — aspect ratio/size, composition, camera, lighting, palette, materials, and required variants.

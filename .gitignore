@@ -54,6 +54,7 @@ agent-workspaces/
 # Skill evaluation workspaces
 *-workspace/
 *-evals/
+.skill-audit/
 
 # lock files, we are not releasing anything so lock is not necessary.
 uv.lock

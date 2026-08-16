@@ -5,7 +5,7 @@ description: "Use when starting software engineering work end to end: beginning 
 
 # Start Work
 
-Version: 1.0.0
+Version: 1.0.1
 
 Start a scoped development session from a clean, current baseline. This is the
 high-level entry point for new software engineering work.
@@ -15,6 +15,8 @@ high-level entry point for new software engineering work.
 1. Inspect the current repository state.
    - Run `git status --short --branch`.
    - Treat existing uncommitted changes as user-owned.
+   - If the task depends on current uncommitted work, keep the current checkout
+     and scope edits narrowly so a fresh worktree does not omit that work.
    - If unrelated local changes exist, prefer a new git worktree.
 
 2. Load repo conventions with `swe:project-dev-setup`.
@@ -22,7 +24,10 @@ high-level entry point for new software engineering work.
    - Identify the default branch, package managers, env files, and verification
      commands from the repo itself.
 
-3. Create the development workspace with `swe:git-start-work`.
+3. Choose the development workspace.
+   - Keep the current checkout for a read-only investigation, an already
+     assigned worktree, or work that depends on current uncommitted changes.
+   - Otherwise, create the workspace with `swe:git-start-work`.
    - Prefer a git worktree for parallel or multi-agent work.
    - Use a regular branch only when the user explicitly asks or the repo
      convention requires it.
@@ -49,5 +54,6 @@ high-level entry point for new software engineering work.
 
 ## Completion Report
 
-Report the chosen workspace mode, branch name, path, baseline verification
-result, setup commands run, and any repo docs or commands that were missing.
+Report the chosen workspace mode and why it was kept or created, branch name,
+path, baseline verification result, setup commands run, and any repo docs or
+commands that were missing.

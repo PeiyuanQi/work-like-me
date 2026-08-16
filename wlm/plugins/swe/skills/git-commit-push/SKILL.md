@@ -1,136 +1,136 @@
 ---
 name: git-commit-push
-description: Use when user wants the specific low-level git operation to commit changes, push code to remote, save work, or stage files for commit. Works from either a regular branch or a git worktree. For end-to-end wrap-up with quality checks, prefer swe:finish-work.
+description: Use when the user wants the specific low-level Git operation to stage selected changes, create a commit, push existing commits, or commit and push. Works from either a regular branch or a git worktree. Respect the exact requested endpoint; for end-to-end wrap-up with quality checks, prefer swe:finish-work.
 ---
 
 # Git Commit Push
 
-Version: 1.1.1
+Version: 1.2.0
 
-Commit changes and push to the remote repository using conventional commits
-format. For a full wrap-up flow, prefer `swe:finish-work`.
+Perform only the requested Git mutation while preserving user-owned changes.
 
-## When to Use
+## Establish scope
 
-- User says: "commit", "push code", "save changes", "commit and push"
-- User wants to save their work locally
-- User is ready to share their code remotely
-- User explicitly wants the git operation without the broader finish workflow
+- Match the requested endpoint: stage only, commit only, push only, or commit
+  and push. Do not perform a later step merely because this skill supports it.
+- Run `git status --short --branch` and review both unstaged and staged changes.
+- Treat pre-existing staged, unstaged, and untracked files as user-owned until
+  they are clearly part of the requested scope.
+- If the intended paths are clear from the task and diff, proceed with those
+  paths. If a mixed worktree makes the commit scope materially ambiguous, ask
+  the user before staging or committing.
+- Never reset, clean, restore, checkout, stash, amend, or force-push unrelated
+  work to make the operation easier.
 
-## Preflight
+Useful inspection commands:
+
+```bash
+git status --short --branch
+git diff --name-status
+git diff --cached --name-status
+git diff -- <paths>
+git diff --cached -- <paths>
+```
+
+## Run proportional checks
 
 If formatting, linting, and verification have not already run, use
-`swe:prepare-code-for-commit` before staging. If the user explicitly asks to
-skip checks, say which checks were skipped in the completion report.
+`swe:prepare-code-for-commit` before committing. Scope checks to the intended
+change so formatters do not churn unrelated files. If the user explicitly asks
+to skip checks, report exactly what was skipped.
 
-## Conventional Commits Format
+Stop before committing when required checks fail unless the user explicitly
+accepts the failure. Never commit credentials, private keys, tokens, or obvious
+temporary output.
 
+## Stage the intended change
+
+Prefer explicit pathspecs:
+
+```bash
+git add -- <path1> <path2>
 ```
+
+Use `git add -A` only when the user explicitly wants all repository changes and
+the reviewed status confirms that every change belongs in the commit.
+
+Verify the index before committing:
+
+```bash
+git diff --cached --name-status
+git diff --cached --stat
+git diff --cached --check
+```
+
+If the user asked only to stage files, stop here and report the staged set and
+any remaining unstaged changes.
+
+## Create the commit
+
+Follow the repository's commit convention when one exists. Otherwise use a
+conventional commit with a short imperative subject:
+
+```text
 <type>: <description>
-
-[optional body]
-[optional footer]
 ```
 
-**Types:**
-- `feat` - New feature
-- `fix` - Bug fix
-- `docs` - Documentation
-- `refactor` - Code restructuring
-- `test` - Adding/updating tests
-- `chore` - Maintenance, dependencies
-- `style` - Code style changes
-- `perf` - Performance improvements
-
-## Step 1: Check Git Status
-
-```bash
-git status
-```
-
-Shows:
-- Modified files
-- New untracked files
-- Staged files
-
-## Step 2: Review Changes
-
-Before staging, review what changed:
-```bash
-git diff
-git diff --staged  # if anything is already staged
-```
-
-## Step 3: Stage Changes
-
-Stage all changes:
-```bash
-git add -A
-```
-
-Or stage specific files:
-```bash
-git add <file1> <file2>
-```
-
-## Step 4: Determine Commit Type
-
-Ask user or infer from context:
-- New feature? → `feat`
-- Bug fix? → `fix`
-- Documentation? → `docs`
-- Refactoring? → `refactor`
-- Tests? → `test`
-- Maintenance? → `chore`
-
-## Step 5: Create Commit
+Common types are `feat`, `fix`, `docs`, `refactor`, `test`, `chore`, `style`,
+and `perf`.
 
 ```bash
 git commit -m "<type>: <short description>"
+git show --stat --oneline --summary HEAD
 ```
 
-Examples:
-```bash
-git commit -m "feat: add user login form"
-git commit -m "fix: resolve validation error on empty input"
-git commit -m "docs: update API documentation"
-```
+If a hook changes files or the commit fails, inspect status and diffs again.
+Do not blindly restage the whole repository and retry. If the user asked for a
+local commit only, stop here and state that nothing was pushed.
 
-## Step 6: Push to Remote
+## Synchronize and push
 
-If the user asked for a local commit only, stop after commit and report that the
-branch was not pushed.
-
-Before pushing, check whether the branch has an upstream and whether it is
-behind. If the branch needs to be refreshed, prefer rebasing while preserving
-the original intent of the local work:
+For a push-only request, do not create a new commit. Inspect the current branch,
+remote, and upstream before contacting the remote:
 
 ```bash
-git fetch origin
-git branch -vv
-UPSTREAM=$(git rev-parse --abbrev-ref --symbolic-full-name '@{upstream}' 2>/dev/null || true)
-test -n "$UPSTREAM" && git rebase "$UPSTREAM"
+git branch --show-current
+git remote -v
+git fetch <remote>
+git rev-parse --abbrev-ref --symbolic-full-name "@{upstream}"
+git rev-list --left-right --count "HEAD...@{upstream}"
 ```
 
-If a push is rejected because the remote moved, fetch and rebase instead of
-creating a merge commit. During conflicts, keep the behavior the branch was
-trying to introduce unless the user explicitly changes direction.
+The `rev-list` output is `<local-only> <upstream-only>`. Rebase only when the
+upstream-only count is greater than zero. If unrelated working-tree changes
+make a rebase unsafe, stop and ask rather than stashing, resetting, or cleaning
+them. When the worktree is safe to refresh, prefer:
+
+```bash
+git rebase "@{upstream}"
+```
+
+If no upstream exists, select the intended remote and push with tracking:
+
+```bash
+git push -u <remote> <branch>
+```
+
+Otherwise:
 
 ```bash
 git push
 ```
 
-If the branch does not have an upstream yet:
+If the push is rejected because the remote moved, fetch and re-check the
+ahead/behind relation. Do not create a merge commit or force-push unless the
+repository requires it or the user explicitly authorizes it.
 
-```bash
-git push -u origin <branch-name>
-```
-
-## Step 7: Confirm
+## Confirm the result
 
 Report:
-- Commit hash (short)
-- Number of files changed
-- Branch pushed to
-- Remote URL
-- Checks run or explicitly skipped
+
+- Operation performed and commit hash/subject when applicable
+- Files staged or committed
+- Branch and pushed remote when applicable
+- Checks run, results, and any explicitly skipped checks
+- Remaining staged, unstaged, or untracked changes
+- Remote URL only when useful, with embedded credentials redacted

@@ -1,4 +1,4 @@
 interface:
   display_name: "Audit Repository Security & Privacy"
   short_description: "Trace source-backed security and privacy risks"
-  default_prompt: "Use $audit-repository-security-privacy to audit this repository and its dependency boundaries for concrete security and privacy risks."
+  default_prompt: "Use $swe:audit-repository-security-privacy to audit this repository and its dependency boundaries for concrete security and privacy risks."

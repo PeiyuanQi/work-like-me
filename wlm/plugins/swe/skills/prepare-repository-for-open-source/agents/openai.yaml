@@ -1,0 +1,4 @@
+interface:
+  display_name: "Prepare Repository for Open Source"
+  short_description: "Audit and prepare repositories for open sourcing"
+  default_prompt: "Use $prepare-repository-for-open-source to audit and prepare this repository for open sourcing."

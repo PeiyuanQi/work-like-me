@@ -5,129 +5,113 @@ description: Use when user wants the specific low-level operation to create a me
 
 # Create Merge Request
 
-Version: 1.1.1
+Version: 1.2.0
 
-Create a merge request (MR) or pull request (PR), run an independent review,
-and notify the appropriate reviewer. For a full branch submission flow, prefer
-`swe:submit-work`.
+Create exactly one merge request (MR) or pull request (PR) for an already
+prepared branch. For preparation, independent review, reviewer discovery, and
+notification, use `swe:submit-work`.
 
-## When to Use
+## 1. Inspect Without Rewriting the Branch
 
-- User says: "create merge request", "create PR", "submit for review", "open MR"
-- User wants to merge their branch to main
-- Code is ready for review
-- The branch is already committed or the user specifically asks only for PR/MR
-  creation
+Run:
 
-## Step 0: Confirm Branch Readiness
-
-If there are uncommitted changes or required checks have not run, use
-`swe:finish-work` before creating the PR/MR unless the user explicitly says to
-open a draft or skip that preparation.
-
-## Step 1: Ensure Branch is Current and Pushed
-
-Check if branch exists on remote:
 ```bash
-git status
+git status --short --branch
+git branch --show-current
 git branch -vv
-```
-
-Fetch the target branch and prefer rebasing before submission when the branch is
-behind or conflicts with the target:
-
-```bash
-git fetch origin
-git rebase origin/<target-branch>
-```
-
-During conflicts, preserve the original intent of the branch unless the user
-explicitly changes direction. Avoid merge commits unless the repo requires them
-or the user asks for one.
-
-If not pushed, push the branch:
-```bash
-git push -u origin <branch-name>
-```
-
-If the branch was already pushed and the local rebase rewrote commits, use
-`git push --force-with-lease` only after confirming the remote branch still
-contains the commits you rebased from. Do not use a plain force push.
-
-## Step 2: Determine Platform
-
-Identify the Git platform:
-- GitHub → Pull Request
-- GitLab → Merge Request
-- Bitbucket → Pull Request
-
-Check the remote URL:
-```bash
 git remote -v
 ```
 
-## Step 3: Create MR/PR
+- Do not include uncommitted changes in the request; a PR/MR contains pushed
+  commits only.
+- If the branch still needs checks, commits, or scope cleanup, return to
+  `swe:finish-work` unless the user explicitly wants a draft from the currently
+  committed state.
+- Do not rebase, merge, amend, or force-push merely to create the request. If
+  refresh or conflict repair is needed, report it or perform it only when the
+  user requested that broader work.
+- Stop if the current branch is the target/default branch or if no writable
+  source remote can be identified.
 
-**GitHub (using gh CLI):**
+## 2. Resolve Source, Target, and Existing Requests
+
+- Use the user's target branch when specified. Otherwise derive the remote
+  default branch; do not assume `main`.
+- Account for forks: the pushed source repository can differ from the target
+  repository.
+- Check whether an open PR/MR already exists for the same source and target. If
+  it does, return that URL instead of creating a duplicate.
+
+## 3. Ensure the Prepared Branch Is Published
+
+If the prepared branch has no upstream, push it with tracking:
+
 ```bash
-gh pr create --title "<title>" --body "<description>"
+git push -u <source-remote> <branch-name>
 ```
 
-**GitLab (using glab CLI):**
+If local and remote histories diverge, stop and explain the mismatch. Never use
+a plain force push, and do not use `--force-with-lease` without explicit user
+authorization for the history rewrite.
+
+## 4. Create the PR/MR
+
+Default to a draft request unless the user explicitly asks for ready-for-review
+status. Build a meaningful title and body from the compare range. The body
+should summarize what changed, why, impact, and validation. Use a temporary
+body file for CLI calls so Markdown contains real newlines, then remove it.
+
+### GitHub
+
+Prefer the connected GitHub app's pull-request creation operation after the
+branch is pushed. Derive repository, head, and base explicitly. If the connector
+cannot access the repository or cannot express a forked head, fall back to an
+authenticated GitHub CLI:
+
 ```bash
-glab mr create --title "<title>" --description "<description>"
+gh pr create --draft --repo <owner/repo> --base <target> --head <source> \
+  --title "<title>" --body-file <body-file>
 ```
 
-**GitHub (manual):**
-Open browser to:
+For a fork, pass `<owner>:<branch>` as the head. Omit `--draft` only when the
+user explicitly requests ready-for-review status.
+
+### GitLab
+
+Use the configured GitLab integration when available; otherwise use an
+authenticated GitLab CLI:
+
+```bash
+glab mr create --draft --source-branch <source> --target-branch <target> \
+  --title "<title>" --description "<description>" --yes
 ```
-https://github.com/<owner>/<repo>/compare/<main-branch>...<branch-name>
-```
 
-## Step 4: Get MR Link
+Current `glab` uses `--description`, not `--description-file`; preserve real
+newlines with the shell's safe file-content argument handling. Confirm the
+installed version supports the selected flags and adapt to its documented
+equivalents when necessary.
 
-Store the MR/PR URL returned from the command or extract from browser.
+### Other Hosts or Manual Fallback
 
-## Step 5: Run Independent Code Review
+Use the repository's configured provider integration or CLI. If no creation
+tool is available, return the exact compare/create URL and a ready-to-paste
+title/body. Do not claim the request was created.
 
-Before requesting human review, load:
+## 5. Verify and Return
 
-`references/code-review-guidance.md`
+Read the created request back from the provider and verify:
 
-Then prefer sending a subagent with the highest available effort/reasoning
-setting to review the MR/PR. Give the subagent the MR/PR URL, target branch,
-changed-file list, relevant diff or compare range, and the instruction to load
-and follow `references/code-review-guidance.md` from this skill.
+- URL and open state
+- source and target branches
+- draft versus ready-for-review status
+- title and body presence
 
-The subagent should return review findings ordered by severity, including file
-and line references when possible. If subagents are unavailable, perform this
-review locally using the same reference guidance and say that a subagent review
-was not available.
+Return those fields plus any remaining blocker. Never merge the request unless
+the user separately and explicitly asks.
 
-## Step 6: Find Reviewer
+## Submission-Flow Boundary
 
-**REQUIRED SUB-SKILL:** Use `swe:find-code-reviewer` to identify the appropriate
-human reviewer for code review. Use `worker:find-poc` only for non-code POC
-requests.
-
-The reviewer skill will search memory and the repo for:
-- Team structure
-- CODEOWNERS file
-- Git blame for recent changes
-- Team directory
-
-## Step 7: Notify Reviewer
-
-**REQUIRED SUB-SKILL WHEN AVAILABLE:** Use `worker:notify-reviewer` to send the
-MR link to the appropriate communication channel. If the worker plugin or
-notification tooling is unavailable, return the reviewer and a concise message
-draft instead of claiming notification happened.
-
-## Step 8: Confirm
-
-Report:
-- MR/PR URL
-- Independent review result or fallback
-- Reviewer name
-- Notification method used
-- Any notes for the user
+This low-level skill does not independently run code review, select reviewers,
+or notify people. When called by `swe:submit-work`, return the verified request
+metadata so that orchestrator can load `references/code-review-guidance.md`,
+run the independent review, and handle reviewer routing.

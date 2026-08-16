@@ -1,259 +1,233 @@
 ---
 name: manage-virtual-environments
-description: Use when user wants to set up, create, or manage virtual environments for Python, Node.js, or other programming language projects. Triggers on "set up virtual environment", "create venv", "activate virtual env", "manage python environment", "node environment setup", "nvm", "uv", "pipenv", "virtualenv", or when starting work on a new project that needs environment configuration. Essential for maintaining clean, isolated coding environments — always use this skill when setting up project environments.
+description: Set up, reuse, repair, pin, or verify isolated project environments and language toolchains for Python, Node.js, Rust, and other development stacks. Use for requests such as "set up a virtual environment", "create venv", "activate the environment", "install dependencies", "use uv", "use nvm", "create .nvmrc", "install Rust", or when project work is blocked by a missing or wrong runtime. Prefer repository-declared versions, existing environments, lockfiles, and user-scope tooling over global mutation.
 ---
 
 # Manage Virtual Environments
 
-Version: 1.1.0
+Version: 1.2.0
 
-Set up and manage isolated virtual environments for programming projects. This skill detects project languages and creates appropriate environments using the best available tools.
+Create or select a reproducible project environment without damaging an
+existing toolchain or silently changing dependency intent.
 
-## Why This Matters
+## 1. Inspect Before Changing Anything
 
-- **Isolation** — Prevents dependency conflicts between projects
-- **Reproducibility** — Ensures consistent environments across machines
-- **Best practices** — Uses modern, fast tools (uv, nvm) with fallbacks
+1. Read repository instructions and setup documentation.
+2. Inspect manifests, lockfiles, and version pins such as `pyproject.toml`,
+   `uv.lock`, `requirements*.txt`, `package.json`, `package-lock.json`,
+   `pnpm-lock.yaml`, `.nvmrc`, `.node-version`, `rust-toolchain.toml`,
+   `Cargo.toml`, and `Cargo.lock`.
+3. Check `git status` and preserve user-owned changes.
+4. Reuse a documented or existing environment before creating another one.
+5. Detect the host OS and shell before choosing commands.
 
-## Step 1: Detect Project Language
+Useful inventory commands:
 
-Scan the project directory to identify the primary language:
-
-```bash
-# Check for Python
-ls -la | grep -E "(requirements\.txt|pyproject\.toml|Pipfile|setup\.py)"
-test -f "requirements.txt" || test -f "pyproject.toml" || test -f "Pipfile" && echo "python"
-
-# Check for Node.js
-ls -la | grep -E "(package\.json|\.nvmrc|node_modules)"
-test -f "package.json" && echo "nodejs"
-
-# Check for other languages
-test -f "Cargo.toml" && echo "rust"
-test -f "go.mod" && echo "go"
-test -f "pom.xml" && echo "java"
-find . -maxdepth 2 -name "*.csproj" -print -quit | grep -q . && echo "csharp"
+```powershell
+# Windows PowerShell
+Get-Command uv, py, python, python3, node, npm, nvm, fnm, rustup, rustc, cargo `
+  -ErrorAction SilentlyContinue | Select-Object Name, Source
+Get-ChildItem -Force -Directory | Where-Object Name -Match '^\.?(venv|env)'
 ```
 
-If no language detected, ask the user what language they're working with.
-
----
-
-## Step 2: Python Virtual Environment
-
-### Option A: Using uv (Preferred — Fast, Modern)
-
 ```bash
-# Check if uv is available
-command -v uv && echo "uv available" || echo "uv not found"
+# POSIX shell
+for command_name in uv python3 python node npm nvm fnm rustup rustc cargo; do
+  command -v "$command_name" 2>/dev/null || true
+done
+find . -maxdepth 1 -type d \( -name '.venv*' -o -name 'venv*' -o -name 'env*' \)
 ```
 
-**If uv is available:**
+Do not trust command discovery alone. On Windows, `python.exe` or `python3.exe`
+may be a disabled Microsoft Store alias. Run the candidate executable with
+`--version` before relying on it.
+
+## 2. Python
+
+### Prefer an existing environment
+
+In automated tool calls, invoke the environment's interpreter directly because
+activation does not persist across separate shell calls:
+
+```powershell
+& '.\.venv\Scripts\python.exe' --version
+& '.\.venv\Scripts\python.exe' -m pip check
+```
+
 ```bash
-# Create virtual environment in .venv
+.venv/bin/python --version
+.venv/bin/python -m pip check
+```
+
+Adapt the path when the repository uses a named environment such as
+`.venv-map-tools`. Do not delete or recreate an existing environment merely
+because bare `python` is unavailable.
+
+### Create with uv when the repository supports it
+
+```powershell
 uv venv .venv
-
-# Activate and install dependencies
-source .venv/bin/activate
-
-# Install from pyproject.toml (preferred)
-uv sync
-
-# OR install from requirements.txt
-uv pip install -r requirements.txt
-
-# OR install specific packages
-uv pip install <package-name>
+if (Test-Path 'uv.lock') { uv sync --locked } else { uv sync }
 ```
 
-**Best practices with uv:**
-- Use `uv sync` for projects with `pyproject.toml`
-- Use `uv pip install -r requirements.txt` for legacy projects
-- Add `.venv/` to `.gitignore`
+```bash
+uv venv .venv
+if [ -f uv.lock ]; then uv sync --locked; else uv sync; fi
+```
 
-### Option B: Using pip venv (Fallback)
+For a requirements-based project:
+
+```powershell
+uv venv .venv
+uv pip install --python '.\.venv\Scripts\python.exe' -r requirements.txt
+```
 
 ```bash
-# Check if python3 is available
-command -v python3 && echo "python3 available"
+uv venv .venv
+uv pip install --python .venv/bin/python -r requirements.txt
+```
 
-# Create virtual environment
+### Fall back to the standard library venv
+
+```powershell
+py -3 -m venv .venv
+& '.\.venv\Scripts\python.exe' -m pip install --upgrade pip
+& '.\.venv\Scripts\python.exe' -m pip install -r requirements.txt
+```
+
+```bash
 python3 -m venv .venv
+.venv/bin/python -m pip install --upgrade pip
+.venv/bin/python -m pip install -r requirements.txt
+```
 
-# Activate
+Use `python -m pip`, not bare `pip`, so installation targets the intended
+interpreter. For an interactive shell, activation is optional convenience:
+
+```powershell
+.\.venv\Scripts\Activate.ps1
+```
+
+```bash
 source .venv/bin/activate
-
-# Upgrade pip
-pip install --upgrade pip
-
-# Install dependencies
-pip install -r requirements.txt
-
-# OR for pyproject.toml projects
-pip install -e .
 ```
 
----
+## 3. Node.js
 
-## Step 3: Node.js Virtual Environment
+1. Prefer the version in repository docs, `.nvmrc`, `.node-version`, the
+   `package.json` `engines` field, or Volta configuration.
+2. Use the already-adopted version manager. Do not add a second manager without
+   a clear need.
+3. Treat POSIX `nvm` and Windows `nvm-windows` as different tools. Do not set
+   Unix `NVM_DIR` initialization on Windows.
 
-### Check nvm Availability
+POSIX `nvm`:
 
 ```bash
-# Check if nvm is installed
-command -v nvm && nvm --version || echo "nvm not found"
-
-# Or check via loaded nvm
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-nvm --version
+export NVM_DIR="${NVM_DIR:-$HOME/.nvm}"
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+nvm install  # reads .nvmrc when present
+nvm use
 ```
 
-### Using nvm for Node.js Projects
+Windows `nvm-windows`:
 
-Set `REQUESTED_NODE_VERSION` when the user explicitly asks for a version such as
-`24`. Leave it empty when the version should come from repo docs or `.nvmrc`.
-
-```bash
-# Ensure nvm is loaded
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-
-# Check if .nvmrc exists in project
-if [ -f ".nvmrc" ]; then
-  nvm install  # Installs version from .nvmrc
-  nvm use
-elif [ -n "$REQUESTED_NODE_VERSION" ]; then
-  nvm install "$REQUESTED_NODE_VERSION"
-  nvm use "$REQUESTED_NODE_VERSION"
-else
-  # Prefer the repo's documented Node version. If none exists, ask before
-  # choosing a default such as the active LTS version.
-  nvm ls-remote --lts
-fi
-
-# Install dependencies after the Node version is selected
-npm install
-
-# Verify installation
+```powershell
+$nodeVersion = '<version-from-repo-or-user>'
+nvm version
+nvm install $nodeVersion
+nvm use $nodeVersion
 node --version
-npm --version
 ```
 
-### Create .nvmrc for Project
+When the user explicitly requests a version and a project pin:
 
-```bash
-# Create .nvmrc with the selected project version, for example an explicit
-# version the user requested
-node --version | sed 's/^v//' > .nvmrc
-
-# Add to git only if this is intended as a project convention
-git add .nvmrc
+```powershell
+$nodeVersion = '<version-from-user>'
+Set-Content -LiteralPath '.nvmrc' -Value $nodeVersion
 ```
 
----
-
-## Step 4: Other Language Environments
-
-### Rust (Cargo)
-
 ```bash
-# Verify Cargo.toml exists
-test -f "Cargo.toml" && echo "Rust project detected"
+node_version='<version-from-user>'
+printf '%s\n' "$node_version" > .nvmrc
+```
 
-# Build project
-cargo build
+Install dependencies without needlessly rewriting lockfiles:
 
-# Run tests
-cargo test
+- `npm ci` when `package-lock.json` exists; otherwise `npm install`.
+- `pnpm install --frozen-lockfile` when `pnpm-lock.yaml` exists.
+- `yarn install --immutable` for modern Yarn lockfile-based projects.
 
-# Verify installation
+Verify `node --version`, the package-manager version, and the repository's
+build or test command.
+
+## 4. Rust
+
+Rust uses a pinned toolchain rather than a per-project virtual environment.
+
+1. Reuse `rust-toolchain.toml` or `rust-toolchain` when present.
+2. If Rust is missing and setup is in scope, prefer a trusted OS package-manager
+   installation of Rustup. On Windows, prefer the signed Winget route instead
+   of downloading and directly launching a bootstrap executable:
+
+```powershell
+winget install --id Rustlang.Rustup -e --source winget `
+  --accept-package-agreements --accept-source-agreements --silent
+$cargoBin = Join-Path $env:USERPROFILE '.cargo\bin'
+$env:PATH = "$cargoBin;$env:PATH"
+```
+
+Before installing, verify `winget` is available and check for the MSVC C++ build
+tools when targeting `*-pc-windows-msvc`; Rustup alone does not provide the
+native linker. If Winget is unavailable, follow repository guidance or use the
+official Rustup installer only when local command policy permits it.
+
+3. Install the repository-pinned toolchain. If no pin exists, use the version
+   explicitly requested by the user; otherwise use the repository's documented
+   default and record the choice.
+4. Do not create a new `rust-toolchain.toml` unless the user requests a project
+   pin or repository convention requires one.
+
+```powershell
+rustup show active-toolchain
 rustc --version
 cargo --version
+if (Test-Path 'Cargo.lock') { cargo check --locked } else { cargo check }
 ```
 
-### Go
+Use the equivalent commands in POSIX shells. Run focused tests after the
+toolchain is usable.
 
-```bash
-# Verify go.mod exists
-test -f "go.mod" && echo "Go project detected"
+## 5. Other Language Toolchains
 
-# Download dependencies
-go mod download
+Go, Java, and .NET generally use versioned toolchains and project dependency
+managers rather than Python-style virtual environments.
 
-# Build project
-go build ./...
+- Go: honor `go.mod`/`go.work`; run `go mod download`, `go build ./...`, and
+  `go test ./...` as appropriate.
+- Java: prefer the repository's Maven or Gradle wrapper; verify the configured
+  JDK before using a system installation.
+- .NET: honor `global.json`; run `dotnet --info`, restore, build, and focused
+  tests with the pinned SDK.
 
-# Run tests
-go test ./...
+Install a missing toolchain only when setup is part of the request. Prefer
+user-scope, version-managed, or OS package-manager installation over global
+ad-hoc mutation.
 
-# Verify installation
-go version
-```
+## 6. Safety and Verification
 
-### Java/Maven
-
-```bash
-# Use Maven wrapper or system Maven
-./mvnw install  # If using wrapper
-mvn install    # System Maven
-```
-
----
-
-## Step 5: Verify Environment
-
-After setup, verify everything works:
-
-```bash
-# Python
-source .venv/bin/activate
-python --version
-pip list
-
-# Node.js
-nvm use
-node --version
-npm --version
-```
-
----
-
-## Step 6: Document Environment Setup
-
-Update existing setup documentation when the repo has one. Create a new
-`SETUP.md` or `ENVIRONMENT.md` only when the user asks or the repo convention
-already expects one:
-
-```markdown
-# Environment Setup
-
-## Python
-```bash
-source .venv/bin/activate
-```
-
-## Node.js
-```bash
-nvm use
-npm install
-```
-
-## Commands
-- Run tests: `pytest` / `npm test`
-- Install deps: `uv sync` / `npm install`
-```
-
----
-
-## Best Practices Checklist
-
-- [ ] Use `uv` for Python (fast, reliable) — fallback to `pip venv`
-- [ ] Use the repo's documented Node.js version, preferably through `.nvmrc`
-- [ ] Activate environment before installing dependencies
-- [ ] Keep `.venv/` and `node_modules/` in `.gitignore`
-- [ ] Create `.nvmrc` files for Node.js projects
-- [ ] Use `pyproject.toml` over `requirements.txt` when possible
-- [ ] Run tests after environment setup to verify
-- [ ] Run `go mod download` and `go test ./...` for Go projects
-- [ ] Run `cargo build` and `cargo test` for Rust projects
+- Do not globally install Python or Node packages when a project environment is
+  available.
+- Do not delete, replace, or recursively move an existing environment without
+  resolving its exact path and confirming replacement is intended.
+- Prefer lockfile-preserving commands. Report any manifest or lockfile changes.
+- Remember that dependency installation can execute project or package scripts;
+  use repository-defined commands and trusted sources.
+- Add environment directories to `.gitignore` only when needed and consistent
+  with repository convention.
+- Do not stage files or create setup documentation unless the user requested it
+  or the enclosing workflow explicitly requires it.
+- Verify the exact executable path, runtime version, dependency health, and a
+  focused repository build/test command.
+- Report what was reused or created, commands run, files changed, and any setup
+  the user must repeat in a new shell.

@@ -1,68 +1,43 @@
 ---
 name: contact-new-teammate
-description: Use when contacting a new co-worker or teammate for the first time, especially in a large corporation where they may not know who you are. Creates a brief, relevant introduction and polite request.
+description: Draft a brief first-contact message to a coworker, new teammate, cross-team colleague, or internal stakeholder who may not know the sender. Use for introductory outreach, cold internal messages, asking a new colleague for help, or contacting someone for the first time. If the user first needs to identify whom to contact, use worker:find-poc instead.
 ---
 
 # Contact New Teammate
 
-Version: 1.0.0
+## Gather Context
 
-First-time contact with a colleague in a large organization where they may not know who you are.
+Use details the user already provided. When identity, organizational context, the recipient's role, or a relevant connection is missing and memory may answer it, use `worker:search-memory`.
 
-## When to Use
+Collect only the facts needed for the message:
 
-- First time messaging a new teammate
-- Reaching out to someone in a different team/group
-- Cold contact in a corporate setting
+- Sender name, role, and team
+- Recipient name and why they are relevant
+- Specific request and any real deadline
+- Channel and tone, when specified
 
-## Step 1: Gather Context
+Do not invent roles, relationships, referrals, project involvement, or urgency. If a required detail remains unknown, leave a descriptive placeholder or ask one concise question when a useful draft cannot be produced without it.
 
-**REQUIRED:** Use worker:search-memory to find:
-1. **About "you" (the agent):** Who are you? What's your role? What projects do you work on?
-2. **About the contact:** What's their role? What team? What projects?
+## Draft the Message
 
-Search for:
-- `memory/corpx/soul.md` or similar files defining the agent
-- `memory/teams/[their-team]/*`
-- Any shared context (same project, shared stakeholder, etc.)
+- Match the requested channel and formality; default to a short chat message.
+- Keep the introduction to at most one sentence.
+- State why this person is relevant without implying unsupported familiarity.
+- Make one clear, bounded request. Add what has already been tried only when useful.
+- Prefer an asynchronous response unless a meeting is genuinely needed.
+- Draft only by default. Do not send unless the user explicitly asks and a messaging capability is available.
 
-## Step 2: Craft Introduction
+Use this adaptable structure:
 
-**Rule: Keep it under 1 sentence.** Be brief.
-
-Find the most relevant connection:
-- Same project → "Hi [Name], I work on [Project] with [Shared Person/Team]"
-- Similar role → "Hi [Name], I'm also a [Role] on the [Team]"
-- They've helped before → "Hi [Name], [Person] mentioned you could help with [Topic]"
-- External stakeholder → "Hi [Name], I'm reaching out regarding [Project/Topic]"
-
-## Step 3: Make the Request
-
-Be specific and polite:
-- "Would you be able to help me understand [X]?"
-- "Could you point me to [X] or suggest who to ask?"
-- "Do you have 5 minutes to chat about [X]?"
-
-## Step 4: Return Draft Message
-
-Format:
 ```markdown
 # Draft Message
 
-Hi [Name],
+Hi [Name]—I'm [sender/role] on [team], reaching out because [specific relevance].
 
-[1-sentence intro: who you are + relevant connection]
+Could you [specific, bounded request]? [Optional useful context or deadline.]
 
-[Polite request]
-
-Thanks!
-[Your name/role]
+Thanks,
+[Sender name]
 ```
 
-## Tips
-
-- Keep intro under 1 sentence (strict limit)
-- Always state WHY you're contacting them specifically
-- Be specific about what you need (not "help me" but "explain X")
-- Offer context: what you've already tried, what you need
-- If no memory exists, use generic intro: "Hi [Name], I'm [Role] on [Team] and I'm reaching out about [Topic]"
+For email, add a concise subject line. If there is no genuine prior connection, say directly that the recipient owns or works on the relevant topic.

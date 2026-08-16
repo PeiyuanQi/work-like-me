@@ -1,4 +1,4 @@
 interface:
   display_name: "Mixed Style Art"
   short_description: "Blend multiple visual languages coherently"
-  default_prompt: "Use $create-mixed-style-art to combine multiple art directions into one coherent image."
+  default_prompt: "Use $art-design:create-mixed-style-art to combine multiple art directions into one coherent image."

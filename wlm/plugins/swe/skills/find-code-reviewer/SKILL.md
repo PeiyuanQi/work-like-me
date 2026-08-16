@@ -1,87 +1,73 @@
 ---
 name: find-code-reviewer
-description: Use when user asks who reviews code, finds a reviewer, needs a code review contact, or asks who should review their merge request. This is specifically for CODE REVIEW only - use worker:find-poc for all other POC requests. Works with branch-based and worktree-based development.
+description: Use when the user wants to identify, rank, choose, request, or assign a human code reviewer for a pull request, merge request, branch, file, directory, or code area. Determine candidates from CODEOWNERS, repository ownership documentation, review history, team memory, and relevant file or module history. Use only for code-review ownership and routing; use worker:find-poc for non-code contacts, and do not use this skill merely to perform a code review.
 ---
 
 # Find Code Reviewer
 
-Version: 1.0.0
+Find the best-supported human reviewer without inventing ownership, availability,
+roles, or contact details.
 
-Find the appropriate person to contact for code review based on team structure, code ownership, and project context.
+## Establish Scope
 
-## When to Use
+Identify the repository, PR/MR or branch, target branch, author, and changed paths.
+Use read-only inspection unless the user explicitly asks to request or assign a
+reviewer. Preserve the current branch and worktree state.
 
-- User says: "who reviews", "find reviewer", "code review", "reviewer for this PR"
-- Need to identify who reviews a specific file or area
-- Creating a merge request and need to assign reviewer
+## Gather Evidence
 
-**NOT for non-code POC** - use `worker:find-poc` instead.
+Use the strongest available evidence in this order:
 
-## Step 1: Search Memory for Code Review Information
+1. **Ownership rules and repository documentation**
+   - Locate ownership files with `rg --files -g 'CODEOWNERS' -g '**/CODEOWNERS'`.
+   - Check common locations such as `.github/CODEOWNERS`, `.gitlab/CODEOWNERS`,
+     `docs/CODEOWNERS`, and the repository root.
+   - Match the changed paths using the hosting platform's CODEOWNERS semantics,
+     including rule order. Cite the matching file, rule, and path.
+2. **PR/MR review history**
+   - When platform access is available, inspect current requested reviewers and
+     recent merged changes that touched the same area. Use the connected hosting
+     app, `gh`, or the appropriate platform API/CLI.
+   - Do not treat `git log` as evidence of who reviewed a change; local Git history
+     usually records authors and committers, not reviewers.
+3. **Documented team context**
+   - Use `worker:search-memory` when team memory is available and relevant. Search
+     for ownership, reviewer rotation, maintainers, and review policy.
+   - Note the source date and flag stale or conflicting information.
+4. **File and module history**
+   - Use path-scoped `git log -- <path>` or targeted `git blame -- <file>` only as
+     supporting evidence for familiarity with the area.
+   - Treat contributors as candidates, not automatically as reviewers.
 
-**REQUIRED SUB-SKILL:** Use worker:search-memory to find team and code review information.
+## Rank Candidates
 
-Search for:
-- Team structure and code ownership
-- Reviewer assignments
-- Preferred reviewers for different areas
-- Review policies
+Prefer an explicitly assigned individual or team member with direct ownership and
+recent review activity. Then consider documented maintainers and recent relevant
+contributors. Exclude or clearly flag:
 
-## Step 2: Check CODEOWNERS File
+- the change author;
+- bots and automation accounts;
+- people whose current team membership or account identity cannot be verified;
+- stale ownership or review evidence;
+- candidates whose availability is unknown.
 
-Look for CODEOWNERS file in the repository:
-```bash
-find . -name "CODEOWNERS" -type f
-```
+Never derive a contact method from a commit email or expose private contact data.
+Only report a role, handle, or contact channel when a source supports it.
 
-Common locations:
-- `.github/CODEOWNERS`
-- `docs/CODEOWNERS`
-- `CODEOWNERS` (root)
+## Return Results
 
-Read the file to identify who owns which paths.
+Return a short ranked list rather than a single unsupported name. For each candidate,
+include:
 
-## Step 3: Check Git Blame
+- verified name or platform handle;
+- evidence and source;
+- affected paths or review area;
+- confidence (`high`, `medium`, or `low`);
+- any unresolved identity, membership, or availability caveat.
 
-For files the user modified, find recent contributors:
-```bash
-git blame <file> | head -20
-```
+If no candidate is verifiable, say what was searched and recommend a documented
+maintainer role or team review channel without inventing a person.
 
-Identify who made recent changes - they may be good reviewers.
-
-## Step 4: Check Recent PRs/MRs
-
-Check recent merge requests to see who typically reviews:
-```bash
-git log --oneline -20
-```
-
-Or check the Git hosting platform for recent reviewers.
-
-## Step 5: Determine Best Reviewer
-
-Based on findings, determine:
-- **Name:** Person to contact
-- **Role:** Their role (tech lead, maintainer, etc.)
-- **Contact method:** Best way to reach them (Slack, Teams, Email)
-- **Why:** Why they're a good fit for this review
-
-## Step 6: Return Results
-
-Format the results:
-```markdown
-# Code Reviewer
-
-**Name:** [Name]
-**Role:** [Role]
-**Best Contact:** [Slack/Teams/Email]
-**Why:** [Why they're the right reviewer]
-```
-
-## Fallback
-
-If no clear reviewer found:
-- Suggest team lead or tech lead as default
-- Ask user if they have a specific person in mind
-- Suggest asking in the team chat/channel
+Request or assign a reviewer only when the user explicitly asked for that external
+state change and the target account is unambiguous. Report what changed and any
+platform failure.

@@ -11,19 +11,26 @@ owning directly. Keep entries short and factual.
 - External skill: `<skill name>`
 - External plugin/package: `<plugin or package name>`
 - Source: `<URL or local install path>`
-- Version: `<tag, commit, release, or unknown>`
+- Provenance: `<tag, commit, release, retrieval date, or unknown>`
 - License: `<license and notice requirements, or unknown>`
-- Use mode: `reference | wrapper | fork`
+- Use mode: `reference | wrapper | adopted-copy | fork`
+- Runtime dependency: `<load path and pinning policy, or none>`
 - Why borrowed: `<one sentence>`
 - Local overrides: `<none or short list>`
+- Upstream tracking: `<none, manual review, periodic sync, or other policy>`
 - Fallback when missing: `<ask to install, use local fallback, or stop>`
 ```
 
 ## Policy
 
 - Prefer `reference` or `wrapper` for active upstream skills.
-- Prefer `fork` only when local edits are required, the license permits copying,
-  and the fork has a maintenance owner.
+- Use `adopted-copy` when the local skill must be self-contained and the license
+  permits copying; preserve required notices and make the absence of a runtime
+  upstream dependency explicit.
+- Prefer `fork` only when local edits and ongoing upstream tracking are required,
+  the license permits copying, and the fork has a maintenance owner.
+- Treat provenance versions and commits as evidence of origin, not automatic
+  runtime pins.
 - Do not vendor third-party skill content with an unknown or incompatible
   license.
 - If copied material requires attribution or notices, update the repo's relevant

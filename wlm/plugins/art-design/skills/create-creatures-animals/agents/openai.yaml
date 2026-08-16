@@ -1,4 +1,4 @@
 interface:
   display_name: "Creatures and Animals"
   short_description: "Create believable creatures and stylized animals"
-  default_prompt: "Use $create-creatures-animals to design an original creature or animal."
+  default_prompt: "Use $art-design:create-creatures-animals to design an original creature or animal."

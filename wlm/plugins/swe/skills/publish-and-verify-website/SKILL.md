@@ -5,7 +5,7 @@ description: Publish a website through its real hosting path and prove the produ
 
 # Publish And Verify Website
 
-Version: 1.0.0
+Version: 1.0.1
 
 Complete the release path from validated source to observable production. A
 successful command or HTTP `200` alone is not sufficient proof.
@@ -45,6 +45,9 @@ successful command or HTTP `200` alone is not sufficient proof.
    - Check the provider's build or deployment status when available.
    - If deployment succeeded but production is stale, allow for propagation and
      use cache-busted requests before declaring failure.
+   - Probe transitional HTTP failures with a client or error handler that
+     preserves the non-2xx status and response body. Do not let an expected
+     rollout-time `404` or `503` abort polling or trigger null follow-on checks.
    - Keep working until the deployment succeeds, fails with evidence, or needs
      authority outside the requested scope.
 

@@ -1,4 +1,4 @@
 interface:
   display_name: "Weapons, Props, and Objects"
   short_description: "Design production-ready props and equipment"
-  default_prompt: "Use $create-weapons-props-objects to develop a readable prop or weapon."
+  default_prompt: "Use $art-design:create-weapons-props-objects to develop a readable prop or weapon."
