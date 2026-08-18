@@ -12,8 +12,9 @@ Use these as the primary entry points for normal software engineering work:
 - `start-work`: begin a feature, fix, refactor, docs task, or investigation from
   a current baseline. Orchestrates `project-dev-setup`, `git-start-work`, and
   `manage-virtual-environments`.
-- `finish-work`: wrap up a change with formatting, linting, verification, diff
-  review, commit, and optional push. Orchestrates `prepare-code-for-commit` and
+- `finish-work`: at an explicit delivery boundary, wrap up a coherent change
+  with formatting, linting, verification, diff review, one commit by default,
+  and optional push. Orchestrates `prepare-code-for-commit` and
   `git-commit-push`.
 - `submit-work`: prepare a branch for review, create a PR/MR, run independent
   review, find a reviewer, and notify them when tooling is available.
@@ -33,13 +34,14 @@ Use these directly when the user asks for a specific narrow operation:
 - `project-dev-setup`: read repo guidance, identify setup conventions, and keep
   docs and code aligned.
 - `onboard-agentic-dev-flow`: add minimal `AGENTS.md`/`CLAUDE.md` project
-  guidance, human development flow notes, worktree-first git workflow, and
-  distilled coding rules.
+  guidance, human development flow notes, worktree-first git workflow,
+  low-churn commit cadence, and distilled coding rules.
 - `git-start-work`: start feature or fix work, preferring git worktrees for
   parallel and multi-agent development.
 - `prepare-code-for-commit`: format and lint according to repo tooling first,
   with language defaults when the repo is silent.
-- `git-commit-push`: review, commit, rebase when needed, and push changes.
+- `git-commit-push`: review and batch a coherent change into a commit, then
+  rebase when needed and push only as explicitly requested.
 - `create-merge-request`: create a PR/MR, run independent review, and route to a
   code reviewer.
 - `find-code-reviewer`: identify the right code reviewer from repo ownership,
@@ -76,6 +78,9 @@ Use these directly when the user asks for a specific narrow operation:
   focused operations.
 - Prefer git worktrees for new work so multiple agents can work safely at the
   same time.
+- Treat commits as explicit delivery boundaries, not per-step checkpoints.
+  Default to one cohesive commit per requested outcome and do not infer commit
+  or push permission from ordinary task completion.
 - Prefer rebase-based branch refresh and conflict resolution that preserves the
   original intent of the change.
 - Prefer repo-defined format, lint, test, build, and setup commands over generic

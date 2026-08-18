@@ -11,6 +11,8 @@ Before reporting repository onboarding complete, verify:
   explicitly marked as not documented.
 - Worktree guidance is present and any project-local worktree directory is
   ignored.
+- Commit guidance treats commits as explicit delivery boundaries, avoids
+  per-step checkpoint commits, and defaults to one cohesive commit per outcome.
 - Third-party code, assets, fonts, icons, tools, and borrowed skills have
   compatible licenses and required notices.
 - `git diff --check` or an equivalent lightweight validation has passed.

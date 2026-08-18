@@ -5,7 +5,7 @@ description: Use when the user wants the specific low-level Git operation to sta
 
 # Git Commit Push
 
-Version: 1.2.0
+Version: 1.3.0
 
 Perform only the requested Git mutation while preserving user-owned changes.
 
@@ -13,6 +13,8 @@ Perform only the requested Git mutation while preserving user-owned changes.
 
 - Match the requested endpoint: stage only, commit only, push only, or commit
   and push. Do not perform a later step merely because this skill supports it.
+- Require an explicit Git mutation request. Do not infer permission to stage,
+  commit, or push merely because implementation or verification finished.
 - Run `git status --short --branch` and review both unstaged and staged changes.
 - Treat pre-existing staged, unstaged, and untracked files as user-owned until
   they are clearly part of the requested scope.
@@ -42,6 +44,21 @@ to skip checks, report exactly what was skipped.
 Stop before committing when required checks fail unless the user explicitly
 accepts the failure. Never commit credentials, private keys, tokens, or obvious
 temporary output.
+
+## Choose the commit boundary
+
+- Default to one commit for the cohesive change in the requested scope.
+- Do not create commits as progress markers after individual files, subtasks,
+  tool calls, tests, fixes, or agent turns.
+- Split pending work only when the user asks, the repository convention
+  requires it, or each part is independently understandable, testable, and
+  revertible.
+- Stage together the code, tests, docs, formatting, and generated metadata that
+  jointly deliver the same outcome.
+- If related work is still incomplete, continue it before committing instead
+  of creating a checkpoint.
+- Preserve existing commits. Do not amend, squash, or rewrite them merely to
+  reduce commit count without explicit instruction.
 
 ## Stage the intended change
 

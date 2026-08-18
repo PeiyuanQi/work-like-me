@@ -5,7 +5,7 @@ description: "Use for end-to-end submission of software work for human review: p
 
 # Submit Work
 
-Version: 1.1.0
+Version: 1.2.0
 
 Submit finished code for human review with the branch current, pushed, reviewed,
 and routed to the right reviewer.
@@ -14,7 +14,12 @@ and routed to the right reviewer.
 
 1. Ensure the branch is ready.
    - If changes are uncommitted or checks have not run, use `swe:finish-work`.
+   - Batch one cohesive submission into one delivery commit by default. Run the
+     finish workflow after implementation and checks are complete, not after
+     each intermediate repair or agent step.
    - If the user already committed and pushed, inspect status and continue.
+   - Preserve existing commits; do not rewrite them solely to reduce their
+     count unless the user explicitly requests history cleanup.
    - Do not push unrelated or unreviewed local changes.
 
 2. Create the PR or MR with `swe:create-merge-request`.

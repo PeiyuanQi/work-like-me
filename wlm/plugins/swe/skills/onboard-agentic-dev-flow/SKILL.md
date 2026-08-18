@@ -1,11 +1,11 @@
 ---
 name: onboard-agentic-dev-flow
-description: Use when performing the specific documentation update for an existing project or repo's agentic development flow, including creating or aligning AGENTS.md and CLAUDE.md, adding or aligning minimal human development-flow documentation, preferring git worktrees for concurrent agents, and distilling existing coding rules, 规则, 习惯, style, and workflow conventions into agent instructions. For the end-to-end onboarding workflow, prefer swe:onboard-repo.
+description: Use when performing the specific documentation update for an existing project or repo's agentic development flow, including creating or aligning AGENTS.md and CLAUDE.md, adding or aligning minimal human development-flow documentation, preferring git worktrees for concurrent agents, documenting a low-churn commit cadence, and distilling existing coding rules, 规则, 习惯, style, and workflow conventions into agent instructions. For the end-to-end onboarding workflow, prefer swe:onboard-repo.
 ---
 
 # Onboard Agentic Dev Flow
 
-Version: 1.0.0
+Version: 1.1.0
 
 Prepare a project so humans and agents share a small, explicit development
 workflow. Preserve the repo's existing habits first; only add generic defaults
@@ -40,6 +40,10 @@ prefer `swe:onboard-repo`.
    - Add a worktree-first git rule:
      `Prefer git worktrees for parallel or unrelated agent work so multiple
      agents can develop concurrently without colliding.`
+   - Add a low-churn commit rule: treat commits as explicit delivery boundaries,
+     not per-step checkpoints; default to one cohesive commit for one requested
+     outcome and split only for independently reviewable and revertible work.
+   - State that ordinary task completion does not authorize a commit or push.
    - Keep the file short enough that future agents will actually read it.
 
 4. Link `CLAUDE.md`.
@@ -97,6 +101,11 @@ Use this shape when creating a fresh file, trimming sections that do not apply:
 ## Git Workflow
 - Prefer git worktrees for parallel or unrelated agent work.
 - Treat existing uncommitted changes as user-owned unless told otherwise.
+- Treat commits as explicit delivery boundaries, not progress checkpoints. Do
+  not commit after every file, subtask, test, or agent turn, and do not infer
+  commit or push permission from ordinary task completion.
+- Default to one cohesive commit for one requested outcome. Split only when the
+  parts are independently reviewable and revertible or the repo requires it.
 - Prefer rebase-based conflict resolution unless the repo requires merges.
 
 ## Coding Rules
@@ -117,6 +126,8 @@ when it is the best or only guide.
 
 - Read `AGENTS.md` before using an agent on this repo.
 - Use a git worktree for parallel or unrelated agent work.
+- Commit only at an explicit delivery or handoff boundary; keep one coherent
+  requested outcome in one commit by default.
 - Setup: `[actual setup command or "not documented yet"]`
 - Run locally: `[actual run command or "not documented yet"]`
 - Verify: `[actual test/lint/build command or "not documented yet"]`
@@ -124,6 +135,6 @@ when it is the best or only guide.
 
 ## Completion Report
 
-Report the files changed, the existing rules that were captured, any missing
-commands the repo still needs to document, and whether worktree guidance is
-ready to use.
+Report the files changed, the existing rules that were captured, the documented
+commit cadence, any missing commands the repo still needs to document, and
+whether worktree guidance is ready to use.

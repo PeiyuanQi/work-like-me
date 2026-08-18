@@ -1,11 +1,11 @@
 ---
 name: onboard-repo
-description: "Use when preparing an existing repository for agentic software development: creating or aligning AGENTS.md and CLAUDE.md, documenting human development flow, capturing coding conventions, adding worktree-first guidance, checking setup commands, or onboarding a project for Claude Code, Codex, Cursor, or other coding agents. Orchestrates project-dev-setup and onboard-agentic-dev-flow."
+description: "Use when preparing an existing repository for agentic software development: creating or aligning AGENTS.md and CLAUDE.md, documenting human development flow, capturing coding conventions, adding worktree-first and low-churn commit guidance, checking setup commands, or onboarding a project for Claude Code, Codex, Cursor, or other coding agents. Orchestrates project-dev-setup and onboard-agentic-dev-flow."
 ---
 
 # Onboard Repo
 
-Version: 1.0.0
+Version: 1.1.0
 
 Prepare a repository so humans and coding agents share one explicit development
 workflow without duplicating or diluting the repo's existing conventions.
@@ -25,6 +25,8 @@ workflow without duplicating or diluting the repo's existing conventions.
 3. Align agent and human docs with `swe:onboard-agentic-dev-flow`.
    - Keep one source of truth for agent instructions.
    - Use `CLAUDE.md` and `AGENTS.md` as compatibility bridges when appropriate.
+   - Document worktree isolation and a low-churn commit cadence that treats
+     commits as explicit delivery boundaries rather than per-step checkpoints.
    - Add a minimal human development flow only where the repo naturally keeps
      human-facing setup and workflow docs.
 
@@ -48,5 +50,5 @@ workflow without duplicating or diluting the repo's existing conventions.
 ## Completion Report
 
 Report the instruction source of truth, files changed, captured conventions,
-documented setup and verification commands, worktree readiness, and any missing
-repo guidance that remains.
+documented setup and verification commands, worktree readiness, commit cadence,
+and any missing repo guidance that remains.

@@ -21,6 +21,20 @@ uv sync                    # Install dependencies
 - Do not switch branches, rewrite history, or clean up another active worktree without explicit instruction.
 - Keep changes scoped to the current worktree and say which worktree you used when it matters.
 
+## Git Commit Cadence
+
+- Treat commits as delivery boundaries, not routine progress checkpoints.
+- Do not commit after each file, test, subtask, or agent turn. Completing an
+  ordinary implementation task does not by itself authorize a commit or push.
+- Default to one cohesive commit for each user-requested delivery. Split only
+  when the parts are independently reviewable and revertible, or when the user
+  or repository convention requires separate commits.
+- In parallel work, contributors should leave intermediate changes uncommitted
+  unless they were explicitly assigned a Git endpoint. When a commit is
+  authorized, let the coordinating agent create the final delivery commit.
+- Preserve existing commits. Do not amend, squash, or otherwise rewrite history
+  merely to reduce commit count without explicit instruction.
+
 ## Git Conflict Resolution
 
 - If branches diverge or conflicts appear, prefer rebase-based resolution that preserves the original intent of the work.
