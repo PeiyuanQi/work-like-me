@@ -1,0 +1,4 @@
+interface:
+  display_name: "Distributed Training Stability Engineering"
+  short_description: "Diagnose and stabilize large-scale synchronous training"
+  default_prompt: "Use $distributed-training-stability-engineering to diagnose a scale-out training performance problem."

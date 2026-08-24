@@ -1,0 +1,7 @@
+{
+  "name": "mle",
+  "description": "Machine learning engineering workflows for reliable, observable, and scale-aware training systems",
+  "author": {
+    "name": "Peiyuan Qi"
+  }
+}

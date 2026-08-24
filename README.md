@@ -68,6 +68,10 @@ references, and software decision ranking
 
 **Mechanical Plugin** — Hands-on mechanical, physical build, repair, regulated-device, tooling, material, and maker decision ranking
 
+**MLE Plugin** — Machine learning engineering workflows for reliable,
+observable, and scale-aware training systems, including distributed-training
+stability and straggler diagnosis
+
 **Art Design Plugin** — Art direction and visual design skills for generated
 images, website assets, game assets, hero art, and theme-specific workflows for
 fan art, studies, vehicles, architecture, props, creatures, sci-fi, fantasy,
