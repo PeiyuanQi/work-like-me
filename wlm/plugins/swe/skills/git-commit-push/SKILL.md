@@ -1,13 +1,17 @@
 ---
 name: git-commit-push
-description: Use when the user wants the specific low-level Git operation to stage selected changes, create a commit, push existing commits, or commit and push. Works from either a regular branch or a git worktree. Respect the exact requested endpoint; for end-to-end wrap-up with quality checks, prefer swe:finish-work.
+description: Use when the user wants the specific low-level Git operation to stage selected changes, create a commit, push existing commits, or commit and push. Works from either a regular branch or a git worktree. Respect the exact requested endpoint; for end-to-end wrap-up with quality checks, prefer swe:finish-work, and for local task-branch integration into the default branch, use swe:land-work.
 ---
 
 # Git Commit Push
 
-Version: 1.3.0
+Version: 1.4.0
 
 Perform only the requested Git mutation while preserving user-owned changes.
+
+This skill does not move commits between branches. In a repository whose
+delivery flow keeps task branches local and pushes only the default branch, use
+`swe:land-work` rather than pushing the task branch.
 
 ## Establish scope
 

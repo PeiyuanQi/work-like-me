@@ -1,11 +1,11 @@
 ---
 name: finish-work
-description: "Use only at an explicit Git delivery boundary: when the user asks to prepare completed software work for commit, commit it, push it, save it to Git, or make it ready to submit. Runs proportional checks, reviews the diff, and creates one coherent delivery commit by default. Do not use merely because an ordinary coding task or agent turn ended. Orchestrates prepare-code-for-commit and git-commit-push."
+description: "Use only at an explicit Git delivery boundary: when the user asks to prepare completed software work for commit, commit it, push it, save it to Git, or make it ready to submit. Runs proportional checks, reviews the diff, and creates one coherent delivery commit by default. Do not use merely because an ordinary coding task or agent turn ended. Orchestrates prepare-code-for-commit and git-commit-push. For a local task branch that should be rebased, fast-forwarded into the default branch, and pushed without a PR, use land-work."
 ---
 
 # Finish Work
 
-Version: 1.1.0
+Version: 1.2.0
 
 Finish a development change by checking quality, reviewing intent, committing,
 and pushing when requested. Treat this workflow as a delivery boundary, not a
@@ -29,7 +29,12 @@ recurring checkpoint during active implementation.
    - Confirm generated files, locks, and docs changes are intentional.
    - Run `git diff --check` when available.
 
-4. Choose the commit boundary.
+4. Choose the delivery path.
+   - If repo-local policy selects direct integration and the user asked to land
+     a task branch on the default branch, use `swe:land-work` instead of pushing
+     the task branch, then stop this workflow.
+
+5. Choose the commit boundary.
    - Confirm the user requested a commit, push, submission, or other explicit
      Git delivery. Do not infer authorization from ordinary task completion.
    - Default to one commit for the coherent outcome completed in the current
@@ -41,7 +46,7 @@ recurring checkpoint during active implementation.
    - If related implementation work remains, finish and verify it before
      committing instead of recording an intermediate checkpoint.
 
-5. Commit and push.
+6. Commit and push.
    - Use `swe:git-commit-push`.
    - Read `references/commit-guidance.md` before choosing the commit type.
    - Invoke the commit operation once per planned delivery commit; normally

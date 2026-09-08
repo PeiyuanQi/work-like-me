@@ -1,14 +1,18 @@
 ---
 name: submit-work
-description: "Use for end-to-end submission of software work for human review: prepare, check, commit, and push as needed; create a PR/MR; run independent review; and identify a reviewer. Trigger on requests such as \"submit this for review\", \"prepare and route this PR\", or \"ready for review\" when the user wants the full workflow. Do not use for isolated commit/push (swe:finish-work), isolated PR/MR creation (swe:create-merge-request), reviewer lookup (swe:find-code-reviewer), or notification only (worker:notify-reviewer). Reviewer assignment or notification requires explicit user authorization."
+description: "Use for end-to-end submission of software work for human review: prepare, check, commit, and push as needed; create a PR/MR; run independent review; and identify a reviewer. Trigger on requests such as \"submit this for review\", \"prepare and route this PR\", or \"ready for review\" when the user wants the full workflow. Do not use for isolated commit/push (swe:finish-work), direct integration without a PR (swe:land-work), isolated PR/MR creation (swe:create-merge-request), reviewer lookup (swe:find-code-reviewer), or notification only (worker:notify-reviewer). Reviewer assignment or notification requires explicit user authorization."
 ---
 
 # Submit Work
 
-Version: 1.2.0
+Version: 1.3.0
 
 Submit finished code for human review with the branch current, pushed, reviewed,
 and routed to the right reviewer.
+
+Do not use this workflow merely because work is ready to deliver. When
+repo-local guidance selects direct integration without a PR, use
+`swe:land-work` instead.
 
 ## Workflow
 

@@ -93,6 +93,24 @@ uv sync        # Install dependencies
 source .venv/bin/activate  # Activate environment
 ```
 
+## Development Flow
+
+- Read `AGENTS.md` before using an agent on this repository.
+- Use `$start-work` and a local git worktree for parallel or unrelated work.
+- Keep task branches local by default; this solo-maintained repository does not
+  require a remote feature branch or pull request for normal delivery.
+- At an explicit delivery boundary, use `$land-work` to verify and commit the
+  task, rebase it onto the latest `main` when needed, fast-forward it into the
+  clean local `main`, and push `main` directly.
+- Include cleanup explicitly when desired; `$land-work` then calls
+  `$cleanup-work` only after the landed commit is verified on remote `main` and
+  only from outside the completed task worktree.
+- Serialize `main` integration across parallel worktrees. Do not create merge
+  commits or force-push `main`.
+- Use `$submit-work` only when a pull request or human review is requested or
+  required by repository protection.
+- Run `./install.sh --help` as the lightweight repository smoke check.
+
 ## Help
 
 ```bash

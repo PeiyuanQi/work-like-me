@@ -53,6 +53,8 @@ uv run python src/agent.py "task 1" "task 2" "task 3"
 - **git-start-work** - Start new work
 - **find-code-reviewer** - Find code reviewer
 - **git-commit-push** - Commit and push
+- **land-work** - Land a local task branch directly onto the default branch
+- **cleanup-work** - Remove a verified completed worktree and local branch
 - **rank-software-decisions** - Rank software engineering choices
 
 ### CPA Skills (wlm:cpa)

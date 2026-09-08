@@ -5,7 +5,7 @@ description: "Use when starting software engineering work end to end: beginning 
 
 # Start Work
 
-Version: 1.0.1
+Version: 1.1.0
 
 Start a scoped development session from a clean, current baseline. This is the
 high-level entry point for new software engineering work.
@@ -23,6 +23,11 @@ high-level entry point for new software engineering work.
    - Read repo-local guidance before choosing setup, test, or docs commands.
    - Identify the default branch, package managers, env files, and verification
      commands from the repo itself.
+   - Identify from repo-local guidance or the user's explicit direction whether
+     delivery uses review branches and PRs or a direct-integration flow. When
+     direct integration is selected, keep task branches local by default and
+     use `swe:land-work` only at an explicit delivery boundary. Do not infer the
+     workflow from the remote owner or repository visibility.
 
 3. Choose the development workspace.
    - Keep the current checkout for a read-only investigation, an already
@@ -55,5 +60,5 @@ high-level entry point for new software engineering work.
 ## Completion Report
 
 Report the chosen workspace mode and why it was kept or created, branch name,
-path, baseline verification result, setup commands run, and any repo docs or
-commands that were missing.
+path, baseline verification result, setup commands run, delivery mode, and any
+repo docs or commands that were missing.

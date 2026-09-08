@@ -1,11 +1,11 @@
 ---
 name: onboard-agentic-dev-flow
-description: Use when performing the specific documentation update for an existing project or repo's agentic development flow, including creating or aligning AGENTS.md and CLAUDE.md, adding or aligning minimal human development-flow documentation, preferring git worktrees for concurrent agents, documenting a low-churn commit cadence, and distilling existing coding rules, 规则, 习惯, style, and workflow conventions into agent instructions. For the end-to-end onboarding workflow, prefer swe:onboard-repo.
+description: Use when performing the specific documentation update for an existing project or repo's agentic development flow, including creating or aligning AGENTS.md and CLAUDE.md, adding or aligning minimal human development-flow documentation, preferring git worktrees for concurrent agents, documenting low-churn commit cadence and solo-maintainer direct integration where applicable, and distilling existing coding rules, 规则, 习惯, style, and workflow conventions into agent instructions. For the end-to-end onboarding workflow, prefer swe:onboard-repo.
 ---
 
 # Onboard Agentic Dev Flow
 
-Version: 1.1.0
+Version: 1.2.0
 
 Prepare a project so humans and agents share a small, explicit development
 workflow. Preserve the repo's existing habits first; only add generic defaults
@@ -23,6 +23,9 @@ prefer `swe:onboard-repo`.
    - Search for `coding rules`, `conventions`, `style`, `workflow`, `lint`,
      `format`, `规则`, `规范`, and `习惯`.
    - Check git status and treat existing uncommitted changes as user-owned.
+   - Resolve the canonical remote and default branch, then look for documented
+     review, branch-protection, and delivery conventions. Do not infer a
+     workflow from the remote account name or repository visibility.
 
 2. Decide the instruction source of truth.
    - For a fresh onboarding, put shared agent instructions in `AGENTS.md`.
@@ -43,7 +46,14 @@ prefer `swe:onboard-repo`.
    - Add a low-churn commit rule: treat commits as explicit delivery boundaries,
      not per-step checkpoints; default to one cohesive commit for one requested
      outcome and split only for independently reviewable and revertible work.
-   - State that ordinary task completion does not authorize a commit or push.
+   - When existing repo policy or the user establishes a solo-maintainer direct
+     integration flow, document that task branches remain local, PRs are
+     optional rather than the default, and explicitly authorized delivery uses
+     `swe:land-work` to rebase onto the updated default branch, fast-forward it
+     locally, and push it. State that default-branch integration must be
+     serialized across agents.
+   - State that ordinary task completion does not authorize commits, pushes,
+     integration, worktree removal, or branch deletion.
    - Keep the file short enough that future agents will actually read it.
 
 4. Link `CLAUDE.md`.
@@ -107,6 +117,8 @@ Use this shape when creating a fresh file, trimming sections that do not apply:
 - Default to one cohesive commit for one requested outcome. Split only when the
   parts are independently reviewable and revertible or the repo requires it.
 - Prefer rebase-based conflict resolution unless the repo requires merges.
+- Follow the documented review-based or direct-integration delivery mode; do
+  not infer permission to commit, push, merge, or clean up from task completion.
 
 ## Coding Rules
 - Follow the repo's existing lint, format, naming, and review conventions.

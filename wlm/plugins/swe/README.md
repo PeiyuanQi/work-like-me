@@ -16,6 +16,10 @@ Use these as the primary entry points for normal software engineering work:
   with formatting, linting, verification, diff review, one commit by default,
   and optional push. Orchestrates `prepare-code-for-commit` and
   `git-commit-push`.
+- `land-work`: deliver a completed local task branch directly to the default
+  branch without a PR. Keeps the task branch local, rebases it onto the current
+  default branch, fast-forward merges in the integration worktree, and pushes
+  the default branch.
 - `submit-work`: prepare a branch for review, create a PR/MR, run independent
   review, find a reviewer, and notify them when tooling is available.
   Orchestrates `finish-work`, `create-merge-request`, and
@@ -42,6 +46,9 @@ Use these directly when the user asks for a specific narrow operation:
   with language defaults when the repo is silent.
 - `git-commit-push`: review and batch a coherent change into a commit, then
   rebase when needed and push only as explicitly requested.
+- `cleanup-work`: remove one explicitly selected, clean, completed worktree and
+  its local task branch after proving the task is contained in the remote
+  default branch. Never force-remove a worktree or delete a remote branch.
 - `create-merge-request`: create a PR/MR, run independent review, and route to a
   code reviewer.
 - `find-code-reviewer`: identify the right code reviewer from repo ownership,
@@ -83,6 +90,11 @@ Use these directly when the user asks for a specific narrow operation:
   or push permission from ordinary task completion.
 - Prefer rebase-based branch refresh and conflict resolution that preserves the
   original intent of the change.
+- When repo-local guidance or the user selects solo-maintainer direct
+  integration, keep task branches local by default and use `land-work` to
+  serialize a linear integration into the default branch and push it directly.
+  Do not infer this workflow from the remote owner or repository visibility.
+  Use `submit-work` when a PR or human review is requested or required.
 - Prefer repo-defined format, lint, test, build, and setup commands over generic
   language defaults.
 - Prefer independent high-effort review before requesting human review on a

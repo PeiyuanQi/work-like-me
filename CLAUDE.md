@@ -14,13 +14,15 @@ uv sync                    # Install dependencies
 
 ## Always use First Principle Thinking
 
-## Git Worktrees
+## Git Workflow
 
-- Use a separate git worktree for parallel or unrelated tasks.
+- This repository uses a solo-maintainer direct-integration flow; remote task
+  branches and pull requests are optional, not the default delivery path.
+- Use a local task branch in a separate git worktree for parallel or unrelated
+  tasks. Keep that branch local unless the user explicitly asks to publish it.
 - Treat existing uncommitted changes as user-owned unless the user says otherwise.
 - Do not switch branches, rewrite history, or clean up another active worktree without explicit instruction.
 - Keep changes scoped to the current worktree and say which worktree you used when it matters.
-
 ## Git Commit Cadence
 
 - Treat commits as delivery boundaries, not routine progress checkpoints.
@@ -40,6 +42,25 @@ uv sync                    # Install dependencies
 - If branches diverge or conflicts appear, prefer rebase-based resolution that preserves the original intent of the work.
 - Avoid merge commits for conflict resolution unless the repo explicitly requires them.
 - Keep history clean and minimal while preserving the shape of the original change.
+
+## Direct Integration
+
+- Treat commit, integration, push, worktree removal, and branch deletion as
+  explicit delivery actions; ordinary task completion does not authorize them.
+- When authorized to deliver a completed task, use `swe:land-work`: verify and
+  commit in the task worktree, fetch the remote, fast-forward the clean local
+  `main`, rebase the task branch onto the updated `main` when needed,
+  fast-forward merge it into `main`, and push `main` directly.
+- If the delivery request also includes cleanup, let `swe:land-work` call
+  `swe:cleanup-work` only after the remote `main` contains the landed commit.
+  Cleanup must run outside the target worktree; otherwise leave the worktree
+  and local branch intact and report cleanup as deferred.
+- Serialize integrations into `main`; never let parallel agents land changes
+  there concurrently.
+- Prefer rebase-based conflict resolution that preserves the intent of both
+  changes. Avoid merge commits and never force-push `main`.
+- Use a pull request only when the user explicitly requests review or repository
+  protection prevents direct integration.
 
 ## Code Review Bar
 
