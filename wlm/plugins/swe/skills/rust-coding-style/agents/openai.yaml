@@ -1,0 +1,3 @@
+interface:
+  display_name: "Rust Coding Style"
+  short_description: "Apply practical Rust style informed by Bevy"

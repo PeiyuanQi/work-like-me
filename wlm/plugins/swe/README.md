@@ -64,6 +64,12 @@ Use these directly when the user asks for a specific narrow operation:
   dependency, migration, and AI/agent workflow options with an anonymized
   blog-derived value pattern.
 
+## Rust Coding Style
+
+- `rust-coding-style`: write, refactor, and review Rust code with idiomatic
+  APIs, ownership, documentation, focused lints, and package/workspace layout
+  guidance. Includes Bevy conventions and attributed repository examples.
+
 ## Security And Maintenance Skills
 
 - `prepare-repository-for-open-source`: audit and prepare a private or internal
