@@ -45,6 +45,16 @@
 - Finish with selective texture and small signs of life.
 - Reduce or soften any figure, boat, or building that becomes more legible than the route, terrain, water system, or weather structure.
 
+## Terrain refinement in an existing image
+
+- Separate landform shape from surface texture and lighting. If the complaint is repeated polygon or cellular texture, keep the approved rock outline, terrain height, supporting contact, and biome while replacing the false pattern. Do not solve desert rock noise by introducing uniformly rounded river stones.
+- Establish scale with large coherent landforms, a few meaningful fractures, varied fragments, and fine sediment. Avoid identical facet sizes, gravel glued across boulder faces, and equal sharpness at every depth. Angular rock edges can be legitimate; repeated small networks across every surface are a different issue.
+- Use quiet matte faces and restrained grain for natural dry stone. Do not compensate for removed artifacts by adding uniform cracks or turning all rocks into featureless geometric blocks unless the requested style calls for that simplification.
+- Anchor feet, wheels, and structures with believable contact and cast shadows. Preserve the support height under an approved subject; terrain replacement must not leave it floating or buried.
+- Inspect the entire returned image, including the main subject: a local ground edit can propagate unwanted patterns into armor, buildings, or other materials. Check broad forms at viewing size and suspect textures at the available native resolution.
+- When a pattern survives, change the editing strategy or use an appropriate material reference instead of repeatedly asking for more detail or realism. Label generated references honestly; they are not photographic evidence. Recheck the output before saying the artifact is removed.
+- Match the established key light, ambient fill, reflected light, and depth cues. Smooth material cleanup should not flatten lighting, erase useful geometry, or override the requested realistic finish.
+
 ## Prompt pattern
 
 ```text

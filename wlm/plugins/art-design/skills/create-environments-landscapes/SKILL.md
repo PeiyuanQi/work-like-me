@@ -7,6 +7,8 @@ description: Create or art-direct environments, landscapes, natural vistas, sett
 
 Read [references/style-profile.md](references/style-profile.md) before composing a prompt or generating an image. Use the profile as a visual grammar, not as permission to copy any artist, project, composition, character, logo, or protected mark from the source archive.
 
+For terrain-only edits in an existing composition, use the profile's terrain-refinement guidance and preserve the approved subject and framing; the environment-first composition defaults apply to new environment-led work.
+
 ## Workflow
 
 1. Infer the deliverable: finished image, prompt, art-direction brief, variation sheet, production concept, or edit of an attached image. Use sensible creative defaults and proceed without reconfirmation when the request is clear; ask only when a required reference image is missing.

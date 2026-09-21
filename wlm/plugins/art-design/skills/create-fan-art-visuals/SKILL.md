@@ -24,6 +24,12 @@ Read [references/style-profile.md](references/style-profile.md) before composing
 - Use recognizable characters, franchises, logos, or protected symbols only when the user explicitly requests them and the applicable image policy allows it; otherwise create original equivalents.
 - Do not commit or redistribute the source archive media as skill assets.
 
+When the user changes from recognizable fan art to an original commercial or open-source asset:
+
+- Re-establish the brief around independent design identity. Separate references for subject identity from references for finish, materials, lighting, or emotional tone. Preserve requested genre and functional traits while developing distinct primary forms, proportions, component layouts, and signature props.
+- Do not treat recoloring, removing logos, changing the setting, or generating with AI as proof of independence or permission. Open-source distribution is not a blanket exemption from third-party rights.
+- Describe the result as designed for visual separation, not legally cleared. If the user asks for a rights assessment, check current authoritative law and the relevant rights-holder policies for the intended use; do not generalize a fan-submission policy into a commercial license or use reviewer scores as clearance.
+
 ## Response Format
 
 Match the response to the requested deliverable:
