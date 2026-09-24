@@ -5,7 +5,7 @@ description: "Starts software engineering work end to end: loads repo convention
 
 # Start Work
 
-Version: 1.2.0
+Version: 1.3.0
 
 Start a scoped development session from a clean, current baseline. This is the
 high-level entry point for new software engineering work.

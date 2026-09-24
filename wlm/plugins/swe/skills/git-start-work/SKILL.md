@@ -5,7 +5,7 @@ description: "Creates a feature branch or git worktree from the latest remote de
 
 # Git Start Work
 
-Version: 1.3.0
+Version: 1.4.0
 
 Create or refresh a Git workspace without overwriting user-owned changes. Keep
 this skill limited to Git workspace operations; `swe:start-work` coordinates
@@ -140,9 +140,19 @@ For a project-local location, verify the prospective worktree path is ignored:
 git -C "$REPO_ROOT" check-ignore -q "$LOCATION/$BRANCH_NAME"
 ```
 
-If it is not ignored, hold off creating the worktree there: ask before editing
-`.gitignore`, then re-run `git check-ignore`. A location outside the repository
-does not need this check.
+If it is not ignored, add a narrow entry for the worktree directory, such as
+`/.worktrees/`, to the root `.gitignore` before creating the worktree, then
+re-run `git check-ignore`. An unignored worktree inside the repository shows up
+as untracked files in the main checkout and can be committed by accident.
+Mention the `.gitignore` edit in the report so the user can keep or revert it.
+A location outside the repository does not need this check.
+
+If you are unsure the entry is right, for example because of an unusual
+layout, an existing pattern that conflicts with it, a shared or generated
+`.gitignore`, or uncommitted edits already in `.gitignore`, have a fresh
+subagent with clean context review the proposed entry before you apply it. If
+you are still unsure after that review, show the user the proposed entry and
+ask them to review it before creating the worktree.
 
 ### Create from the Remote Baseline
 
