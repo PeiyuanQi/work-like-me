@@ -1,11 +1,11 @@
 ---
 name: onboard-repo
-description: "Use when preparing an existing repository for agentic software development: creating or aligning AGENTS.md and CLAUDE.md, documenting human development flow, capturing coding conventions, adding worktree-first and low-churn commit guidance, checking setup commands, or onboarding a project for Claude Code, Codex, Cursor, or other coding agents. Orchestrates project-dev-setup and onboard-agentic-dev-flow."
+description: "Prepares an existing repository for humans and coding agents end to end: setup discovery, AGENTS.md and CLAUDE.md alignment, human development flow, coding conventions, and worktree-first, low-churn commit guidance. Orchestrates swe:project-dev-setup and swe:onboard-agentic-dev-flow. Use when onboarding a repo or project for agentic development with Claude Code, Codex, Cursor, or other coding agents."
 ---
 
 # Onboard Repo
 
-Version: 1.1.0
+Version: 1.2.0
 
 Prepare a repository so humans and coding agents share one explicit development
 workflow without duplicating or diluting the repo's existing conventions.
@@ -32,20 +32,21 @@ workflow without duplicating or diluting the repo's existing conventions.
 
 4. Validate the result.
    - Confirm all bridge references point to existing files.
-   - Confirm any project-local worktree directory is ignored before recommending
-     it.
+   - Confirm any project-local worktree directory is ignored before
+     recommending it.
    - Run lightweight markdown or diff checks when available.
-   - Read `references/onboarding-checklist.md` before reporting completion.
+   - Work through [references/onboarding-checklist.md](references/onboarding-checklist.md)
+     before reporting completion.
 
 ## Safety Checks
 
-- Do not replace meaningful repo-specific rules with generic defaults.
-- Do not create duplicate docs when an existing development guide should be
-  updated in place.
-- Do not add third-party skill text, code, assets, or templates without checking
-  license and attribution requirements.
-- Do not invent setup, run, or verification commands when the repo does not
-  define them.
+- Keep meaningful repo-specific rules; generic defaults fill gaps only.
+- Update an existing development guide in place rather than creating a
+  duplicate doc.
+- Check license and attribution requirements before adding third-party skill
+  text, code, assets, or templates.
+- Use only setup, run, and verification commands the repo actually defines;
+  mark missing ones as not documented instead of inventing them.
 
 ## Completion Report
 

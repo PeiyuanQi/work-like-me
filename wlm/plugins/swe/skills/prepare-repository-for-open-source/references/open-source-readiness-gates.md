@@ -4,6 +4,20 @@ Use this reference for a complete audit, remediation plan, or open-source
 implementation. Adapt the evidence to the repository and artifact types; do not
 create every listed file mechanically.
 
+## Contents
+
+- Finding levels
+- Gate matrix
+- License classification
+- Public/private extraction
+- Secrets and Git history
+- Contributor authority
+- Third-party code, assets, and notices
+- Open-source project surface
+- Supply-chain and CI checks
+- Final consumer-boundary verification
+- Recommended report shape
+
 ## Finding levels
 
 | Level | Meaning | Release effect |

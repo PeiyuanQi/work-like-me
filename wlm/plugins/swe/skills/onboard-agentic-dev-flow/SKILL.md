@@ -1,18 +1,18 @@
 ---
 name: onboard-agentic-dev-flow
-description: Use when performing the specific documentation update for an existing project or repo's agentic development flow, including creating or aligning AGENTS.md and CLAUDE.md, adding or aligning minimal human development-flow documentation, preferring git worktrees for concurrent agents, documenting low-churn commit cadence and solo-maintainer direct integration where applicable, and distilling existing coding rules, 规则, 习惯, style, and workflow conventions into agent instructions. For the end-to-end onboarding workflow, prefer swe:onboard-repo.
+description: "Writes or aligns an existing repo's agent and human workflow docs: AGENTS.md and CLAUDE.md with one source of truth, a minimal human development-flow section, worktree-first git and low-churn commit guidance, direct-integration notes where applicable, and distilled coding rules, 规则, 习惯, style, and workflow conventions. Use for that documentation update alone; for end-to-end repo onboarding, use swe:onboard-repo."
 ---
 
 # Onboard Agentic Dev Flow
 
-Version: 1.2.0
+Version: 1.3.0
 
 Prepare a project so humans and agents share a small, explicit development
-workflow. Preserve the repo's existing habits first; only add generic defaults
-where the project is silent.
+workflow. Preserve the repo's existing habits first, and add generic defaults
+only where the project is silent.
 
-For a full repo onboarding workflow that starts with repository setup discovery,
-prefer `swe:onboard-repo`.
+For a full repo onboarding workflow that starts with repository setup
+discovery, use `swe:onboard-repo`.
 
 ## Workflow
 
@@ -24,15 +24,16 @@ prefer `swe:onboard-repo`.
      `format`, `规则`, `规范`, and `习惯`.
    - Check git status and treat existing uncommitted changes as user-owned.
    - Resolve the canonical remote and default branch, then look for documented
-     review, branch-protection, and delivery conventions. Do not infer a
-     workflow from the remote account name or repository visibility.
+     review, branch-protection, and delivery conventions. Base the workflow on
+     that documentation, never on the remote account name or repository
+     visibility.
 
 2. Decide the instruction source of truth.
    - For a fresh onboarding, put shared agent instructions in `AGENTS.md`.
    - Keep `CLAUDE.md` as a minimal compatibility bridge to `AGENTS.md`, unless
      the repo already has a richer `CLAUDE.md` that should remain canonical.
-   - If `CLAUDE.md` remains canonical, make `AGENTS.md` point to it and avoid
-     duplicating long rules in both files.
+   - If `CLAUDE.md` remains canonical, make `AGENTS.md` point to it and keep
+     long rules in one file only.
 
 3. Create or update `AGENTS.md`.
    - Include only durable repo guidance: project context, source-of-truth docs,
@@ -43,15 +44,15 @@ prefer `swe:onboard-repo`.
    - Add a worktree-first git rule:
      `Prefer git worktrees for parallel or unrelated agent work so multiple
      agents can develop concurrently without colliding.`
-   - Add a low-churn commit rule: treat commits as explicit delivery boundaries,
-     not per-step checkpoints; default to one cohesive commit for one requested
+   - Add a low-churn commit rule: commits are explicit delivery boundaries, not
+     per-step checkpoints; default to one cohesive commit for one requested
      outcome and split only for independently reviewable and revertible work.
    - When existing repo policy or the user establishes a solo-maintainer direct
-     integration flow, document that task branches remain local, PRs are
-     optional rather than the default, and explicitly authorized delivery uses
+     integration flow, document that task branches stay local, PRs are optional
+     rather than the default, and explicitly authorized delivery uses
      `swe:land-work` to rebase onto the updated default branch, fast-forward it
-     locally, and push it. State that default-branch integration must be
-     serialized across agents.
+     locally, and push it. State that default-branch integration is serialized
+     across agents.
    - State that ordinary task completion does not authorize commits, pushes,
      integration, worktree removal, or branch deletion.
    - Keep the file short enough that future agents will actually read it.
@@ -66,23 +67,23 @@ prefer `swe:onboard-repo`.
      CLAUDE.md
      ```
    - When both files already exist, preserve meaningful project-specific rules
-     and only normalize the bridge if it reduces duplication.
+     and normalize the bridge only if that reduces duplication.
 
 5. Add or align a minimal human development flow.
-   - First find where the repo already guides human dev flow. Check likely
+   - First find where the repo already guides the human dev flow. Check likely
      places such as `README.md`, `docs/README.md`, `docs/development.md`,
      `docs/contributing.md`, `CONTRIBUTING.md`, `DEVELOPMENT.md`,
      `.github/CONTRIBUTING.md`, and feature/spec docs indexes.
-   - If a human dev-flow guide already exists, update that file in place with
-     the minimal missing agentic flow notes instead of creating a duplicate
-     section elsewhere.
+   - If a human dev-flow guide exists, update that file in place with the
+     minimal missing agentic flow notes rather than adding a duplicate section
+     elsewhere.
    - If only `README.md` exists, add a concise `Development Flow` section
      instead of rewriting the whole file.
    - If no suitable human-facing guide exists, create a minimal `README.md`
      with setup, local run, test, worktree workflow, and where to read agent
      instructions.
    - Use actual commands discovered from the repo. If a command is unknown, say
-     that the repo does not define it yet instead of inventing one.
+     the repo does not define it yet rather than inventing one.
 
 6. Validate the onboarding.
    - Confirm `AGENTS.md`, `CLAUDE.md`, and the chosen human dev-flow guide
@@ -95,7 +96,7 @@ prefer `swe:onboard-repo`.
 
 ## Minimal `AGENTS.md` Shape
 
-Use this shape when creating a fresh file, trimming sections that do not apply:
+Use this shape when creating a fresh file, trimming sections that don't apply:
 
 ```md
 # Agent Instructions
@@ -149,4 +150,4 @@ when it is the best or only guide.
 
 Report the files changed, the existing rules that were captured, the documented
 commit cadence, any missing commands the repo still needs to document, and
-whether worktree guidance is ready to use.
+whether the worktree guidance is ready to use.

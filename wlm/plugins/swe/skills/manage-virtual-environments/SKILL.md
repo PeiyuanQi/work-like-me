@@ -1,11 +1,11 @@
 ---
 name: manage-virtual-environments
-description: Set up, reuse, repair, pin, or verify isolated project environments and language toolchains for Python, Node.js, Rust, and other development stacks. Use for requests such as "set up a virtual environment", "create venv", "activate the environment", "install dependencies", "use uv", "use nvm", "create .nvmrc", "install Rust", or when project work is blocked by a missing or wrong runtime. Prefer repository-declared versions, existing environments, lockfiles, and user-scope tooling over global mutation.
+description: "Sets up, reuses, repairs, pins, or verifies isolated project environments and toolchains for Python, Node.js, Rust, Go, Java, .NET, and other stacks, preferring repository-declared versions, existing environments, lockfiles, and user-scope tooling. Use for requests such as \"set up a virtual environment\", \"create venv\", \"activate the environment\", \"install dependencies\", \"use uv\", \"use nvm\", \"create .nvmrc\", or \"install Rust\", or when work is blocked by a missing or wrong runtime."
 ---
 
 # Manage Virtual Environments
 
-Version: 1.2.0
+Version: 1.3.0
 
 Create or select a reproducible project environment without damaging an
 existing toolchain or silently changing dependency intent.
@@ -38,7 +38,7 @@ done
 find . -maxdepth 1 -type d \( -name '.venv*' -o -name 'venv*' -o -name 'env*' \)
 ```
 
-Do not trust command discovery alone. On Windows, `python.exe` or `python3.exe`
+Command discovery alone can mislead: on Windows, `python.exe` or `python3.exe`
 may be a disabled Microsoft Store alias. Run the candidate executable with
 `--version` before relying on it.
 
@@ -46,7 +46,7 @@ may be a disabled Microsoft Store alias. Run the candidate executable with
 
 ### Prefer an existing environment
 
-In automated tool calls, invoke the environment's interpreter directly because
+In automated tool calls, invoke the environment's interpreter directly, because
 activation does not persist across separate shell calls:
 
 ```powershell
@@ -60,8 +60,8 @@ activation does not persist across separate shell calls:
 ```
 
 Adapt the path when the repository uses a named environment such as
-`.venv-map-tools`. Do not delete or recreate an existing environment merely
-because bare `python` is unavailable.
+`.venv-map-tools`. A missing bare `python` is not a reason to delete or
+recreate an existing environment.
 
 ### Create with uv when the repository supports it
 
@@ -101,7 +101,7 @@ python3 -m venv .venv
 .venv/bin/python -m pip install -r requirements.txt
 ```
 
-Use `python -m pip`, not bare `pip`, so installation targets the intended
+Use `python -m pip` rather than bare `pip` so installation targets the intended
 interpreter. For an interactive shell, activation is optional convenience:
 
 ```powershell
@@ -116,10 +116,10 @@ source .venv/bin/activate
 
 1. Prefer the version in repository docs, `.nvmrc`, `.node-version`, the
    `package.json` `engines` field, or Volta configuration.
-2. Use the already-adopted version manager. Do not add a second manager without
-   a clear need.
-3. Treat POSIX `nvm` and Windows `nvm-windows` as different tools. Do not set
-   Unix `NVM_DIR` initialization on Windows.
+2. Use the already-adopted version manager; add a second manager only with a
+   clear need.
+3. POSIX `nvm` and Windows `nvm-windows` are different tools. Unix `NVM_DIR`
+   initialization does not apply on Windows.
 
 POSIX `nvm`:
 
@@ -167,8 +167,8 @@ Rust uses a pinned toolchain rather than a per-project virtual environment.
 
 1. Reuse `rust-toolchain.toml` or `rust-toolchain` when present.
 2. If Rust is missing and setup is in scope, prefer a trusted OS package-manager
-   installation of Rustup. On Windows, prefer the signed Winget route instead
-   of downloading and directly launching a bootstrap executable:
+   installation of Rustup. On Windows, prefer the signed Winget route over
+   downloading and directly launching a bootstrap executable:
 
 ```powershell
 winget install --id Rustlang.Rustup -e --source winget `
@@ -177,16 +177,17 @@ $cargoBin = Join-Path $env:USERPROFILE '.cargo\bin'
 $env:PATH = "$cargoBin;$env:PATH"
 ```
 
-Before installing, verify `winget` is available and check for the MSVC C++ build
-tools when targeting `*-pc-windows-msvc`; Rustup alone does not provide the
-native linker. If Winget is unavailable, follow repository guidance or use the
-official Rustup installer only when local command policy permits it.
+Before installing, verify `winget` is available, and check for the MSVC C++
+build tools when targeting `*-pc-windows-msvc`, because Rustup alone does not
+provide the native linker. If Winget is unavailable, follow repository
+guidance, or use the official Rustup installer only when local command policy
+permits it.
 
 3. Install the repository-pinned toolchain. If no pin exists, use the version
-   explicitly requested by the user; otherwise use the repository's documented
+   the user explicitly requested; otherwise use the repository's documented
    default and record the choice.
-4. Do not create a new `rust-toolchain.toml` unless the user requests a project
-   pin or repository convention requires one.
+4. Create a new `rust-toolchain.toml` only when the user requests a project pin
+   or repository convention requires one.
 
 ```powershell
 rustup show active-toolchain
@@ -195,13 +196,13 @@ cargo --version
 if (Test-Path 'Cargo.lock') { cargo check --locked } else { cargo check }
 ```
 
-Use the equivalent commands in POSIX shells. Run focused tests after the
+Use the equivalent commands in POSIX shells. Run focused tests once the
 toolchain is usable.
 
 ## 5. Other Language Toolchains
 
-Go, Java, and .NET generally use versioned toolchains and project dependency
-managers rather than Python-style virtual environments.
+Go, Java, and .NET use versioned toolchains and project dependency managers
+rather than Python-style virtual environments.
 
 - Go: honor `go.mod`/`go.work`; run `go mod download`, `go build ./...`, and
   `go test ./...` as appropriate.
@@ -212,22 +213,23 @@ managers rather than Python-style virtual environments.
 
 Install a missing toolchain only when setup is part of the request. Prefer
 user-scope, version-managed, or OS package-manager installation over global
-ad-hoc mutation.
+ad-hoc changes.
 
 ## 6. Safety and Verification
 
-- Do not globally install Python or Node packages when a project environment is
-  available.
-- Do not delete, replace, or recursively move an existing environment without
-  resolving its exact path and confirming replacement is intended.
-- Prefer lockfile-preserving commands. Report any manifest or lockfile changes.
-- Remember that dependency installation can execute project or package scripts;
-  use repository-defined commands and trusted sources.
+- Install Python or Node packages into the project environment, not globally,
+  when a project environment is available.
+- Before deleting, replacing, or recursively moving an existing environment,
+  resolve its exact path and confirm the replacement is intended.
+- Prefer lockfile-preserving commands, and report any manifest or lockfile
+  changes.
+- Dependency installation can execute project or package scripts, so use
+  repository-defined commands and trusted sources.
 - Add environment directories to `.gitignore` only when needed and consistent
   with repository convention.
-- Do not stage files or create setup documentation unless the user requested it
-  or the enclosing workflow explicitly requires it.
+- Stage files or create setup documentation only when the user requested it or
+  the enclosing workflow explicitly requires it.
 - Verify the exact executable path, runtime version, dependency health, and a
-  focused repository build/test command.
+  focused repository build or test command.
 - Report what was reused or created, commands run, files changed, and any setup
   the user must repeat in a new shell.

@@ -1,11 +1,11 @@
 ---
 name: git-commit-push
-description: Use when the user wants the specific low-level Git operation to stage selected changes, create a commit, push existing commits, or commit and push. Works from either a regular branch or a git worktree. Respect the exact requested endpoint; for end-to-end wrap-up with quality checks, prefer swe:finish-work, and for local task-branch integration into the default branch, use swe:land-work.
+description: "Performs only the requested low-level Git operation (stage selected changes, commit, push existing commits, or commit and push) from a branch or git worktree while preserving user-owned changes. Use when the user asks for just that operation. For end-to-end wrap-up with quality checks, use swe:finish-work; to integrate a local task branch into the default branch, use swe:land-work."
 ---
 
 # Git Commit Push
 
-Version: 1.4.0
+Version: 1.5.0
 
 Perform only the requested Git mutation while preserving user-owned changes.
 
@@ -16,17 +16,17 @@ delivery flow keeps task branches local and pushes only the default branch, use
 ## Establish scope
 
 - Match the requested endpoint: stage only, commit only, push only, or commit
-  and push. Do not perform a later step merely because this skill supports it.
-- Require an explicit Git mutation request. Do not infer permission to stage,
-  commit, or push merely because implementation or verification finished.
+  and push. Stop there even though this skill supports later steps.
+- Act only on an explicit Git mutation request. Finished implementation or
+  verification does not by itself grant permission to stage, commit, or push.
 - Run `git status --short --branch` and review both unstaged and staged changes.
 - Treat pre-existing staged, unstaged, and untracked files as user-owned until
   they are clearly part of the requested scope.
-- If the intended paths are clear from the task and diff, proceed with those
-  paths. If a mixed worktree makes the commit scope materially ambiguous, ask
-  the user before staging or committing.
-- Never reset, clean, restore, checkout, stash, amend, or force-push unrelated
-  work to make the operation easier.
+- If the task and diff make the intended paths clear, proceed with those paths.
+  If a mixed worktree makes the commit scope materially ambiguous, ask the user
+  before staging or committing.
+- Leave unrelated work untouched: no reset, clean, restore, checkout, stash,
+  amend, or force-push to make the operation easier.
 
 Useful inspection commands:
 
@@ -42,18 +42,18 @@ git diff --cached -- <paths>
 
 If formatting, linting, and verification have not already run, use
 `swe:prepare-code-for-commit` before committing. Scope checks to the intended
-change so formatters do not churn unrelated files. If the user explicitly asks
+change so formatters don't churn unrelated files. If the user explicitly asks
 to skip checks, report exactly what was skipped.
 
-Stop before committing when required checks fail unless the user explicitly
-accepts the failure. Never commit credentials, private keys, tokens, or obvious
-temporary output.
+Stop before committing when required checks fail, unless the user explicitly
+accepts the failure. Keep credentials, private keys, tokens, and obvious
+temporary output out of commits.
 
 ## Choose the commit boundary
 
 - Default to one commit for the cohesive change in the requested scope.
-- Do not create commits as progress markers after individual files, subtasks,
-  tool calls, tests, fixes, or agent turns.
+- Commits are not progress markers after individual files, subtasks, tool
+  calls, tests, fixes, or agent turns.
 - Split pending work only when the user asks, the repository convention
   requires it, or each part is independently understandable, testable, and
   revertible.
@@ -61,8 +61,8 @@ temporary output.
   jointly deliver the same outcome.
 - If related work is still incomplete, continue it before committing instead
   of creating a checkpoint.
-- Preserve existing commits. Do not amend, squash, or rewrite them merely to
-  reduce commit count without explicit instruction.
+- Preserve existing commits. Amending, squashing, or rewriting them merely to
+  reduce commit count needs explicit instruction.
 
 ## Stage the intended change
 
@@ -104,13 +104,14 @@ git show --stat --oneline --summary HEAD
 ```
 
 If a hook changes files or the commit fails, inspect status and diffs again.
-Do not blindly restage the whole repository and retry. If the user asked for a
-local commit only, stop here and state that nothing was pushed.
+before retrying, and restage only the intended paths rather than the whole
+repository. If the user asked for a local commit only, stop here and state that
+nothing was pushed.
 
 ## Synchronize and push
 
-For a push-only request, do not create a new commit. Inspect the current branch,
-remote, and upstream before contacting the remote:
+For a push-only request, push existing commits without creating a new one.
+Inspect the current branch, remote, and upstream before contacting the remote:
 
 ```bash
 git branch --show-current
@@ -142,7 +143,7 @@ git push
 ```
 
 If the push is rejected because the remote moved, fetch and re-check the
-ahead/behind relation. Do not create a merge commit or force-push unless the
+ahead/behind relation. Create a merge commit or force-push only when the
 repository requires it or the user explicitly authorizes it.
 
 ## Confirm the result

@@ -1,6 +1,6 @@
 ---
 name: rust-coding-style
-description: Write, refactor, or review Rust code for consistent formatting, idiomatic APIs, ownership clarity, package/workspace layout, documentation, and focused linting. Use for Rust implementation and coding-style requests, including crate organization and Bevy-inspired conventions, while preserving the target repository's rules.
+description: "Guides writing, refactoring, and reviewing Rust code for consistent formatting, idiomatic APIs, ownership clarity, package and workspace layout, documentation, and focused linting, using Bevy-inspired conventions only where the target repository's rules leave room. Use for Rust implementation, review, and coding-style requests, including crate organization, Cargo workspaces, and rustfmt or Clippy setup."
 ---
 
 # Rust Coding Style
@@ -32,7 +32,7 @@ For project creation, package splitting, or layout review, read [layout decision
 - Delegate layout and import sorting to the configured rustfmt. Follow nearby import organization; a prelude glob can be intentional, particularly in Bevy applications. Avoid unrelated import rewrites.
 - Prefer field shorthand and `Self` in implementations when clear. Use `..Default::default()` when omitted values are genuinely appropriate; keep meaningful configuration explicit.
 - Prefer an early return or `let ... else` for a failed precondition that exits the current path. Keep `match` when alternatives carry meaningful behavior. Remove redundant nesting without changing side effects, evaluation order, or drop timing.
-- Choose loops or iterator chains for readability. Do not add abstractions merely to shorten code or satisfy an arbitrary argument-count limit.
+- Choose loops or iterator chains for readability. Add abstractions only when they clarify the code, not merely to shorten it or satisfy an arbitrary argument-count limit.
 - Keep the project's existing formatting edition. Bevy's recorded formatting edition differs from its language edition. Its commented nightly settings are not active requirements.
 
 ## API shape and ownership
@@ -50,8 +50,8 @@ The naming conventions below follow the Rust API Guidelines; ownership advice is
 
 General error-handling recommendations complement Bevy's documented API and safety practices:
 
-- Represent expected failures with the project's `Result` and error conventions; use `Option` for ordinary absence. Propagate with `?` when appropriate. Do not swallow errors into defaults unless that fallback is part of the contract.
-- Reserve panics and `expect` for intentional invariant failures with a useful explanation. Tests may use `unwrap` to assert setup assumptions. Do not claim Bevy bans all `unwrap` calls or impose a new error crate.
+- Represent expected failures with the project's `Result` and error conventions; use `Option` for ordinary absence. Propagate with `?` when appropriate. Surface errors rather than swallowing them into defaults, unless that fallback is part of the contract.
+- Reserve panics and `expect` for intentional invariant failures with a useful explanation. Tests may use `unwrap` to assert setup assumptions. Bevy does not ban all `unwrap` calls, so don't claim it does, and keep the project's existing error crate rather than imposing a new one.
 - Document public behavior and invariants, including units, mutation, and surprising edge cases. Use rustdoc links and small executable examples that demonstrate useful behavior. Include `# Errors`, `# Panics`, and `# Safety` where applicable, without empty boilerplate sections.
 - Explain why non-obvious code exists. For unsafe operations, state the actual validity, aliasing, lifetime, initialization, or synchronization argument in a nearby `// SAFETY:` comment. An unsafe function also needs a caller-facing safety contract; a comment alone does not establish soundness.
 - Honor local unsafe policy and keep unsafe operations explicit and scoped. A justified exception in an engine crate is not permission to relax another crate's policy.
@@ -63,7 +63,7 @@ Apply these only when the target actually needs them:
 
 - Preserve Bevy's selected lint exceptions instead of blindly enabling all pedantic restrictions. ECS signatures can legitimately be complex.
 - Honor crate-level `no_std`, `alloc`, feature gates, and portability constraints. Ordinary applications do not automatically need engine-internal import restrictions.
-- Inside Bevy, follow its configured deterministic math replacements and macro delimiter conventions. Do not introduce `bevy_math` or ECS architecture into unrelated Rust projects for style consistency.
+- Inside Bevy, follow its configured deterministic math replacements and macro delimiter conventions. Keep `bevy_math` and ECS architecture out of unrelated Rust projects; style consistency alone doesn't justify them.
 - Follow local library logging policy. Standard output remains appropriate for a CLI's intended output; diagnostic logging and user-facing output serve different purposes.
 
 ## Verify the change
@@ -77,6 +77,6 @@ cargo test -p <affected-package>
 cargo test -p <affected-package> --doc
 ```
 
-These are command templates; substitute the package and adapt targets/features to CI. A workspace-wide formatting check is read-only; when applying fixes, keep edits within scope. Do not assume `--all-features` is valid for every project or that the optional `cargo ci` alias exists.
+These are command templates; substitute the package and adapt targets/features to CI. A workspace-wide formatting check is read-only; when applying fixes, keep edits within scope. Confirm `--all-features` is valid for the project and that the optional `cargo ci` alias exists before relying on either.
 
 Run behavior tests for behavioral changes and doctests for changed examples. Formatting-only changes normally need formatting verification, not new tests. Complete required repository checks and report unavailable checks or pre-existing failures accurately. In a review-only request, report actionable findings with locations and reasons rather than editing files.

@@ -31,8 +31,7 @@ owning directly. Keep entries short and factual.
   the license permits copying, and the fork has a maintenance owner.
 - Treat provenance versions and commits as evidence of origin, not automatic
   runtime pins.
-- Do not vendor third-party skill content with an unknown or incompatible
-  license.
+- Vendor third-party skill content only under a known, compatible license.
 - If copied material requires attribution or notices, update the repo's relevant
   notice file before committing.
 

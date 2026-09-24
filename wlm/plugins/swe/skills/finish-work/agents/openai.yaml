@@ -1,4 +1,4 @@
 interface:
   display_name: "Finish Work"
   short_description: "Batch, verify, commit, and optionally push"
-  default_prompt: "Use $swe:finish-work at an explicit Git delivery boundary to verify completed work, create one coherent commit, and push only if requested."
+  default_prompt: "Use $finish-work at an explicit Git delivery boundary to verify completed work, create one coherent commit, and push only if requested."

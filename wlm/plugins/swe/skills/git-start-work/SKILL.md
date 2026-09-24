@@ -1,20 +1,20 @@
 ---
 name: git-start-work
-description: Use for the specific low-level Git operation of creating a feature branch or worktree, starting from the latest remote default branch, refreshing an existing branch from upstream, or isolating parallel/multi-agent work. Trigger on requests such as "new branch", "create a worktree", "start from latest main", or "git wt". For repository onboarding, dependency setup, and baseline tests, use swe:start-work.
+description: "Creates a feature branch or git worktree from the latest remote default branch, or refreshes an existing branch from upstream, without overwriting user-owned changes. Use for that Git workspace operation alone, such as \"new branch\", \"create a worktree\", \"start from latest main\", \"git wt\", or isolating parallel or multi-agent work. For repository setup, dependencies, and baseline tests, use swe:start-work."
 ---
 
 # Git Start Work
 
-Version: 1.2.0
+Version: 1.3.0
 
 Create or refresh a Git workspace without overwriting user-owned changes. Keep
-this skill limited to Git workspace operations; let `swe:start-work` coordinate
+this skill limited to Git workspace operations; `swe:start-work` coordinates
 repository setup, environments, and baseline verification.
 
 The command blocks below use POSIX shell syntax. Detect the active shell first.
 On PowerShell, keep the Git operations but translate shell and filesystem logic
 to platform-native equivalents such as `Test-Path`, `Split-Path`, and
-`Join-Path`; do not assume Bash, WSL, or Git Bash is installed.
+`Join-Path`; Bash, WSL, or Git Bash may not be installed.
 
 ## 1. Inspect Before Mutating
 
@@ -26,19 +26,21 @@ git -C "$REPO_ROOT" status --short --branch
 git -C "$REPO_ROOT" worktree list --porcelain
 ```
 
-Treat every existing change as user-owned.
+Treat every existing change as user-owned:
 
 - Never reset, clean, discard, or auto-stash changes.
-- Do not switch branches or rebase a dirty checkout without explicit approval.
-- Prefer a new worktree when changes are unrelated to the new task.
+- Switch branches or rebase a dirty checkout only with explicit approval.
+- Prefer a new worktree when the changes are unrelated to the new task.
 - If the dirty changes are the intended foundation, explain that a worktree
   based on the remote default branch will omit them. Stay in the checkout or
   ask how the user wants to carry the foundation forward.
-- Run relative-path checks from `REPO_ROOT`, not from an arbitrary subdirectory.
+- Run relative-path checks from `REPO_ROOT`, not from an arbitrary
+  subdirectory.
 
 ## 2. Choose the Workspace Mode
 
-Honor an explicit request for a worktree or regular branch. Otherwise ask once:
+Honor an explicit request for a worktree or a regular branch. Otherwise ask
+once:
 
 ```text
 How would you like to work?
@@ -47,14 +49,15 @@ How would you like to work?
 2. Regular branch - switch this clean checkout to a new branch
 ```
 
-Default to a worktree after asking when the user has no preference. Strongly
-prefer worktrees for parallel/multi-agent work or when the current checkout has
-unrelated changes.
+Default to a worktree after asking when the user has no preference. For
+parallel or multi-agent work, or when the current checkout has unrelated
+changes, recommend the worktree firmly, because a shared checkout lets
+concurrent work collide.
 
 Use the repository's branch convention when documented. Otherwise use a short
-descriptive name with an appropriate prefix such as `feat/`, `fix/`, `docs/`,
-`refactor/`, `test/`, or `chore/`. In Codex repositories, honor any configured
-`codex/` prefix.
+descriptive name with a prefix such as `feat/`, `fix/`, `docs/`, `refactor/`,
+`test/`, or `chore/`. In Codex repositories, honor any configured `codex/`
+prefix.
 
 ## 3. Resolve the Remote Baseline
 
@@ -91,15 +94,16 @@ the user intended that; otherwise choose or ask for a different name.
 ## 4. Create a Regular Branch
 
 Require a clean checkout, then create the feature branch directly from the
-verified remote baseline. Do not switch to or rewrite local `main` merely to
-start new work.
+verified remote baseline. Starting new work does not require switching to or
+rewriting local `main`.
 
 ```bash
 git -C "$REPO_ROOT" switch -c "$BRANCH_NAME" "origin/$MAIN_BRANCH"
 ```
 
 When the user explicitly asks to refresh an existing feature branch, fetch and
-rebase that branch onto the verified remote baseline only from a clean checkout:
+rebase that branch onto the verified remote baseline, from a clean checkout
+only:
 
 ```bash
 git -C "$REPO_ROOT" switch "$BRANCH_NAME"
@@ -136,7 +140,7 @@ For a project-local location, verify the prospective worktree path is ignored:
 git -C "$REPO_ROOT" check-ignore -q "$LOCATION/$BRANCH_NAME"
 ```
 
-If it is not ignored, do not create the worktree there yet. Ask before editing
+If it is not ignored, hold off creating the worktree there: ask before editing
 `.gitignore`, then re-run `git check-ignore`. A location outside the repository
 does not need this check.
 
@@ -161,8 +165,8 @@ git -C "$REPO_ROOT" worktree add "$WORKTREE_PATH" -b "$BRANCH_NAME" "origin/$MAI
 git -C "$WORKTREE_PATH" status --short --branch
 ```
 
-Do not assume uncommitted files from the original checkout appear in the new
-worktree. Do not copy, stash, or move them without explicit user direction.
+Uncommitted files from the original checkout do not appear in the new
+worktree. Copy, stash, or move them only with explicit user direction.
 
 ## 6. Report the Result
 
@@ -173,5 +177,6 @@ Report:
 - whether existing changes were preserved in another checkout
 - any branch/path collision, missing remote, or unresolved default branch
 
-For dependency setup and baseline tests, hand off to `swe:start-work` or follow
-the repository's documented workflow when the user explicitly requests it.
+For dependency setup and baseline tests, hand off to `swe:start-work`, or
+follow the repository's documented workflow when the user explicitly requests
+it.

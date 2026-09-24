@@ -1,11 +1,11 @@
 ---
 name: remediate-dependency-vulnerabilities
-description: Diagnose and fix dependency vulnerabilities across package ecosystems while preserving application behavior. Use when the user asks to address GitHub or package-manager security alerts, remove vulnerable dependencies, make npm audit or pip-audit clean, update a lockfile safely, replace an unmaintained package, or verify whether reported alerts still apply to the current repository.
+description: "Diagnoses and fixes dependency vulnerabilities across package ecosystems with the smallest verified change that preserves application behavior. Use when the user asks to address GitHub or package-manager security alerts, remove vulnerable dependencies, make npm audit or pip-audit clean, update a lockfile safely, replace an unmaintained package, or check whether reported alerts still apply to the current repository."
 ---
 
 # Remediate Dependency Vulnerabilities
 
-Version: 1.0.0
+Version: 1.1.0
 
 Turn vulnerability reports into the smallest verified dependency change that
 removes real exposure without trading it for an uncontrolled upgrade.
@@ -72,11 +72,12 @@ removes real exposure without trading it for an uncontrolled upgrade.
 
 ## Guardrails
 
-- Do not equate `audit fix` success with application correctness.
-- Do not suppress or ignore an advisory merely to make the scanner green.
-- Do not use a transitive override without verifying API and runtime
-  compatibility for the parent package.
-- Do not widen version ranges more than necessary without reviewing the lock
-  result.
-- Keep build warnings that are unrelated to the vulnerability separate from
-  remediation failures.
+- A successful `audit fix` does not show the application still works; verify
+  behavior separately.
+- Resolve advisories rather than suppressing or ignoring them to make the
+  scanner green.
+- Before using a transitive override, verify API and runtime compatibility for
+  the parent package.
+- Widen version ranges only as far as necessary, and review the lock result.
+- Keep build warnings unrelated to the vulnerability separate from remediation
+  failures.

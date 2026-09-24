@@ -1,11 +1,11 @@
 ---
 name: audit-repository-security-privacy
-description: Audit a repository and its dependency boundaries for source-backed security and privacy risks. Use when the user asks whether an app, service, library, or repository is safe; requests a security or privacy review; asks about MITM, telemetry, permissions, secrets, updates, backups, remote config, or data collection; or wants a direct risk assessment grounded in code rather than project claims.
+description: "Audits a repository and its dependency boundaries for source-backed security and privacy risks. Use when the user asks whether an app, service, library, or repository is safe; requests a security or privacy review; asks about MITM, telemetry, permissions, secrets, updates, backups, remote config, or data collection; or wants a direct risk assessment grounded in code rather than project claims."
 ---
 
 # Audit Repository Security Privacy
 
-Version: 1.0.0
+Version: 1.1.0
 
 Trace real behavior through source, manifests, dependencies, and trust
 boundaries. Separate proven findings from plausible risks and missing evidence.
@@ -17,19 +17,19 @@ boundaries. Separate proven findings from plausible risks and missing evidence.
    - Identify public, private, generated, vendored, Git, path, native, and remote
      components that may sit outside the visible checkout.
    - Treat README, privacy-policy, and security-policy claims as assertions to
-     compare with implementation, not as proof.
+     compare with the implementation, not as proof.
 
 2. Map the attack and privacy surface.
    - Inspect dependency manifests and lockfiles before reading isolated files.
    - Inspect permissions, entitlements, exported components, IPC, webviews,
      plugin bridges, and native services.
    - Trace network clients, TLS validation, proxy handling, remote config,
-     update/download flows, authentication, and endpoint construction.
+     update and download flows, authentication, and endpoint construction.
    - Trace identifiers, telemetry, logs, local storage, credentials, backups,
      archives, synchronization, clipboard, camera, microphone, and file access.
    - When public release or secret exposure is in scope, inspect reachable Git
      history, tags, submodules, and LFS objects; a clean current tree does not
-     prove the repository history is safe.
+     prove the history is safe.
    - Inspect code execution, deserialization, archive extraction, shelling out,
      and downloaded-content verification where present.
 
@@ -40,7 +40,7 @@ boundaries. Separate proven findings from plausible risks and missing evidence.
    - Narrow noisy searches to production source, manifests, and the paths tied
      to the user's question.
    - Follow data from collection to storage, transmission, recipient, and
-     deletion instead of stopping at a matching keyword.
+     deletion rather than stopping at a matching keyword.
 
 4. Classify every important claim.
    - **Confirmed finding:** directly demonstrated by the inspected revision.
@@ -49,7 +49,7 @@ boundaries. Separate proven findings from plausible risks and missing evidence.
      unavailable.
    - **Informational:** increases exposure but is not a vulnerability by itself.
    - Assign severity from impact, exploitability, reachability, and existing
-     mitigations; do not assign it from a suspicious pattern alone.
+     mitigations; a suspicious pattern alone doesn't set severity.
 
 5. Answer the user's actual risk question.
    - For direct questions such as "Is there MITM risk?", lead with `yes`, `no`,
@@ -60,21 +60,19 @@ boundaries. Separate proven findings from plausible risks and missing evidence.
      evidence supports only one of them.
 
 6. Report actionable findings.
-   - Order findings by severity and include tight file/line or dependency
-     references.
+   - Order findings by severity with tight file/line or dependency references.
    - State observed behavior, realistic impact, evidence, and remediation.
-   - Compare privacy disclosures with actual identifiers, metadata, storage,
-     and transmissions.
+   - Compare privacy disclosures with the actual identifiers, metadata,
+     storage, and transmissions.
    - End with coverage limits and the highest-value next evidence to obtain.
 
 ## Guardrails
 
 - Keep the audit read-only unless the user also asks for fixes.
-- Do not claim a whole product is safe because the visible repository looks
-  clean.
-- Do not claim a whole traffic path is compromised when only one application
-  helper or control-plane path is proven vulnerable.
-- Use current primary advisories and upstream documentation for facts that may
-  have changed; do not rely on remembered vulnerability status.
-- Avoid dumping low-signal search matches. Prefer a small set of defensible,
-  reachable findings.
+- Scope safety claims to what was inspected: a clean visible repository does
+  not make the whole product safe, and one proven-vulnerable application helper
+  or control-plane path does not mean the whole traffic path is compromised.
+- Check current primary advisories and upstream documentation for facts that
+  may have changed, since remembered vulnerability status goes stale.
+- Report a small set of defensible, reachable findings rather than dumping
+  low-signal search matches.

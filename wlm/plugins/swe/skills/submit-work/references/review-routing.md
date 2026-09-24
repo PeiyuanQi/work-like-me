@@ -1,13 +1,13 @@
 # Review Routing
 
-Submission is not complete until the code is reviewable and routed.
+Submission is complete only when the code is reviewable and routed.
 
 Reviewable means:
 
-- Branch is pushed.
-- Target branch is correct.
-- PR/MR title and body explain intent, verification, and risk.
-- Independent review has been run or explicitly skipped by the user.
+- The branch is pushed.
+- The target branch is correct.
+- The PR/MR title and body explain intent, verification, and risk.
+- Independent review has run, or the user explicitly skipped it.
 - Known failing checks or follow-up work are called out.
 
 Routing order:

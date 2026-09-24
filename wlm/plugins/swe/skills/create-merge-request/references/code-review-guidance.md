@@ -7,12 +7,14 @@ review to the product stage and expected audience before judging risk.
 
 - Prioritize correctness, security, data integrity, concurrency, reliability,
   user-visible regressions, and missing tests.
-- Lead with actionable findings ordered by severity. Include file and line
+- Lead with actionable findings ordered by severity, with file and line
   references when possible.
-- Distinguish blocking issues from follow-up improvements. Avoid over-reviewing
-  a demo, prototype, or MVP as if it were a large-scale production system.
-- Match the review depth to the likely audience and operating context: internal
-  tool, simple demo, MVP, production service, or large-scale user system.
+- Label each finding as blocking or a follow-up improvement.
+- Match the review depth and the blocking bar to the likely audience and
+  operating context: internal tool, simple demo, MVP, production service, or
+  large-scale user system. Don't review a demo, prototype, or MVP as if it
+  were a large-scale production system; report production-scale gaps there as
+  follow-ups rather than blockers.
 - Preserve original intent. When suggesting changes, keep the feature's intended
   behavior unless the implementation proves that intent unsafe or inconsistent
   with repo requirements.
