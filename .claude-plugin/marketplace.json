@@ -38,6 +38,12 @@
       "description": "Machine learning engineering workflows for reliable, observable, and scale-aware training systems",
       "source": "./wlm/plugins/mle",
       "strict": true
+    },
+    {
+      "name": "art-design",
+      "description": "Art direction and image-generation skills for atmospheric assets, characters, environments, concept art, illustration, 3D production, and theme-specific visual workflows",
+      "source": "./wlm/plugins/art-design",
+      "strict": true
     }
   ]
 }
